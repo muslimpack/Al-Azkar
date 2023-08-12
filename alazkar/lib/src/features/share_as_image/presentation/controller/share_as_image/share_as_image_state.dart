@@ -46,7 +46,17 @@ class ShareAsImageLoadedState extends ShareAsImageState {
             color: textColor,
             fontFamily: "Kitab",
           ),
-        )
+        ),
+        const SizedBox(height: 20),
+        Text(
+          "عدد مرات الذكر: ${zikr.count}",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: fontSize * 1.5,
+            color: textColor,
+            fontFamily: "Kitab",
+          ),
+        ),
       ],
     );
   }
