@@ -50,7 +50,15 @@ class ZikrContentViewerScreen extends StatelessWidget {
                         .add(ZikrContentViewerCopyEvent());
                   },
                   icon: const Icon(Icons.copy),
-                )
+                ),
+                IconButton(
+                  onPressed: () async {
+                    context
+                        .read<ZikrContentViewerBloc>()
+                        .add(ZikrContentViewerShareEvent());
+                  },
+                  icon: const Icon(Icons.share),
+                ),
               ],
             ),
           ),

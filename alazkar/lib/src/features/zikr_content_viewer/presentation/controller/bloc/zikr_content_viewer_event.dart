@@ -34,3 +34,5 @@ class ZikrContentViewerPageChangeEvent extends ZikrContentViewerEvent {
 }
 
 class ZikrContentViewerCopyEvent extends ZikrContentViewerEvent {}
+
+class ZikrContentViewerShareEvent extends ZikrContentViewerEvent {}

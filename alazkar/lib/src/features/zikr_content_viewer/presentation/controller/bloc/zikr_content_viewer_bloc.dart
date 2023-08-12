@@ -8,6 +8,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 part 'zikr_content_viewer_event.dart';
 part 'zikr_content_viewer_state.dart';
@@ -24,6 +25,7 @@ class ZikrContentViewerBloc
     on<ZikrContentViewerDecreaseEvent>(_decrease);
     on<ZikrContentViewerPageChangeEvent>(_pageChanged);
     on<ZikrContentViewerCopyEvent>(_copy);
+    on<ZikrContentViewerShareEvent>(_share);
 
     add(ZikrContentViewerStartEvent(zikrTitle));
 
@@ -104,5 +106,15 @@ class ZikrContentViewerBloc
     await Clipboard.setData(ClipboardData(text: state.activeZikr.body));
 
     showToast("تم نسخ الذكر");
+  }
+
+  FutureOr<void> _share(
+    ZikrContentViewerShareEvent event,
+    Emitter<ZikrContentViewerState> emit,
+  ) async {
+    final state = this.state;
+    if (state is! ZikrContentViewerLoadedState) return;
+
+    Share.share(state.activeZikr.body);
   }
 }
