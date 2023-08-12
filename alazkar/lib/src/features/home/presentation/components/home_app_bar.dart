@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
-
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeAppBar extends StatefulWidget {
   final HomeLoadedState state;
   const HomeAppBar({
-    Key? key,
+    super.key,
     required this.state,
-  }) : super(key: key);
+  });
 
   @override
   State<HomeAppBar> createState() => _HomeAppBarState();

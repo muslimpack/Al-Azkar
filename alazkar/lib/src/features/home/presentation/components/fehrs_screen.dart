@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/material.dart';
-
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:flutter/material.dart';
 
 class FehrsScreen extends StatelessWidget {
   final List<ZikrTitle> titles;
@@ -27,9 +26,9 @@ class FehrsScreen extends StatelessWidget {
 class FehrsItemCard extends StatelessWidget {
   final ZikrTitle zikrTitle;
   const FehrsItemCard({
-    Key? key,
+    super.key,
     required this.zikrTitle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

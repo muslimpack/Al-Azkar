@@ -22,13 +22,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(HomeLoadingState());
-    List<ZikrTitle> titles = await azkarDBHelper.getAllTitles();
-    emit(HomeLoadedState(
-      titles: titles,
-      titlesToShow: titles,
-      isSearching: false,
-      showTabs: true,
-    ));
+    final List<ZikrTitle> titles = await azkarDBHelper.getAllTitles();
+    emit(
+      HomeLoadedState(
+        titles: titles,
+        titlesToShow: titles,
+        isSearching: false,
+        showTabs: true,
+      ),
+    );
   }
 
   FutureOr<void> _search(
@@ -39,11 +41,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (state is! HomeLoadedState) return;
 
     if (event.search.isEmpty) {
-      emit(state.copyWith(
-        titlesToShow: state.titles,
-        isSearching: true,
-        showTabs: true,
-      ));
+      emit(
+        state.copyWith(
+          titlesToShow: state.titles,
+          isSearching: true,
+          showTabs: true,
+        ),
+      );
       return;
     }
 
@@ -53,22 +57,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )
         .toList();
 
-    emit(state.copyWith(
-      titlesToShow: searchedTitles,
-      isSearching: true,
-      showTabs: false,
-    ));
+    emit(
+      state.copyWith(
+        titlesToShow: searchedTitles,
+        isSearching: true,
+        showTabs: false,
+      ),
+    );
   }
 
   FutureOr<void> _endSearch(
-      HomeEndSearchEvent event, Emitter<HomeState> emit) async {
+    HomeEndSearchEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     final state = this.state;
     if (state is! HomeLoadedState) return;
 
-    emit(state.copyWith(
-      titlesToShow: state.titles,
-      isSearching: false,
-      showTabs: true,
-    ));
+    emit(
+      state.copyWith(
+        titlesToShow: state.titles,
+        isSearching: false,
+        showTabs: true,
+      ),
+    );
   }
 }
