@@ -26,14 +26,26 @@ class FehrsItemCard extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            onPressed: () {
-              context.read<HomeBloc>().add(HomeBookmarkTitleEvent(zikrTitle));
-            },
-            icon: const Icon(
-              Icons.bookmark_add_outlined,
+          if (zikrTitle.isBookmarked!)
+            IconButton(
+              onPressed: () {
+                context
+                    .read<HomeBloc>()
+                    .add(HomeUnBookmarkTitleEvent(zikrTitle));
+              },
+              icon: const Icon(
+                Icons.bookmark,
+              ),
+            )
+          else
+            IconButton(
+              onPressed: () {
+                context.read<HomeBloc>().add(HomeBookmarkTitleEvent(zikrTitle));
+              },
+              icon: const Icon(
+                Icons.bookmark_add_outlined,
+              ),
             ),
-          ),
         ],
       ),
       title: Text(zikrTitle.name),

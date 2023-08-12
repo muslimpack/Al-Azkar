@@ -1,12 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Zikr {
+import 'package:equatable/equatable.dart';
+
+class Zikr extends Equatable {
   final int id;
   final int titleId;
   final int order;
   final String body;
   final int count;
-  Zikr({
+  const Zikr({
     required this.id,
     required this.titleId,
     required this.order,
@@ -53,5 +56,16 @@ class Zikr {
       body: body ?? this.body,
       count: count ?? this.count,
     );
+  }
+
+  @override
+  List<Object> get props {
+    return [
+      id,
+      titleId,
+      order,
+      body,
+      count,
+    ];
   }
 }

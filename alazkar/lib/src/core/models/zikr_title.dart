@@ -1,13 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class ZikrTitle {
+import 'package:equatable/equatable.dart';
+
+class ZikrTitle extends Equatable {
   final int id;
   final int order;
   final String name;
-  ZikrTitle({
+  final bool? isBookmarked;
+  const ZikrTitle({
     required this.id,
     required this.order,
     required this.name,
+    this.isBookmarked,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,11 +40,16 @@ class ZikrTitle {
     int? id,
     int? order,
     String? name,
+    bool? isBookmarked,
   }) {
     return ZikrTitle(
       id: id ?? this.id,
       order: order ?? this.order,
       name: name ?? this.name,
+      isBookmarked: isBookmarked ?? this.isBookmarked,
     );
   }
+
+  @override
+  List<Object?> get props => [id, order, name, isBookmarked];
 }

@@ -29,6 +29,8 @@ class HomeBookmarkTitleEvent extends HomeEvent {
   List<Object> get props => [zikrTitle];
 }
 
+class HomeBookmarksChangedEvent extends HomeEvent {}
+
 class HomeUnBookmarkTitleEvent extends HomeEvent {
   final ZikrTitle zikrTitle;
 
