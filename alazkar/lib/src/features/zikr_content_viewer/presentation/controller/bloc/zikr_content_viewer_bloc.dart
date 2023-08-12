@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/utils/show_toast.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 part 'zikr_content_viewer_event.dart';
 part 'zikr_content_viewer_state.dart';
@@ -21,6 +23,7 @@ class ZikrContentViewerBloc
     on<ZikrContentViewerStartEvent>(_start);
     on<ZikrContentViewerDecreaseEvent>(_decrease);
     on<ZikrContentViewerPageChangeEvent>(_pageChanged);
+    on<ZikrContentViewerCopyEvent>(_copy);
 
     add(ZikrContentViewerStartEvent(zikrTitle));
 
@@ -89,5 +92,17 @@ class ZikrContentViewerBloc
     if (state is! ZikrContentViewerLoadedState) return;
 
     emit(state.copyWith(activeZikr: state.azkar[event.index]));
+  }
+
+  FutureOr<void> _copy(
+    ZikrContentViewerCopyEvent event,
+    Emitter<ZikrContentViewerState> emit,
+  ) async {
+    final state = this.state;
+    if (state is! ZikrContentViewerLoadedState) return;
+
+    await Clipboard.setData(ClipboardData(text: state.activeZikr.body));
+
+    showToast("تم نسخ الذكر");
   }
 }

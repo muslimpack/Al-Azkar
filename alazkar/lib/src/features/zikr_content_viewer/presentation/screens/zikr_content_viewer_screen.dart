@@ -39,6 +39,21 @@ class ZikrContentViewerScreen extends StatelessWidget {
               return ZikrItemCard(zikr: zikr);
             },
           ),
+          bottomNavigationBar: BottomAppBar(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () async {
+                    context
+                        .read<ZikrContentViewerBloc>()
+                        .add(ZikrContentViewerCopyEvent());
+                  },
+                  icon: const Icon(Icons.copy),
+                )
+              ],
+            ),
+          ),
         );
       },
     );
