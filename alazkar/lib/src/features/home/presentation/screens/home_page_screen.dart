@@ -1,4 +1,4 @@
-import 'package:alazkar/src/core/widgets/Loading.dart';
+import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/home/presentation/components/fehrs_screen.dart';
 import 'package:alazkar/src/features/home/presentation/components/home_app_bar.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
