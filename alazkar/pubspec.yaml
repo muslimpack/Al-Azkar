@@ -35,6 +35,7 @@ flutter:
     - assets/db/
     - assets/sounds/
     - assets/images/
+    - assets/icons/
 
   fonts:
     - family: Uthmanic

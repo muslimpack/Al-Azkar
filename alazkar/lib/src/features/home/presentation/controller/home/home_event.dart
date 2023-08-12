@@ -9,6 +9,8 @@ sealed class HomeEvent extends Equatable {
 
 class HomeStartEvent extends HomeEvent {}
 
+class HomeEndSearchEvent extends HomeEvent {}
+
 class HomeSearchEvent extends HomeEvent {
   final String search;
 
