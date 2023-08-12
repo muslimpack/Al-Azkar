@@ -7,11 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ZikrContentViewerScreen extends StatelessWidget {
+  static const String routeName = "ZikrContentViewer";
+
   final ZikrTitle zikrTitle;
   const ZikrContentViewerScreen({
     super.key,
     required this.zikrTitle,
   });
+
+  static Route route({required ZikrTitle zikrTitle}) {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => BlocProvider(
+        create: (context) => ZikrContentViewerBloc(zikrTitle),
+        child: ZikrContentViewerScreen(
+          zikrTitle: zikrTitle,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
