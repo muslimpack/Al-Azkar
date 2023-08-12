@@ -20,8 +20,11 @@ class ImageBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColor,
       width: width,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(25),
+      ),
       child: ListView(
         padding: const EdgeInsets.all(40),
         shrinkWrap: true,
@@ -30,14 +33,18 @@ class ImageBuilder extends StatelessWidget {
           Center(
             child: content,
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Divider(
-            height: 20,
-            color: textColor,
-          ),
-          if (!showAppInfo) const SizedBox() else _footer(),
+          if (!showAppInfo)
+            const SizedBox()
+          else ...[
+            const SizedBox(
+              height: 10,
+            ),
+            Divider(
+              height: 20,
+              color: textColor,
+            ),
+            _footer()
+          ],
         ],
       ),
     );

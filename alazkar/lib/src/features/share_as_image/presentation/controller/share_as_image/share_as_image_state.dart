@@ -44,7 +44,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
           style: TextStyle(
             fontSize: fontSize * 1.5,
             color: textColor,
-            fontFamily: "Uthmanic",
+            fontFamily: "Kitab",
           ),
         )
       ],

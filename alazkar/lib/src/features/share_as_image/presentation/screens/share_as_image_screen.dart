@@ -121,7 +121,7 @@ class ShareAsImageBody extends StatelessWidget {
               future: state.generateImageBodyContent(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return const Loading();
+                  return const SizedBox();
                 }
                 return RepaintBoundary(
                   key: repaintKey,
