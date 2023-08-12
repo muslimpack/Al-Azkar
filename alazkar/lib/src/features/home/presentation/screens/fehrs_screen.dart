@@ -1,15 +1,48 @@
+import 'package:alazkar/src/core/widgets/Loading.dart';
+import 'package:alazkar/src/features/home/presentation/components/app_bar.dart';
+import 'package:alazkar/src/features/home/presentation/components/fehrs_screen.dart';
+import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FehrsScreen extends StatefulWidget {
-  const FehrsScreen({super.key});
+class HomePageScreen extends StatefulWidget {
+  const HomePageScreen({super.key});
 
   @override
-  State<FehrsScreen> createState() => _FehrsScreenState();
+  State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
-class _FehrsScreenState extends State<FehrsScreen> {
+class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return BlocBuilder(
+      bloc: context.read<HomeBloc>(),
+      builder: (context, state) {
+        if (state is! HomeLoadedState) {
+          return const Loading();
+        }
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            body: NestedScrollView(
+              floatHeaderSlivers: true,
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  HomeAppBar(state: state),
+                ];
+              },
+              body: TabBarView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  FehrsScreen(titles: state.titles),
+                  ListView(),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

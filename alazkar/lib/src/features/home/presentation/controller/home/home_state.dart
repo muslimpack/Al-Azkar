@@ -7,13 +7,23 @@ sealed class HomeState extends Equatable {
   List<Object> get props => [];
 }
 
-final class HomeLoading extends HomeState {}
+final class HomeLoadingState extends HomeState {}
 
-final class HomeLoaded extends HomeState {
+final class HomeLoadedState extends HomeState {
   final List<ZikrTitle> titles;
+  final bool isSearching;
+  final bool showTabs;
 
-  const HomeLoaded(this.titles);
+  const HomeLoadedState({
+    required this.titles,
+    required this.isSearching,
+    required this.showTabs,
+  });
 
   @override
-  List<Object> get props => [titles];
+  List<Object> get props => [
+        titles,
+        isSearching,
+        showTabs,
+      ];
 }

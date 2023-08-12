@@ -109,6 +109,17 @@ class AzkarDBHelper {
     });
   }
 
+  Future<List<ZikrTitle>> getTitlesByName(String name) async {
+    final Database db = await database;
+
+    final List<Map<String, dynamic>> maps = await db
+        .rawQuery('SELECT * FROM titles WHERE text LIKE ?', ['%$name%']);
+
+    return List.generate(maps.length, (i) {
+      return ZikrTitle.fromMap(maps[i]);
+    });
+  }
+
   Future<List<Zikr>> getContentByTitleId(int id) async {
     final Database db = await database;
 
