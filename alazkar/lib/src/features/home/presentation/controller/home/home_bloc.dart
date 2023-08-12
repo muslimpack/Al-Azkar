@@ -16,21 +16,34 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     add(HomeStartEvent());
   }
 
-  FutureOr<void> _start(HomeStartEvent event, Emitter<HomeState> emit) async {
+  FutureOr<void> _start(
+    HomeStartEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     emit(HomeLoadingState());
     List<ZikrTitle> titles = await azkarDBHelper.getAllTitles();
     emit(HomeLoadedState(
       titles: titles,
+      titlesToShow: titles,
       isSearching: false,
       showTabs: true,
     ));
   }
 
-  FutureOr<void> _search(HomeSearchEvent event, Emitter<HomeState> emit) async {
-    emit(HomeLoadingState());
-    List<ZikrTitle> titles = await azkarDBHelper.getTitlesByName(event.search);
-    emit(HomeLoadedState(
-      titles: titles,
+  FutureOr<void> _search(
+    HomeSearchEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    final state = this.state;
+    if (state is! HomeLoadedState) return;
+
+    final searchedTitles = state.titles
+        .where(
+          (t) => t.name.contains(event.search),
+        )
+        .toList();
+    emit(state.copyWith(
+      titlesToShow: searchedTitles.isEmpty ? state.titles : searchedTitles,
       isSearching: true,
       showTabs: false,
     ));

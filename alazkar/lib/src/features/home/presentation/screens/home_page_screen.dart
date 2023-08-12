@@ -35,7 +35,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               body: TabBarView(
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  FehrsScreen(titles: state.titles),
+                  FehrsScreen(titles: state.titlesToShow),
                   ListView(),
                 ],
               ),

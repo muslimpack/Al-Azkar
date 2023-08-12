@@ -1,5 +1,5 @@
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
-import 'package:alazkar/src/features/home/presentation/screens/fehrs_screen.dart';
+import 'package:alazkar/src/features/home/presentation/screens/home_page_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
