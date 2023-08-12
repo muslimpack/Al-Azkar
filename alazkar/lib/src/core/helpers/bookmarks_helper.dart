@@ -75,7 +75,7 @@ class BookmarksDBHelper {
     final Database db = await database;
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-      '''SELECT * from favourite_titles order by title_id asc''',
+      '''SELECT * from favourite_titles order by titleId asc''',
     );
 
     return List.generate(maps.length, (i) {
@@ -89,7 +89,7 @@ class BookmarksDBHelper {
   }) async {
     final db = await database;
     await db.rawInsert(
-      'INSERT INTO favourite_titles( titleId) VALUES(?, ?)',
+      'INSERT INTO favourite_titles( titleId) VALUES(?)',
       [titleId],
     );
   }

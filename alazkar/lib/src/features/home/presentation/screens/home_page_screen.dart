@@ -36,7 +36,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 physics: const BouncingScrollPhysics(),
                 children: [
                   FehrsScreen(titles: state.titlesToShow),
-                  ListView(),
+                  FehrsScreen(
+                    titles: state.favouriteTitles(),
+                  ),
                 ],
               ),
             ),

@@ -19,3 +19,21 @@ class HomeSearchEvent extends HomeEvent {
   @override
   List<Object> get props => [search];
 }
+
+class HomeBookmarkTitleEvent extends HomeEvent {
+  final ZikrTitle zikrTitle;
+
+  const HomeBookmarkTitleEvent(this.zikrTitle);
+
+  @override
+  List<Object> get props => [zikrTitle];
+}
+
+class HomeUnBookmarkTitleEvent extends HomeEvent {
+  final ZikrTitle zikrTitle;
+
+  const HomeUnBookmarkTitleEvent(this.zikrTitle);
+
+  @override
+  List<Object> get props => [zikrTitle];
+}
