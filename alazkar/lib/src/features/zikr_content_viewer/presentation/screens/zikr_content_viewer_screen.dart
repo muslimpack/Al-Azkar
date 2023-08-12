@@ -14,11 +14,8 @@ class ZikrContentViewerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ZikrContentViewerBloc, ZikrContentViewerState>(
+    return BlocBuilder<ZikrContentViewerBloc, ZikrContentViewerState>(
       bloc: context.read<ZikrContentViewerBloc>(),
-      listener: (context, state) {
-        // TODO: implement listener
-      },
       builder: (context, state) {
         if (state is! ZikrContentViewerLoadedState) {
           return const Loading();
@@ -35,6 +32,7 @@ class ZikrContentViewerScreen extends StatelessWidget {
             centerTitle: true,
           ),
           body: PageView.builder(
+            controller: context.read<ZikrContentViewerBloc>().pageController,
             itemCount: state.azkar.length,
             itemBuilder: (context, index) {
               final zikr = state.azkar[index];

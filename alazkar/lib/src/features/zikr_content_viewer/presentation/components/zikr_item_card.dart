@@ -24,7 +24,7 @@ class ZikrItemCard extends StatelessWidget {
             child: Opacity(
               opacity: .5,
               child: Text(
-                zikr.count.toString(),
+                zikr.count == 0 ? "تم" : zikr.count.toString(),
                 style: const TextStyle(
                   fontSize: 200,
                   fontWeight: FontWeight.bold,
@@ -43,6 +43,7 @@ class ZikrItemCard extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: "Kitab",
                   fontSize: 30,
+                  height: 2,
                 ),
               ),
             ],

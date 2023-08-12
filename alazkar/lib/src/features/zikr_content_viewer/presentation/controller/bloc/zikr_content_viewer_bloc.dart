@@ -5,6 +5,7 @@ import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 part 'zikr_content_viewer_event.dart';
 part 'zikr_content_viewer_state.dart';
@@ -12,12 +13,25 @@ part 'zikr_content_viewer_state.dart';
 class ZikrContentViewerBloc
     extends Bloc<ZikrContentViewerEvent, ZikrContentViewerState> {
   final ZikrTitle zikrTitle;
+  final PageController pageController = PageController(
+    viewportFraction: 1.004,
+  );
   ZikrContentViewerBloc(this.zikrTitle)
       : super(ZikrContentViewerLoadingState()) {
     on<ZikrContentViewerStartEvent>(_start);
     on<ZikrContentViewerDecreaseEvent>(_decrease);
+    on<ZikrContentViewerPageChangeEvent>(_pageChanged);
 
     add(ZikrContentViewerStartEvent(zikrTitle));
+
+    pageController.addListener(() {
+      final state = this.state;
+      if (state is ZikrContentViewerLoadedState) {
+        final int index = pageController.page!.round();
+
+        add(ZikrContentViewerPageChangeEvent(index));
+      }
+    });
   }
 
   FutureOr<void> _start(
@@ -29,7 +43,12 @@ class ZikrContentViewerBloc
     final azkarToSet =
         await azkarDBHelper.getContentByTitleId(event.zikrTitle.id);
 
-    emit(ZikrContentViewerLoadedState(azkar: azkarToSet));
+    emit(
+      ZikrContentViewerLoadedState(
+        azkar: azkarToSet,
+        activeZikr: azkarToSet[0],
+      ),
+    );
   }
 
   FutureOr<void> _decrease(
@@ -43,6 +62,13 @@ class ZikrContentViewerBloc
 
     final countToSet = event.zikr.count - 1;
 
+    if (countToSet == 0) {
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+
     final azkarToSet = state.azkar.map((e) {
       if (e.id != event.zikr.id) return e;
       return e.copyWith(count: countToSet);
@@ -53,5 +79,15 @@ class ZikrContentViewerBloc
         azkar: azkarToSet,
       ),
     );
+  }
+
+  FutureOr<void> _pageChanged(
+    ZikrContentViewerPageChangeEvent event,
+    Emitter<ZikrContentViewerState> emit,
+  ) async {
+    final state = this.state;
+    if (state is! ZikrContentViewerLoadedState) return;
+
+    emit(state.copyWith(activeZikr: state.azkar[event.index]));
   }
 }
