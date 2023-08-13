@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'zikr_content_viewer_bloc.dart';
 
 sealed class ZikrContentViewerState extends Equatable {
