@@ -74,7 +74,7 @@ class ImageBuilder extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "بواسطة تطبيق الأذكار",
+                  "بواسطة تطبيق الأذكار النووية",
                   style: TextStyle(
                     fontSize: fontSize * (3 / 3),
                     color: textColor,
