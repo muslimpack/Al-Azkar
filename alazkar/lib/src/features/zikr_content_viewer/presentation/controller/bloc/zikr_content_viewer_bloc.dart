@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
+import 'package:alazkar/src/core/manager/volume_button_manager.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
@@ -19,8 +20,15 @@ class ZikrContentViewerBloc
   final PageController pageController = PageController(
     viewportFraction: 1.004,
   );
+  static final MethodChannel _volumeBtnChannel = VolumeButtonManager.channel;
+
   ZikrContentViewerBloc(this.zikrTitle)
       : super(ZikrContentViewerLoadingState()) {
+    _volumeBtnChannel.setMethodCallHandler(_activateVolumeHandler);
+    VolumeButtonManager.setActivationStatus(
+      activate: true,
+    );
+
     on<ZikrContentViewerStartEvent>(_start);
     on<ZikrContentViewerDecreaseEvent>(_decrease);
     on<ZikrContentViewerPageChangeEvent>(_pageChanged);
@@ -116,5 +124,28 @@ class ZikrContentViewerBloc
     if (state is! ZikrContentViewerLoadedState) return;
 
     Share.share(state.activeZikr.body);
+  }
+
+  Future _activateVolumeHandler(MethodCall call) async {
+    final state = this.state;
+    if (state is! ZikrContentViewerLoadedState) return;
+
+    await VolumeButtonManager.handler(
+      call: call,
+      onVolumeUpPressed: () {
+        add(ZikrContentViewerDecreaseEvent(state.activeZikr));
+      },
+      onVolumeDownPressed: () {
+        add(ZikrContentViewerDecreaseEvent(state.activeZikr));
+      },
+    );
+  }
+
+  @override
+  Future<void> close() {
+    VolumeButtonManager.setActivationStatus(
+      activate: false,
+    );
+    return super.close();
   }
 }
