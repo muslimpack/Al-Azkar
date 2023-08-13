@@ -38,7 +38,10 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
               azkarDBHelper.getContentById(state.activeZikr.id).then((zikr) {
                 Navigator.push(
                   context,
-                  ShareAsImageScreen.route(zikr: zikr),
+                  ShareAsImageScreen.route(
+                    zikr: zikr,
+                    zikrTitle: state.zikrTitle,
+                  ),
                 );
               });
             },

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:alazkar/src/core/models/zikr.dart';
+import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -37,6 +38,7 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
   ) {
     emit(
       ShareAsImageLoadedState(
+        zikrTitle: event.zikrTitle,
         zikr: event.zikr,
         isLoading: false,
         showAppInfo: shareAsImageData.showAppInfo,

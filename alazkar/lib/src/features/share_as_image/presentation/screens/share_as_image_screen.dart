@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:alazkar/src/core/models/zikr.dart';
+import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/components/image_builder.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/components/share_as_image_bottom_bar.dart';
@@ -9,20 +11,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ShareAsImageScreen extends StatefulWidget {
   static const String routeName = "/ShareAsImage";
 
-  static Route route({required Zikr zikr}) {
+  static Route route({required Zikr zikr, required ZikrTitle zikrTitle}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
         create: (context) => ShareAsImageBloc(),
         child: ShareAsImageScreen(
           zikr: zikr,
+          zikrTitle: zikrTitle,
         ),
       ),
     );
   }
 
   final Zikr zikr;
-  const ShareAsImageScreen({super.key, required this.zikr});
+  final ZikrTitle zikrTitle;
+  const ShareAsImageScreen({
+    super.key,
+    required this.zikr,
+    required this.zikrTitle,
+  });
 
   @override
   State<ShareAsImageScreen> createState() => _ShareAsImageScreenState();
@@ -41,6 +49,7 @@ class _ShareAsImageScreenState extends State<ShareAsImageScreen> {
     context.read<ShareAsImageBloc>().add(
           ShareAsImageStartEvent(
             zikr: widget.zikr,
+            zikrTitle: widget.zikrTitle,
           ),
         );
   }

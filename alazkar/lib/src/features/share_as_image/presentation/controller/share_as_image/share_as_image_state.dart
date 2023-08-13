@@ -10,6 +10,7 @@ abstract class ShareAsImageState extends Equatable {
 class ShareAsImageLoadingState extends ShareAsImageState {}
 
 class ShareAsImageLoadedState extends ShareAsImageState {
+  final ZikrTitle zikrTitle;
   final Zikr zikr;
   final bool isLoading;
   final bool showAppInfo;
@@ -23,6 +24,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
 
   ShareAsImageLoadedState({
     required this.zikr,
+    required this.zikrTitle,
     required this.isLoading,
     required this.showAppInfo,
     required this.fontSize,
@@ -38,6 +40,19 @@ class ShareAsImageLoadedState extends ShareAsImageState {
   Future<Widget> generateImageBodyContent() async {
     return Column(
       children: [
+        Text(
+          zikrTitle.name,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: fontSize * 1.5,
+            color: textColor,
+            fontFamily: "Kitab",
+          ),
+        ),
+        const Divider(
+          thickness: 5,
+          height: 40,
+        ),
         Text(
           zikr.body,
           textAlign: TextAlign.center,
@@ -63,6 +78,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
 
   ShareAsImageLoadedState copyWith({
     Zikr? zikr,
+    ZikrTitle? zikrTitle,
     bool? isLoading,
     bool? showAppInfo,
     double? fontSize,
@@ -73,6 +89,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
   }) {
     return ShareAsImageLoadedState(
       zikr: zikr ?? this.zikr,
+      zikrTitle: zikrTitle ?? this.zikrTitle,
       isLoading: isLoading ?? this.isLoading,
       showAppInfo: showAppInfo ?? this.showAppInfo,
       fontSize: fontSize ?? this.fontSize,
@@ -87,6 +104,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
   @override
   List<Object> get props => [
         zikr,
+        zikrTitle,
         isLoading,
         showAppInfo,
         fontSize,

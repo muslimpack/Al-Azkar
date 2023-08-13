@@ -44,12 +44,9 @@ class ImageBuilder extends StatelessWidget {
             if (!showAppInfo)
               const SizedBox()
             else ...[
-              const SizedBox(
-                height: 10,
-              ),
-              Divider(
-                height: 20,
-                color: textColor,
+              const Divider(
+                thickness: 5,
+                height: 40,
               ),
               _footer()
             ],

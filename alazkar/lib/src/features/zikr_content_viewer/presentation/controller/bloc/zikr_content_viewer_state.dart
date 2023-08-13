@@ -12,8 +12,10 @@ final class ZikrContentViewerLoadingState extends ZikrContentViewerState {}
 final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
   final List<Zikr> azkar;
   final Zikr activeZikr;
+  final ZikrTitle zikrTitle;
 
   const ZikrContentViewerLoadedState({
+    required this.zikrTitle,
     required this.azkar,
     required this.activeZikr,
   });
@@ -23,6 +25,7 @@ final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
     Zikr? activeZikr,
   }) {
     return ZikrContentViewerLoadedState(
+      zikrTitle: zikrTitle,
       azkar: azkar ?? this.azkar,
       activeZikr: activeZikr ?? this.activeZikr,
     );
@@ -40,5 +43,5 @@ final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
   }
 
   @override
-  List<Object> get props => [azkar, activeZikr];
+  List<Object> get props => [azkar, activeZikr, zikrTitle];
 }

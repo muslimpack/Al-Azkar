@@ -58,6 +58,7 @@ class ZikrContentViewerBloc
 
     emit(
       ZikrContentViewerLoadedState(
+        zikrTitle: zikrTitle,
         azkar: azkarToSet,
         activeZikr: azkarToSet[0],
       ),

@@ -9,12 +9,11 @@ abstract class ShareAsImageEvent extends Equatable {
 
 class ShareAsImageStartEvent extends ShareAsImageEvent {
   final Zikr zikr;
-  const ShareAsImageStartEvent({required this.zikr});
+  final ZikrTitle zikrTitle;
+  const ShareAsImageStartEvent({required this.zikr, required this.zikrTitle});
 
   @override
-  List<Object> get props => [
-        zikr,
-      ];
+  List<Object> get props => [zikr, zikrTitle];
 }
 
 class ShareAsImageChangeWidthEvent extends ShareAsImageEvent {
