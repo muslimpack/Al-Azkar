@@ -29,6 +29,17 @@ final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
     );
   }
 
+  double progress() {
+    final length = azkar.length;
+    final done = azkar.fold(
+      0,
+      (previousValue, element) =>
+          element.count == 0 ? previousValue + 1 : previousValue,
+    );
+
+    return done / length;
+  }
+
   @override
   List<Object> get props => [azkar, activeZikr];
 }
