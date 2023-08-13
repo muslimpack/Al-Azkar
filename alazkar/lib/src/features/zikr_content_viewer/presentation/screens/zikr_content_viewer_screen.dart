@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/screens/share_as_image_screen.dart';
@@ -76,10 +77,14 @@ class ZikrContentViewerScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () async {
-                    Navigator.push(
-                      context,
-                      ShareAsImageScreen.route(zikr: state.activeZikr),
-                    );
+                    azkarDBHelper
+                        .getContentById(state.activeZikr.id)
+                        .then((zikr) {
+                      Navigator.push(
+                        context,
+                        ShareAsImageScreen.route(zikr: zikr),
+                      );
+                    });
                   },
                   icon: const Icon(Icons.camera_alt_outlined),
                 ),

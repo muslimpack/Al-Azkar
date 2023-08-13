@@ -131,6 +131,17 @@ class AzkarDBHelper {
     });
   }
 
+  Future<Zikr> getContentById(int id) async {
+    final Database db = await database;
+
+    final List<Map<String, dynamic>> maps =
+        await db.rawQuery('SELECT * FROM contents WHERE id = ?', [id]);
+
+    return List.generate(maps.length, (i) {
+      return Zikr.fromMap(maps[i]);
+    }).first;
+  }
+
   /// Close database
   Future close() async {
     final db = await database;
