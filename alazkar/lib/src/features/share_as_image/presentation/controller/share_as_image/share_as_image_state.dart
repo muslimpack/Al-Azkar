@@ -49,9 +49,10 @@ class ShareAsImageLoadedState extends ShareAsImageState {
             fontFamily: "Kitab",
           ),
         ),
-        const Divider(
+        Divider(
           thickness: 5,
           height: 40,
+          color: Colors.brown.shade900,
         ),
         Text(
           zikr.body,
@@ -60,6 +61,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
             fontSize: fontSize * 1.5,
             color: textColor,
             fontFamily: "Kitab",
+            height: 2,
           ),
         ),
         const SizedBox(height: 20),
