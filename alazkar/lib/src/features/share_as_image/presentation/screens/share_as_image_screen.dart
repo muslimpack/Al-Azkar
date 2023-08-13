@@ -1,5 +1,5 @@
 import 'package:alazkar/src/core/models/zikr.dart';
-import 'package:alazkar/src/core/widgets/loading.dart';
+import 'package:alazkar/src/core/widgets/loading_my.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/components/image_builder.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/components/share_as_image_bottom_bar.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/controller/share_as_image/share_as_image_bloc.dart';

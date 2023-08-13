@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class ImageBuilder extends StatelessWidget {
@@ -21,31 +22,39 @@ class ImageBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
+      padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: ListView(
-        padding: const EdgeInsets.all(40),
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          Center(
-            child: content,
-          ),
-          if (!showAppInfo)
-            const SizedBox()
-          else ...[
-            const SizedBox(
-              height: 10,
+      child: DottedBorder(
+        color: Colors.brown.shade900,
+        borderType: BorderType.RRect,
+        radius: const Radius.circular(25),
+        dashPattern: const [10, 0, 10],
+        strokeWidth: 5,
+        child: ListView(
+          padding: const EdgeInsets.all(40),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            Center(
+              child: content,
             ),
-            Divider(
-              height: 20,
-              color: textColor,
-            ),
-            _footer()
+            if (!showAppInfo)
+              const SizedBox()
+            else ...[
+              const SizedBox(
+                height: 10,
+              ),
+              Divider(
+                height: 20,
+                color: textColor,
+              ),
+              _footer()
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

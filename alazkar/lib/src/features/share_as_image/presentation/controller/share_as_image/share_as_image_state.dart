@@ -52,9 +52,9 @@ class ShareAsImageLoadedState extends ShareAsImageState {
           "عدد مرات الذكر: ${zikr.count}",
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: fontSize * 1.5,
+            fontSize: fontSize,
             color: textColor,
-            fontFamily: "Kitab",
+            fontFamily: "Cairo",
           ),
         ),
       ],
