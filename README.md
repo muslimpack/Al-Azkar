@@ -20,3 +20,7 @@
   <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/screenshots/02.png" height="400" >
   <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/screenshots/03.png" height="400" >
 </p>
+
+# تطبيق الأذكار النووية
+
+للإمام الحافظ يحى بن شرف الدين النواوي رحمه الله تعالى
