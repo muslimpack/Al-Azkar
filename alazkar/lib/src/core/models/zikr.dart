@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -7,12 +8,14 @@ class Zikr extends Equatable {
   final int titleId;
   final int order;
   final String body;
+  final String source;
   final int count;
   const Zikr({
     required this.id,
     required this.titleId,
     required this.order,
     required this.body,
+    required this.source,
     required this.count,
   });
 
@@ -22,6 +25,7 @@ class Zikr extends Equatable {
       'titleId': titleId,
       'order': order,
       'body': body,
+      'source': source,
       'count': count,
     };
   }
@@ -32,6 +36,7 @@ class Zikr extends Equatable {
       titleId: map['titleId'] as int,
       order: map['order'] as int,
       body: map['body'] as String,
+      source: (map['source'] as String?) ?? "",
       count: map['count'] as int,
     );
   }
@@ -46,6 +51,7 @@ class Zikr extends Equatable {
     int? titleId,
     int? order,
     String? body,
+    String? source,
     int? count,
   }) {
     return Zikr(
@@ -53,6 +59,7 @@ class Zikr extends Equatable {
       titleId: titleId ?? this.titleId,
       order: order ?? this.order,
       body: body ?? this.body,
+      source: source ?? this.source,
       count: count ?? this.count,
     );
   }
@@ -64,6 +71,7 @@ class Zikr extends Equatable {
       titleId,
       order,
       body,
+      source,
       count,
     ];
   }

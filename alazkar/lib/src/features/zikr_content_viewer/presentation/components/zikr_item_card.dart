@@ -18,6 +18,14 @@ class ZikrItemCard extends StatelessWidget {
             .read<ZikrContentViewerBloc>()
             .add(ZikrContentViewerDecreaseEvent(zikr));
       },
+      onLongPress: () {
+        final SnackBar snackBar = SnackBar(
+          content: Text(zikr.source),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          snackBar,
+        );
+      },
       child: Stack(
         children: [
           Center(
