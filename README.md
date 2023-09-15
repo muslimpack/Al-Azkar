@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="250" alt="Quran" src="https://github.com/muslimpack/Al-Azkar/assets/50374022/d201026d-28ae-4fd5-b2a2-c4b74e749c0c">
+<img width="250" alt="Quran" src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/alazkar/assets/icons/app.png">
 
 # تطبيق الأذكار
 
