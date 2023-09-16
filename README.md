@@ -2,9 +2,9 @@
 
 <img width="250" alt="Quran" src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/alazkar/assets/icons/app.png">
 
-# تطبيق الأذكار
+# تطبيق الأذكار النووية
 
-الأذكار للإمام الحافظ يحيى بن شرف الدين النواوي رحمه الله تعالى
+للإمام الحافظ يحى بن شرف الدين النواوي رحمه الله تعالى
 
 ![Badge](https://img.shields.io/github/v/release/muslimpack/Al-Azkar)
 ![GitHub all releases](https://img.shields.io/github/downloads/muslimpack/Al-Azkar/total?color=blue&label=Total%20Downloads)
@@ -21,6 +21,3 @@
   <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/screenshots/03.png" height="400" >
 </p>
 
-# تطبيق الأذكار النووية
-
-للإمام الحافظ يحى بن شرف الدين النواوي رحمه الله تعالى
