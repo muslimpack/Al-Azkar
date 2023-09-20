@@ -74,6 +74,17 @@ class ShareAsImageLoadedState extends ShareAsImageState {
             fontFamily: "Cairo",
           ),
         ),
+        const SizedBox(height: 20),
+        Text(
+          zikr.fadl,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: fontSize * 1.3,
+            color: textColor,
+            fontFamily: "Kitab",
+            height: 2,
+          ),
+        ),
       ],
     );
   }
