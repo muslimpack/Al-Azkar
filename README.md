@@ -4,7 +4,7 @@
 
 # تطبيق الأذكار النووية
 
-للإمام الحافظ يحى بن شرف الدين النواوي رحمه الله تعالى
+للإمام الحافظ يحيى بن شرف الدين النواوي رحمه الله تعالى
 
 ![Badge](https://img.shields.io/github/v/release/muslimpack/Al-Azkar)
 ![GitHub all releases](https://img.shields.io/github/downloads/muslimpack/Al-Azkar/total?color=blue&label=Total%20Downloads)
