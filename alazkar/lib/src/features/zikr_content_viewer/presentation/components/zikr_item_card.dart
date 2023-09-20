@@ -54,6 +54,19 @@ class ZikrItemCard extends StatelessWidget {
                   height: 2,
                 ),
               ),
+              if (zikr.fadl.isNotEmpty) ...[
+                const SizedBox(height: 50),
+                Text(
+                  zikr.fadl,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: "Kitab",
+                    fontSize: 30,
+                    height: 2,
+                    color: Colors.grey,
+                  ),
+                ),
+              ]
             ],
           ),
         ],

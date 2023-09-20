@@ -9,6 +9,7 @@ class Zikr extends Equatable {
   final int order;
   final String body;
   final String source;
+  final String fadl;
   final int count;
   const Zikr({
     required this.id,
@@ -16,6 +17,7 @@ class Zikr extends Equatable {
     required this.order,
     required this.body,
     required this.source,
+    required this.fadl,
     required this.count,
   });
 
@@ -26,6 +28,7 @@ class Zikr extends Equatable {
       'order': order,
       'body': body,
       'source': source,
+      'fadl': fadl,
       'count': count,
     };
   }
@@ -37,6 +40,7 @@ class Zikr extends Equatable {
       order: map['order'] as int,
       body: map['body'] as String,
       source: (map['source'] as String?) ?? "",
+      fadl: (map['fadl'] as String?) ?? "",
       count: map['count'] as int,
     );
   }
@@ -52,6 +56,7 @@ class Zikr extends Equatable {
     int? order,
     String? body,
     String? source,
+    String? fadl,
     int? count,
   }) {
     return Zikr(
@@ -60,6 +65,7 @@ class Zikr extends Equatable {
       order: order ?? this.order,
       body: body ?? this.body,
       source: source ?? this.source,
+      fadl: fadl ?? this.fadl,
       count: count ?? this.count,
     );
   }
@@ -73,6 +79,7 @@ class Zikr extends Equatable {
       body,
       source,
       count,
+      fadl,
     ];
   }
 }
