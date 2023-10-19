@@ -2,6 +2,7 @@ import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/home/presentation/components/fehrs_screen.dart';
 import 'package:alazkar/src/features/home/presentation/components/home_app_bar.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:alazkar/src/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,29 +22,31 @@ class _HomePageScreenState extends State<HomePageScreen> {
         if (state is! HomeLoadedState) {
           return const Loading();
         }
-        return DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            body: NestedScrollView(
-              floatHeaderSlivers: true,
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  HomeAppBar(state: state),
-                ];
-              },
-              body: TabBarView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  FehrsScreen(titles: state.titlesToShow),
-                  FehrsScreen(
-                    titles: state.favouriteTitles(),
+        return state.isSearching
+            ? SearchScreen()
+            : DefaultTabController(
+                length: 2,
+                child: Scaffold(
+                  body: NestedScrollView(
+                    floatHeaderSlivers: true,
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return [
+                        HomeAppBar(state: state),
+                      ];
+                    },
+                    body: TabBarView(
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        FehrsScreen(titles: state.titlesToShow),
+                        FehrsScreen(
+                          titles: state.favouriteTitles(),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        );
+                ),
+              );
       },
     );
   }

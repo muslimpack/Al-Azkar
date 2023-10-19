@@ -1,5 +1,6 @@
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/home/presentation/screens/home_page_screen.dart';
+import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,7 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => HomeBloc())],
+      providers: [
+        BlocProvider(create: (_) => HomeBloc()),
+        BlocProvider(create: (_) => SearchCubit()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Al-Azkar',

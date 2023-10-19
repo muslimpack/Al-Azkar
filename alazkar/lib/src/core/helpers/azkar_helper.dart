@@ -113,7 +113,7 @@ class AzkarDBHelper {
     final Database db = await database;
 
     final List<Map<String, dynamic>> maps = await db
-        .rawQuery('SELECT * FROM titles WHERE text LIKE ?', ['%$name%']);
+        .rawQuery('SELECT * FROM titles WHERE name LIKE ?', ['%$name%']);
 
     return List.generate(maps.length, (i) {
       return ZikrTitle.fromMap(maps[i]);
@@ -124,7 +124,7 @@ class AzkarDBHelper {
     final Database db = await database;
 
     final List<Map<String, dynamic>> maps = await db
-        .rawQuery('SELECT * FROM contents WHERE text LIKE ?', ['%$name%']);
+        .rawQuery('SELECT * FROM contents WHERE search LIKE ?', ['%$name%']);
 
     return List.generate(maps.length, (i) {
       return Zikr.fromMap(maps[i]);
