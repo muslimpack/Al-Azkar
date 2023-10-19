@@ -26,7 +26,7 @@ class SearchCard extends StatelessWidget {
             ...zikr.map((e) {
               return Card(
                 child: ListTile(
-                  title: Text(
+                  title: SelectableText(
                     e.body,
                     style: const TextStyle(
                       fontFamily: "Kitab",
