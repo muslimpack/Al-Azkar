@@ -18,6 +18,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
+            tooltip: "نسخ الذكر",
             onPressed: () async {
               context
                   .read<ZikrContentViewerBloc>()
@@ -26,6 +27,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
             icon: const Icon(Icons.copy),
           ),
           IconButton(
+            tooltip: "مشاركة الذكر",
             onPressed: () async {
               context
                   .read<ZikrContentViewerBloc>()
@@ -34,6 +36,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
             icon: const Icon(Icons.share),
           ),
           IconButton(
+            tooltip: "مشاركة الذكر كصورة",
             onPressed: () async {
               azkarDBHelper.getContentById(state.activeZikr.id).then((zikr) {
                 Navigator.push(
@@ -47,6 +50,24 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
             },
             icon: const Icon(Icons.camera_alt_outlined),
           ),
+          if (state.activeZikr.fadl.isNotEmpty)
+            IconButton(
+              tooltip: "فضل الذكر",
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("فضل الذكر"),
+                      content: Text(state.activeZikr.fadl),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.contact_support_outlined,
+              ),
+            ),
         ],
       ),
     );
