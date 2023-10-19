@@ -9,15 +9,13 @@ sealed class HomeEvent extends Equatable {
 
 class HomeStartEvent extends HomeEvent {}
 
-class HomeEndSearchEvent extends HomeEvent {}
+class HomeToggleSearchEvent extends HomeEvent {
+  final bool isSearching;
 
-class HomeSearchEvent extends HomeEvent {
-  final String search;
-
-  const HomeSearchEvent(this.search);
+  const HomeToggleSearchEvent(this.isSearching);
 
   @override
-  List<Object> get props => [search];
+  List<Object> get props => [isSearching];
 }
 
 class HomeBookmarkTitleEvent extends HomeEvent {

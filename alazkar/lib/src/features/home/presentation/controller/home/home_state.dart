@@ -13,13 +13,11 @@ final class HomeLoadedState extends HomeState {
   final List<ZikrTitle> titles;
   final List<ZikrTitle> titlesToShow;
   final bool isSearching;
-  final bool showTabs;
 
   const HomeLoadedState({
     required this.titles,
     required this.titlesToShow,
     required this.isSearching,
-    required this.showTabs,
   });
 
   List<ZikrTitle> favouriteTitles() {
@@ -39,20 +37,17 @@ final class HomeLoadedState extends HomeState {
         titles,
         titlesToShow,
         isSearching,
-        showTabs,
       ];
 
   HomeLoadedState copyWith({
     List<ZikrTitle>? titles,
     List<ZikrTitle>? titlesToShow,
     bool? isSearching,
-    bool? showTabs,
   }) {
     return HomeLoadedState(
       titles: titles ?? this.titles,
       titlesToShow: titlesToShow ?? this.titlesToShow,
       isSearching: isSearching ?? this.isSearching,
-      showTabs: showTabs ?? this.showTabs,
     );
   }
 }

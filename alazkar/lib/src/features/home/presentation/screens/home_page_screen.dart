@@ -23,7 +23,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           return const Loading();
         }
         return state.isSearching
-            ? SearchScreen()
+            ? const SearchScreen()
             : DefaultTabController(
                 length: 2,
                 child: Scaffold(
@@ -32,7 +32,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return [
-                        HomeAppBar(state: state),
+                        const HomeAppBar(),
                       ];
                     },
                     body: TabBarView(

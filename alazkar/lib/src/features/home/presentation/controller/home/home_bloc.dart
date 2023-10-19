@@ -13,8 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeLoadingState()) {
     on<HomeStartEvent>(_start);
 
-    on<HomeSearchEvent>(_search);
-    on<HomeEndSearchEvent>(_endSearch);
+    on<HomeToggleSearchEvent>(_search);
 
     on<HomeBookmarkTitleEvent>(_bookmarkTitle);
     on<HomeUnBookmarkTitleEvent>(_unBookmarkTitle);
@@ -45,46 +44,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         titles: titlesToSet,
         titlesToShow: titlesToSet,
         isSearching: false,
-        showTabs: true,
       ),
     );
   }
 
   FutureOr<void> _search(
-    HomeSearchEvent event,
-    Emitter<HomeState> emit,
-  ) async {
-    final state = this.state;
-    if (state is! HomeLoadedState) return;
-
-    if (event.search.isEmpty) {
-      emit(
-        state.copyWith(
-          titlesToShow: state.titles,
-          isSearching: true,
-          showTabs: true,
-        ),
-      );
-      return;
-    }
-
-    final searchedTitles = state.titles
-        .where(
-          (t) => t.name.contains(event.search),
-        )
-        .toList();
-
-    emit(
-      state.copyWith(
-        titlesToShow: searchedTitles,
-        isSearching: true,
-        showTabs: false,
-      ),
-    );
-  }
-
-  FutureOr<void> _endSearch(
-    HomeEndSearchEvent event,
+    HomeToggleSearchEvent event,
     Emitter<HomeState> emit,
   ) async {
     final state = this.state;
@@ -92,9 +57,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     emit(
       state.copyWith(
-        titlesToShow: state.titles,
-        isSearching: false,
-        showTabs: true,
+        isSearching: event.isSearching,
       ),
     );
   }
