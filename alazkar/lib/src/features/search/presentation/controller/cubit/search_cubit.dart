@@ -12,8 +12,6 @@ class SearchCubit extends Cubit<SearchState> {
       : super(
           const SearchState(
             searchText: "",
-            zikr: [],
-            titles: [],
             result: {},
           ),
         );
@@ -24,8 +22,6 @@ class SearchCubit extends Cubit<SearchState> {
       emit(
         SearchState(
           searchText: "",
-          zikr: const [],
-          titles: const [],
           result: result,
         ),
       );
@@ -67,8 +63,6 @@ class SearchCubit extends Cubit<SearchState> {
     emit(
       SearchState(
         searchText: searchText,
-        titles: const [],
-        zikr: searchedZikr,
         result: result,
       ),
     );
