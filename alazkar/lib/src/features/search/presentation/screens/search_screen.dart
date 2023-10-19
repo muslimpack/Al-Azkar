@@ -1,5 +1,5 @@
-import 'package:alazkar/src/features/home/presentation/components/fehrs_item_card.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_app_bar.dart';
+import 'package:alazkar/src/features/search/presentation/components/search_card.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,22 +22,14 @@ class SearchScreen extends StatelessWidget {
             },
             body: ListView(
               physics: const BouncingScrollPhysics(),
-              children: [
-                ...state.titles.map(
-                  (e) {
-                    return FehrsItemCard(
-                      zikrTitle: e,
-                    );
-                  },
-                ),
-                ...state.zikr.map(
-                  (e) {
-                    return ListTile(
-                      title: Text(e.body),
-                    );
-                  },
-                )
-              ],
+              children: state.result.entries.map(
+                (e) {
+                  return SearchCard(
+                    title: e.key,
+                    zikr: e.value,
+                  );
+                },
+              ).toList(),
             ),
           ),
         );
