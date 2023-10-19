@@ -1,4 +1,5 @@
 import 'package:alazkar/src/features/search/presentation/components/search_app_bar.dart';
+import 'package:alazkar/src/features/search/presentation/components/search_bottom_bar.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_card.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
@@ -32,19 +33,8 @@ class SearchScreen extends StatelessWidget {
               ).toList(),
             ),
           ),
-          bottomNavigationBar: BottomAppBar(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("إجمالي البحث: ${state.result.keys.length}"),
-                Text(
-                  "عدد الفهارس: ${state.result.entries.fold(0, (previousValue, element) => previousValue + (element.value.isEmpty ? 1 : 0))}",
-                ),
-                Text(
-                  "عدد الأذكار: ${state.result.entries.fold(0, (previousValue, element) => previousValue + element.value.length)}",
-                ),
-              ],
-            ),
+          bottomNavigationBar: SearchBottomBar(
+            result: state.result,
           ),
         );
       },
