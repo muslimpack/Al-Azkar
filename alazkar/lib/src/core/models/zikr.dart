@@ -11,6 +11,7 @@ class Zikr extends Equatable {
   final String source;
   final String fadl;
   final int count;
+  final String search;
   const Zikr({
     required this.id,
     required this.titleId,
@@ -19,6 +20,7 @@ class Zikr extends Equatable {
     required this.source,
     required this.fadl,
     required this.count,
+    required this.search,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,6 +32,7 @@ class Zikr extends Equatable {
       'source': source,
       'fadl': fadl,
       'count': count,
+      'search': search,
     };
   }
 
@@ -39,9 +42,10 @@ class Zikr extends Equatable {
       titleId: map['titleId'] as int,
       order: map['order'] as int,
       body: map['body'] as String,
+      count: map['count'] as int,
+      search: (map['search'] as String?) ?? "",
       source: (map['source'] as String?) ?? "",
       fadl: (map['fadl'] as String?) ?? "",
-      count: map['count'] as int,
     );
   }
 
@@ -58,6 +62,7 @@ class Zikr extends Equatable {
     String? source,
     String? fadl,
     int? count,
+    String? search,
   }) {
     return Zikr(
       id: id ?? this.id,
@@ -67,6 +72,7 @@ class Zikr extends Equatable {
       source: source ?? this.source,
       fadl: fadl ?? this.fadl,
       count: count ?? this.count,
+      search: search ?? this.search,
     );
   }
 
@@ -78,8 +84,9 @@ class Zikr extends Equatable {
       order,
       body,
       source,
-      count,
       fadl,
+      count,
+      search,
     ];
   }
 }
