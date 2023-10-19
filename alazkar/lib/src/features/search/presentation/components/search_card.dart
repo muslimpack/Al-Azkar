@@ -19,18 +19,26 @@ class SearchCard extends StatelessWidget {
       title: FehrsItemCard(
         zikrTitle: title,
       ),
-      subtitle: ListView(
-        shrinkWrap: true,
+      subtitle: Padding(
         padding: const EdgeInsets.only(right: 60),
-        children: [
-          ...zikr.map((e) {
-            return Card(
-              child: ListTile(
-                title: Text(e.body),
-              ),
-            );
-          })
-        ],
+        child: Column(
+          children: [
+            ...zikr.map((e) {
+              return Card(
+                child: ListTile(
+                  title: Text(
+                    e.body,
+                    style: const TextStyle(
+                      fontFamily: "Kitab",
+                      fontSize: 20,
+                      height: 2,
+                    ),
+                  ),
+                ),
+              );
+            })
+          ],
+        ),
       ),
     );
   }
