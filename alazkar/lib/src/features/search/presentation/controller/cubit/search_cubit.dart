@@ -9,9 +9,31 @@ part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit()
-      : super(const SearchState(searchText: "", zikr: [], titles: []));
+      : super(
+          const SearchState(
+            searchText: "",
+            zikr: [],
+            titles: [],
+            result: {},
+          ),
+        );
 
   Future search(String searchText) async {
+    final Map<ZikrTitle, List<Zikr>> result = {};
+
+    if (searchText.isEmpty) {
+      emit(
+        SearchState(
+          searchText: "",
+          zikr: const [],
+          titles: const [],
+          result: result,
+        ),
+      );
+
+      return;
+    }
+
     final titles = await azkarDBHelper.getTitlesByName(searchText);
     final zikr = await azkarDBHelper.getContentsByName(searchText);
 
@@ -31,6 +53,7 @@ class SearchCubit extends Cubit<SearchState> {
         searchText: searchText,
         titles: titlesToSet,
         zikr: zikr,
+        result: result,
       ),
     );
   }

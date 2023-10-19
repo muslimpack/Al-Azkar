@@ -4,10 +4,12 @@ class SearchState extends Equatable {
   final String searchText;
   final List<ZikrTitle> titles;
   final List<Zikr> zikr;
+  final Map<ZikrTitle, List<Zikr>> result;
   const SearchState({
     required this.searchText,
     required this.titles,
     required this.zikr,
+    required this.result,
   });
 
   @override
@@ -15,5 +17,6 @@ class SearchState extends Equatable {
         searchText,
         titles,
         zikr,
+        result,
       ];
 }
