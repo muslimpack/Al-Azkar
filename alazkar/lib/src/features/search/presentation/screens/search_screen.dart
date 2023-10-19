@@ -32,6 +32,20 @@ class SearchScreen extends StatelessWidget {
               ).toList(),
             ),
           ),
+          bottomNavigationBar: BottomAppBar(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("إجمالي البحث: ${state.result.keys.length}"),
+                Text(
+                  "عدد الفهارس: ${state.result.entries.fold(0, (previousValue, element) => previousValue + (element.value.isEmpty ? 1 : 0))}",
+                ),
+                Text(
+                  "عدد الأذكار: ${state.result.entries.fold(0, (previousValue, element) => previousValue + element.value.length)}",
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
