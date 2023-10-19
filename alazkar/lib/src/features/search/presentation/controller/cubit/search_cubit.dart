@@ -37,8 +37,6 @@ class SearchCubit extends Cubit<SearchState> {
     final searchedTitles = await azkarDBHelper.getTitlesByName(searchText);
     final searchedZikr = await azkarDBHelper.getContentsByName(searchText);
 
-    final Map<ZikrTitle, List<Zikr>> result = {};
-
     // Get Titles with favorites
     final allTitles = await azkarDBHelper.getAllTitles();
     final List<int> favouriteTitlesIds =
@@ -51,36 +49,25 @@ class SearchCubit extends Cubit<SearchState> {
         )
         .toList();
 
-    final Map<int, List<Zikr>> resultWithId = {};
-
-    for (final title in searchedTitles) {
-      resultWithId[title.id] = [];
-    }
-    for (final zikr in searchedZikr) {
-      resultWithId[zikr.titleId] = [];
-      resultWithId[zikr.titleId]?.add(zikr);
-    }
-
-    final titlesToSet = allTitlesWithFavorite
-        .where(
-          (title) => resultWithId.containsKey(title.id),
-        )
-        .toList();
-
     final Map<int, ZikrTitle> titleMap = {
       for (final title in allTitlesWithFavorite) title.id: title
     };
 
-    for (final entry in resultWithId.entries) {
-      final title = titleMap[entry.key]!;
-      result[title] = [];
-      result[title]?.addAll(entry.value);
+    // Start to handle  Result
+    final Map<ZikrTitle, List<Zikr>> result = {};
+
+    for (final title in searchedTitles) {
+      result[titleMap[title.id]!] = [];
+    }
+    for (final zikr in searchedZikr) {
+      result[titleMap[zikr.titleId]!] = [];
+      result[titleMap[zikr.titleId]!]?.add(zikr);
     }
 
     emit(
       SearchState(
         searchText: searchText,
-        titles: titlesToSet,
+        titles: const [],
         zikr: searchedZikr,
         result: result,
       ),
