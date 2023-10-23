@@ -33,10 +33,10 @@ class ZikrItemCard extends StatelessWidget {
               opacity: .5,
               child: Text(
                 zikr.count == 0 ? "تم" : zikr.count.toString(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 200,
                   fontWeight: FontWeight.bold,
-                  color: Colors.brown,
+                  color: Theme.of(context).dividerColor,
                 ),
               ),
             ),
