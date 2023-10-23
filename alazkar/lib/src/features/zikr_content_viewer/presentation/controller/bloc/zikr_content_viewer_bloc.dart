@@ -24,10 +24,10 @@ class ZikrContentViewerBloc
 
   ZikrContentViewerBloc(this.zikrTitle)
       : super(ZikrContentViewerLoadingState()) {
-    _volumeBtnChannel.setMethodCallHandler(_activateVolumeHandler);
     VolumeButtonManager.setActivationStatus(
       activate: true,
     );
+    _volumeBtnChannel.setMethodCallHandler(_activateVolumeHandler);
 
     on<ZikrContentViewerStartEvent>(_start);
     on<ZikrContentViewerDecreaseEvent>(_decrease);
@@ -61,6 +61,7 @@ class ZikrContentViewerBloc
         zikrTitle: zikrTitle,
         azkar: azkarToSet,
         activeZikr: azkarToSet[0],
+        activeZikrIndex: 0,
       ),
     );
   }
@@ -102,7 +103,12 @@ class ZikrContentViewerBloc
     final state = this.state;
     if (state is! ZikrContentViewerLoadedState) return;
 
-    emit(state.copyWith(activeZikr: state.azkar[event.index]));
+    emit(
+      state.copyWith(
+        activeZikr: state.azkar[event.index],
+        activeZikrIndex: event.index,
+      ),
+    );
   }
 
   FutureOr<void> _copy(
@@ -134,10 +140,10 @@ class ZikrContentViewerBloc
     await VolumeButtonManager.handler(
       call: call,
       onVolumeUpPressed: () {
-        add(ZikrContentViewerDecreaseEvent(state.activeZikr));
+        add(ZikrContentViewerDecreaseEvent(state.azkar[state.activeZikrIndex]));
       },
       onVolumeDownPressed: () {
-        add(ZikrContentViewerDecreaseEvent(state.activeZikr));
+        add(ZikrContentViewerDecreaseEvent(state.azkar[state.activeZikrIndex]));
       },
     );
   }
