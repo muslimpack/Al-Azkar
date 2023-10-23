@@ -1,5 +1,5 @@
-import 'package:alazkar/src/features/about/presentation/screens/about_screen.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:alazkar/src/features/settings/presentation/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,12 +39,12 @@ class _HomeAppBarState extends State<HomeAppBar> {
         IconButton(
           splashRadius: 20,
           padding: EdgeInsets.zero,
-          icon: const Icon(Icons.info_outline),
+          icon: const Icon(Icons.settings),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return const AboutScreen();
+                  return const SettingsScreen();
                 },
               ),
             );
