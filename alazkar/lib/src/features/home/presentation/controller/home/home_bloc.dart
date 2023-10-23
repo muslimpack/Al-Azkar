@@ -27,7 +27,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(HomeLoadingState());
-    final List<ZikrTitle> titles = await azkarDBHelper.getAllTitles();
+    final List<ZikrTitle> titles = (await azkarDBHelper.getAllTitles())
+      ..sort(
+        (a, b) => a.order.compareTo(b.order),
+      );
+
     final List<int> favouriteTitlesIds =
         await bookmarksDBHelper.getAllFavoriteTitles();
 
