@@ -41,7 +41,7 @@ class ThemeScreen extends StatelessWidget {
                         ),
                         actions: <Widget>[
                           ElevatedButton(
-                            child: const Text('Got it'),
+                            child: const Text('تعيين'),
                             onPressed: () {
                               context
                                   .read<ThemeCubit>()
