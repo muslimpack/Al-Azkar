@@ -68,6 +68,24 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
                 Icons.contact_support_outlined,
               ),
             ),
+          if (state.activeZikr.source.isNotEmpty)
+            IconButton(
+              tooltip: "مصدر الذكر",
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("مصدر الذكر"),
+                      content: Text(state.activeZikr.source),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.comment,
+              ),
+            ),
         ],
       ),
     );
