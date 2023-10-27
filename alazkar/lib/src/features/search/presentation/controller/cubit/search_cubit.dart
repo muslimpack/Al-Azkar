@@ -2,6 +2,7 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -33,6 +34,8 @@ class SearchCubit extends Cubit<SearchState> {
     final searchedTitles = await azkarDBHelper.getTitlesByName(searchText);
     final searchedZikr = await azkarDBHelper.getContentsByName(searchText);
 
+    appPrint("$searchText: ${searchedZikr.length}");
+
     // Get Titles with favorites
     final allTitles = await azkarDBHelper.getAllTitles();
     final List<int> favouriteTitlesIds =
@@ -57,6 +60,8 @@ class SearchCubit extends Cubit<SearchState> {
     }
     for (final zikr in searchedZikr) {
       result[titleMap[zikr.titleId]!] = [];
+    }
+    for (final zikr in searchedZikr) {
       result[titleMap[zikr.titleId]!]?.add(zikr);
     }
 
