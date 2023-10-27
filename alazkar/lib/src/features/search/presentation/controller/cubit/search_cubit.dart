@@ -58,10 +58,11 @@ class SearchCubit extends Cubit<SearchState> {
     for (final title in searchedTitles) {
       result[titleMap[title.id]!] = [];
     }
+
     for (final zikr in searchedZikr) {
-      result[titleMap[zikr.titleId]!] = [];
-    }
-    for (final zikr in searchedZikr) {
+      if (result[titleMap[zikr.titleId]!]?.isEmpty ?? true) {
+        result[titleMap[zikr.titleId]!] = [];
+      }
       result[titleMap[zikr.titleId]!]?.add(zikr);
     }
 
