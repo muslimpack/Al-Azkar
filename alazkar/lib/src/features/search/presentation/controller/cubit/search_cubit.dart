@@ -3,19 +3,36 @@ import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit()
+  final HomeBloc homeBloc;
+  SearchCubit(this.homeBloc)
       : super(
           const SearchState(
             searchText: "",
             result: {},
           ),
+        ) {
+    homeBloc.stream.listen((event) {
+      final homeBlocState = homeBloc.state;
+      if (homeBlocState is! HomeLoadedState) return;
+      if (state.result.isEmpty) return;
+
+      final result = state.result.map((key, value) {
+        return MapEntry(
+          homeBlocState.titles.firstWhere((e) => e.id == key.id),
+          value,
         );
+      });
+
+      emit(state.copyWith(result: result));
+    });
+  }
 
   Future search(String searchText) async {
     if (searchText.isEmpty) {
