@@ -28,7 +28,7 @@ class ThemeScreen extends StatelessWidget {
                     builder: (context) {
                       Color selectedColor = state.color;
                       return AlertDialog(
-                        title: const Text('Pick a color!'),
+                        title: const Text('اختر لونا'),
                         content: SingleChildScrollView(
                           child: ColorPicker(
                             hexInputBar: true,
