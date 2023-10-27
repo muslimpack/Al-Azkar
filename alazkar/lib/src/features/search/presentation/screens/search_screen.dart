@@ -21,16 +21,18 @@ class SearchScreen extends StatelessWidget {
                 const SearchAppBar(),
               ];
             },
-            body: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: state.result.entries.map(
-                (e) {
-                  return SearchCard(
-                    title: e.key,
-                    zikr: e.value,
-                  );
-                },
-              ).toList(),
+            body: Scrollbar(
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: state.result.entries.map(
+                  (e) {
+                    return SearchCard(
+                      title: e.key,
+                      zikr: e.value,
+                    );
+                  },
+                ).toList(),
+              ),
             ),
           ),
           bottomNavigationBar: SearchBottomBar(
