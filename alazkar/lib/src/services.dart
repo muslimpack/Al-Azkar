@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 Future initServices() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +18,11 @@ Future initServices() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  if (Platform.isWindows) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
 
   await GetStorage.init();
 }
