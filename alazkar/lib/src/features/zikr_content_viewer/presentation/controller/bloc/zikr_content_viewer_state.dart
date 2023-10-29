@@ -11,7 +11,6 @@ final class ZikrContentViewerLoadingState extends ZikrContentViewerState {}
 
 final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
   final List<Zikr> azkar;
-  final Zikr activeZikr;
   final int activeZikrIndex;
   final ZikrTitle zikrTitle;
 
@@ -19,18 +18,15 @@ final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
     required this.zikrTitle,
     required this.azkar,
     required this.activeZikrIndex,
-    required this.activeZikr,
   });
 
   ZikrContentViewerLoadedState copyWith({
     List<Zikr>? azkar,
-    Zikr? activeZikr,
     int? activeZikrIndex,
   }) {
     return ZikrContentViewerLoadedState(
       zikrTitle: zikrTitle,
       azkar: azkar ?? this.azkar,
-      activeZikr: activeZikr ?? this.activeZikr,
       activeZikrIndex: activeZikrIndex ?? this.activeZikrIndex,
     );
   }
@@ -46,6 +42,8 @@ final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
     return done / length;
   }
 
+  Zikr get activeZikr => azkar[activeZikrIndex];
+
   @override
-  List<Object> get props => [azkar, activeZikr, zikrTitle, activeZikrIndex];
+  List<Object> get props => [azkar, zikrTitle, activeZikrIndex];
 }

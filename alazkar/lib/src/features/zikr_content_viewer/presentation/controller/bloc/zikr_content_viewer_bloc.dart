@@ -60,7 +60,6 @@ class ZikrContentViewerBloc
       ZikrContentViewerLoadedState(
         zikrTitle: zikrTitle,
         azkar: azkarToSet,
-        activeZikr: azkarToSet[0],
         activeZikrIndex: 0,
       ),
     );
@@ -105,7 +104,6 @@ class ZikrContentViewerBloc
 
     emit(
       state.copyWith(
-        activeZikr: state.azkar[event.index],
         activeZikrIndex: event.index,
       ),
     );
