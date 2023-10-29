@@ -86,7 +86,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
               height: 2,
             ),
           ),
-        ]
+        ],
       ],
     );
   }
@@ -126,7 +126,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
         width,
         textColor,
         backgroundColor,
-        transformationController
+        transformationController,
       ];
 }
 

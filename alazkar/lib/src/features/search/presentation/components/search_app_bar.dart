@@ -67,7 +67,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
 
             context.read<SearchCubit>().search("");
           },
-        )
+        ),
       ],
     );
   }

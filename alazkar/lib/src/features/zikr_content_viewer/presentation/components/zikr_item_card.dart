@@ -56,7 +56,7 @@ class ZikrItemCard extends StatelessWidget {
               ),
               if (zikr.fadl.isNotEmpty) ...[
                 const SizedBox(height: 50),
-              ]
+              ],
             ],
           ),
         ],

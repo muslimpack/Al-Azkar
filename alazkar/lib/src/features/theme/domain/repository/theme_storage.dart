@@ -15,6 +15,15 @@ class ThemeStorage {
     await box.write('ThemeBrightness', brightness.toString());
   }
 
+  static bool getUseMaterial3() {
+    final bool? useMaterial3 = box.read('ThemeUseMaterial3');
+    return useMaterial3 ?? true;
+  }
+
+  static Future setUseMaterial3(bool useMaterial3) async {
+    await box.write('ThemeUseMaterial3', useMaterial3);
+  }
+
   static Color getColor() {
     final int? colorValue = box.read('ThemeColor');
     return colorValue != null ? Color(colorValue) : Colors.brown;

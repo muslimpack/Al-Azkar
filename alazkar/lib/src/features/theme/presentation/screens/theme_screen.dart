@@ -70,6 +70,13 @@ class ThemeScreen extends StatelessWidget {
                   }
                 },
               ),
+              SwitchListTile(
+                value: state.useMaterial3,
+                title: const Text("Material3"),
+                onChanged: (value) {
+                  context.read<ThemeCubit>().changeUseMaterial3(value);
+                },
+              ),
             ],
           ),
         );

@@ -49,7 +49,7 @@ class ImageBuilder extends StatelessWidget {
                 height: 40,
                 color: Colors.brown.shade900,
               ),
-              _footer()
+              _footer(),
             ],
           ],
         ),

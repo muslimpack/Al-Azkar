@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
                 brightness: state.brightness,
               ),
               fontFamily: "Cairo",
-              useMaterial3: true,
+              useMaterial3: state.useMaterial3,
             ),
             localizationsDelegates: const [
               GlobalCupertinoLocalizations.delegate,

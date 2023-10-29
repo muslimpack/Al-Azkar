@@ -36,7 +36,7 @@ class SearchCard extends StatelessWidget {
                   ),
                 ),
               );
-            })
+            }),
           ],
         ),
       ),

@@ -11,12 +11,18 @@ class ThemeCubit extends Cubit<ThemeState> {
           ThemeState(
             brightness: ThemeStorage.getBrightness(),
             color: ThemeStorage.getColor(),
+            useMaterial3: ThemeStorage.getUseMaterial3(),
           ),
         );
 
   Future<void> changeBrightness(Brightness brightness) async {
     await ThemeStorage.setBrightness(brightness);
     emit(state.copyWith(brightness: brightness));
+  }
+
+  Future<void> changeUseMaterial3(bool useMaterial3) async {
+    await ThemeStorage.setUseMaterial3(useMaterial3);
+    emit(state.copyWith(useMaterial3: useMaterial3));
   }
 
   Future<void> changeColor(Color color) async {

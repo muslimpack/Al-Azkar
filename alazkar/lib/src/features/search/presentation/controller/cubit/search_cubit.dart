@@ -66,7 +66,7 @@ class SearchCubit extends Cubit<SearchState> {
         .toList();
 
     final Map<int, ZikrTitle> titleMap = {
-      for (final title in allTitlesWithFavorite) title.id: title
+      for (final title in allTitlesWithFavorite) title.id: title,
     };
 
     // Start to handle  Result

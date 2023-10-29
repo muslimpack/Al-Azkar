@@ -23,7 +23,7 @@ class UserNumberField extends StatelessWidget {
         controller: controller,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
+          FilteringTextInputFormatter.digitsOnly,
         ],
         onChanged: onChange,
         decoration: customInputDecorator.copyWith(hintText: hintText),
