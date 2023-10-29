@@ -18,6 +18,16 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
+            tooltip: "الباب السابق",
+            onPressed: () async {
+              context
+                  .read<ZikrContentViewerBloc>()
+                  .add(ZikrContentViewerPerviousTitleEvent());
+            },
+            icon: const Icon(Icons.keyboard_double_arrow_right_sharp),
+          ),
+          const Spacer(),
+          IconButton(
             tooltip: "نسخ الذكر",
             onPressed: () async {
               context
@@ -86,6 +96,16 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
                 Icons.comment,
               ),
             ),
+          const Spacer(),
+          IconButton(
+            tooltip: "الباب التالي",
+            onPressed: () async {
+              context
+                  .read<ZikrContentViewerBloc>()
+                  .add(ZikrContentViewerNextTitleEvent());
+            },
+            icon: const Icon(Icons.keyboard_double_arrow_left_sharp),
+          ),
         ],
       ),
     );

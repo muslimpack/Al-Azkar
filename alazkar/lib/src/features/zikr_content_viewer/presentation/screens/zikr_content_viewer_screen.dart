@@ -1,5 +1,6 @@
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
+import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/bottom_app_bar.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_item_card.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
@@ -19,7 +20,10 @@ class ZikrContentViewerScreen extends StatelessWidget {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
-        create: (context) => ZikrContentViewerBloc(zikrTitle),
+        create: (context) => ZikrContentViewerBloc(
+          zikrTitle,
+          homeBloc: context.read<HomeBloc>(),
+        ),
         child: ZikrContentViewerScreen(
           zikrTitle: zikrTitle,
         ),
@@ -37,8 +41,11 @@ class ZikrContentViewerScreen extends StatelessWidget {
         }
         return Scaffold(
           appBar: AppBar(
+            toolbarHeight: 75,
             title: Text(
-              zikrTitle.name,
+              state.zikrTitle.name,
+              maxLines: 2,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: "Kitab",
                 fontWeight: FontWeight.bold,

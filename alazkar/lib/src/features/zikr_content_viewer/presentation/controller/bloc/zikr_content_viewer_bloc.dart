@@ -4,7 +4,9 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/manager/volume_button_manager.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
+import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +18,14 @@ part 'zikr_content_viewer_state.dart';
 
 class ZikrContentViewerBloc
     extends Bloc<ZikrContentViewerEvent, ZikrContentViewerState> {
+  final HomeBloc homeBloc;
   final ZikrTitle zikrTitle;
   final PageController pageController = PageController(
     viewportFraction: 1.004,
   );
   static final MethodChannel _volumeBtnChannel = VolumeButtonManager.channel;
 
-  ZikrContentViewerBloc(this.zikrTitle)
+  ZikrContentViewerBloc(this.zikrTitle, {required this.homeBloc})
       : super(ZikrContentViewerLoadingState()) {
     VolumeButtonManager.setActivationStatus(
       activate: true,
@@ -34,6 +37,8 @@ class ZikrContentViewerBloc
     on<ZikrContentViewerPageChangeEvent>(_pageChanged);
     on<ZikrContentViewerCopyEvent>(_copy);
     on<ZikrContentViewerShareEvent>(_share);
+    on<ZikrContentViewerNextTitleEvent>(_nextTitle);
+    on<ZikrContentViewerPerviousTitleEvent>(_perviousTitle);
 
     add(ZikrContentViewerStartEvent(zikrTitle));
 
@@ -58,7 +63,7 @@ class ZikrContentViewerBloc
 
     emit(
       ZikrContentViewerLoadedState(
-        zikrTitle: zikrTitle,
+        zikrTitle: event.zikrTitle,
         azkar: azkarToSet,
         activeZikrIndex: 0,
       ),
@@ -152,5 +157,47 @@ class ZikrContentViewerBloc
       activate: false,
     );
     return super.close();
+  }
+
+  FutureOr<void> _nextTitle(
+    ZikrContentViewerNextTitleEvent event,
+    Emitter<ZikrContentViewerState> emit,
+  ) async {
+    final state = this.state;
+    if (state is! ZikrContentViewerLoadedState) return;
+
+    final homeState = homeBloc.state;
+    if (homeState is! HomeLoadedState) return;
+
+    try {
+      final int currentTitleIndex =
+          homeState.titles.indexWhere((e) => e.id == state.zikrTitle.id);
+      appPrint(currentTitleIndex);
+      if (currentTitleIndex == -1 ||
+          currentTitleIndex == homeState.titles.length - 1) return;
+      add(ZikrContentViewerStartEvent(homeState.titles[currentTitleIndex + 1]));
+    } catch (e) {
+      appPrint(e);
+    }
+  }
+
+  FutureOr<void> _perviousTitle(
+    ZikrContentViewerPerviousTitleEvent event,
+    Emitter<ZikrContentViewerState> emit,
+  ) async {
+    final state = this.state;
+    if (state is! ZikrContentViewerLoadedState) return;
+
+    final homeState = homeBloc.state;
+    if (homeState is! HomeLoadedState) return;
+
+    try {
+      final int currentTitleIndex =
+          homeState.titles.indexWhere((e) => e.id == state.zikrTitle.id);
+      if (currentTitleIndex == -1 || currentTitleIndex == 0) return;
+      add(ZikrContentViewerStartEvent(homeState.titles[currentTitleIndex - 1]));
+    } catch (e) {
+      appPrint(e);
+    }
   }
 }
