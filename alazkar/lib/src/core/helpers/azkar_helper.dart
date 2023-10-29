@@ -6,6 +6,7 @@ import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 AzkarDBHelper azkarDBHelper = AzkarDBHelper();
@@ -36,13 +37,20 @@ class AzkarDBHelper {
   /* ************* Database Creation ************* */
 
   Future<Database> _initDatabase() async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, dbName);
-
+    late final String path;
+    if (Platform.isWindows) {
+      final dbPath = (await getApplicationSupportDirectory()).path;
+      path = join(dbPath, dbName);
+    } else {
+      final dbPath = await getDatabasesPath();
+      path = join(dbPath, dbName);
+    }
     final exist = await databaseExists(path);
+    appPrint("$exist: $path");
 
     //Check if database is already in that Directory
     if (!exist) {
+      appPrint("Azkar not exist");
       // Database isn't exist > Create new Database
       await _copyFromAssets(path: path);
     }
@@ -85,17 +93,27 @@ class AzkarDBHelper {
     int newVersion,
   ) {}
 
-  FutureOr<void> _copyFromAssets({required String path}) async {
+  Future<void> _copyFromAssets({required String path}) async {
     try {
-      await Directory(dirname(path)).create(recursive: true);
+      final String dbAssetPath = join("assets", "db", dbName);
+      if (Platform.isWindows) {
+        appPrint("Azkar Try copy for windows");
+        try {
+          await File(dbAssetPath).copy(path);
+        } catch (e) {
+          appPrint(e);
+        }
+      } else {
+        Directory(dirname(path)).createSync(recursive: true);
 
-      final ByteData data = await rootBundle.load(join("assets", "db", dbName));
-      final List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+        final ByteData data = await rootBundle.load(dbAssetPath);
+        final List<int> bytes =
+            data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-      await File(path).writeAsBytes(bytes, flush: true);
+        File(path).writeAsBytesSync(bytes, flush: true);
+      }
     } catch (e) {
-      appPrint(e.toString());
+      appPrint(e);
     }
   }
 
