@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.hassaneltantawy" "\0"
-            VALUE "FileDescription", "alazkar" "\0"
+            VALUE "FileDescription", "الأذكار النووية" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "alazkar" "\0"
+            VALUE "InternalName", "الأذكار النووية" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.hassaneltantawy. All rights reserved." "\0"
-            VALUE "OriginalFilename", "alazkar.exe" "\0"
-            VALUE "ProductName", "alazkar" "\0"
+            VALUE "OriginalFilename", "الأذكار النووية.exe" "\0"
+            VALUE "ProductName", "الأذكار النووية" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -46,6 +46,7 @@ class BookmarksDBHelper {
     }
 
     final exist = await databaseExists(path);
+    appPrint("$exist: $path");
 
     //Check if database is already in that Directory
     if (!exist) {

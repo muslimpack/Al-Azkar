@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 class VolumeButtonManager {
@@ -21,6 +23,8 @@ class VolumeButtonManager {
   }
 
   static Future<void> setActivationStatus({required bool activate}) async {
+    if (!Platform.isAndroid) return;
+
     const volumeBtnChannel = MethodChannel("volume_button_channel");
     await volumeBtnChannel.invokeMethod(
       'activate_volumeBtn',

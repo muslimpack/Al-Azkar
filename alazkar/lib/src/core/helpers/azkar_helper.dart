@@ -46,6 +46,7 @@ class AzkarDBHelper {
       path = join(dbPath, dbName);
     }
     final exist = await databaseExists(path);
+    appPrint("$exist: $path");
 
     //Check if database is already in that Directory
     if (!exist) {
