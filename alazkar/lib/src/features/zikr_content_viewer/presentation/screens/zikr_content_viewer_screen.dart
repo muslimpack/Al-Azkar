@@ -32,6 +32,21 @@ class ZikrContentViewerScreen extends StatelessWidget {
     );
   }
 
+  double getTextWidth(String text, TextStyle style, BuildContext context) {
+    final textSpan = TextSpan(text: text, style: style);
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+      maxLines: 1, // Set to 1 for single line text
+    );
+    textPainter.layout(
+      maxWidth: MediaQuery.of(context)
+          .size
+          .width, // You can adjust this width as needed
+    );
+    return textPainter.width;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ZikrContentViewerBloc, ZikrContentViewerState>(
@@ -40,25 +55,35 @@ class ZikrContentViewerScreen extends StatelessWidget {
         if (state is! ZikrContentViewerLoadedState) {
           return const Loading();
         }
+        const headerStyle = TextStyle(
+          fontFamily: "Kitab",
+          fontWeight: FontWeight.bold,
+        );
+        final Size screenSize = MediaQuery.of(context).size;
+        final bool isSliding =
+            getTextWidth(state.zikrTitle.name, headerStyle, context) >
+                (screenSize.width * .5);
         return Scaffold(
           appBar: AppBar(
-            title: SizedBox(
-              height: 60,
-              child: Marquee(
-                text: state.zikrTitle.name,
-                blankSpace: MediaQuery.of(context).size.width,
-                pauseAfterRound: const Duration(seconds: 1),
-                accelerationCurve: Curves.easeInOut,
-                decelerationCurve: Curves.easeOut,
-                fadingEdgeEndFraction: 1,
-                fadingEdgeStartFraction: .5,
-                showFadingOnlyWhenScrolling: false,
-                style: const TextStyle(
-                  fontFamily: "Kitab",
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            title: isSliding
+                ? SizedBox(
+                    height: 60,
+                    child: Marquee(
+                      text: state.zikrTitle.name,
+                      blankSpace: screenSize.width,
+                      pauseAfterRound: const Duration(seconds: 1),
+                      accelerationCurve: Curves.easeInOut,
+                      decelerationCurve: Curves.easeOut,
+                      fadingEdgeEndFraction: 1,
+                      fadingEdgeStartFraction: .5,
+                      showFadingOnlyWhenScrolling: false,
+                      style: headerStyle,
+                    ),
+                  )
+                : Text(
+                    state.zikrTitle.name,
+                    style: headerStyle,
+                  ),
             centerTitle: true,
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(10),
