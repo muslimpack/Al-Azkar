@@ -6,6 +6,7 @@ import 'package:alazkar/src/features/zikr_content_viewer/presentation/components
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marquee/marquee.dart';
 
 class ZikrContentViewerScreen extends StatelessWidget {
   static const String routeName = "ZikrContentViewer";
@@ -41,14 +42,24 @@ class ZikrContentViewerScreen extends StatelessWidget {
         }
         return Scaffold(
           appBar: AppBar(
-            toolbarHeight: 75,
-            title: Text(
-              state.zikrTitle.name,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontFamily: "Kitab",
-                fontWeight: FontWeight.bold,
+            title: SizedBox(
+              height: 60,
+              child: Marquee(
+                text: state.zikrTitle.name,
+                blankSpace: MediaQuery.of(context).size.width,
+                pauseAfterRound: const Duration(seconds: 1),
+                startPadding: 10.0,
+                accelerationDuration: const Duration(seconds: 1),
+                accelerationCurve: Curves.linear,
+                decelerationDuration: const Duration(milliseconds: 500),
+                decelerationCurve: Curves.easeOut,
+                fadingEdgeEndFraction: .5,
+                fadingEdgeStartFraction: .5,
+                showFadingOnlyWhenScrolling: false,
+                style: const TextStyle(
+                  fontFamily: "Kitab",
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             centerTitle: true,
