@@ -56,6 +56,9 @@ class ZikrContentViewerBloc
     ZikrContentViewerStartEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
+    if (pageController.hasClients) {
+      pageController.jumpToPage(0);
+    }
     emit(ZikrContentViewerLoadingState());
 
     final azkarToSet =
