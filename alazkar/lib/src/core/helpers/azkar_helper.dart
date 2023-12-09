@@ -15,7 +15,7 @@ class AzkarDBHelper {
   /* ************* Variables ************* */
 
   static const String dbName = "Al-Azkar.db";
-  static const int dbVersion = 3;
+  static const int dbVersion = 4;
 
   /* ************* Singleton Constructor ************* */
 
@@ -36,7 +36,7 @@ class AzkarDBHelper {
 
   /* ************* Database Creation ************* */
 
-  Future<Database> _initDatabase() async {
+  Future<String> getDbPath() async {
     late final String path;
     if (Platform.isWindows) {
       final dbPath = (await getApplicationSupportDirectory()).path;
@@ -45,6 +45,12 @@ class AzkarDBHelper {
       final dbPath = await getDatabasesPath();
       path = join(dbPath, dbName);
     }
+
+    return path;
+  }
+
+  Future<Database> _initDatabase() async {
+    final String path = await getDbPath();
     final exist = await databaseExists(path);
     appPrint("$exist: $path");
 
@@ -60,6 +66,7 @@ class AzkarDBHelper {
     await database.getVersion().then((currentVersion) async {
       if (currentVersion < dbVersion) {
         appPrint("[DB] New Version Detected");
+        appPrint("[DB] Start updating...");
         database.close();
 
         //delete the old database so you can copy the new one
@@ -94,6 +101,8 @@ class AzkarDBHelper {
   ) {}
 
   Future<void> _copyFromAssets({required String path}) async {
+    appPrint("[DB] Start copying...");
+
     try {
       final String dbAssetPath = join("assets", "db", dbName);
       if (Platform.isWindows) {
