@@ -83,10 +83,15 @@ class SearchCubit extends Cubit<SearchState> {
       result[titleMap[zikr.titleId]!]?.add(zikr);
     }
 
+    final sortedEntries = result.entries.toList()
+      ..sort((a, b) => a.key.order.compareTo(b.key.order));
+
+    final sortedMap = Map.fromEntries(sortedEntries);
+
     emit(
       SearchState(
         searchText: searchText,
-        result: result,
+        result: sortedMap,
       ),
     );
   }

@@ -129,7 +129,8 @@ class AzkarDBHelper {
   Future<List<ZikrTitle>> getAllTitles() async {
     final Database db = await database;
 
-    final List<Map<String, dynamic>> maps = await db.query('titles');
+    final List<Map<String, dynamic>> maps =
+        await db.rawQuery('SELECT * FROM titles ORDER BY `order` ASC');
 
     return List.generate(maps.length, (i) {
       return ZikrTitle.fromMap(maps[i]);
@@ -139,8 +140,10 @@ class AzkarDBHelper {
   Future<List<ZikrTitle>> getTitlesByName(String name) async {
     final Database db = await database;
 
-    final List<Map<String, dynamic>> maps = await db
-        .rawQuery('SELECT * FROM titles WHERE name LIKE ?', ['%$name%']);
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+      'SELECT * FROM titles WHERE name LIKE ? ORDER BY `order` ASC',
+      ['%$name%'],
+    );
 
     return List.generate(maps.length, (i) {
       return ZikrTitle.fromMap(maps[i]);
@@ -150,8 +153,10 @@ class AzkarDBHelper {
   Future<List<Zikr>> getContentsByName(String name) async {
     final Database db = await database;
 
-    final List<Map<String, dynamic>> maps = await db
-        .rawQuery('SELECT * FROM contents WHERE search LIKE ?', ['%$name%']);
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+      'SELECT * FROM contents WHERE search LIKE ? ORDER BY `order` ASC',
+      ['%$name%'],
+    );
 
     return List.generate(maps.length, (i) {
       return Zikr.fromMap(maps[i]);
@@ -161,8 +166,10 @@ class AzkarDBHelper {
   Future<List<Zikr>> getContentByTitleId(int id) async {
     final Database db = await database;
 
-    final List<Map<String, dynamic>> maps =
-        await db.rawQuery('SELECT * FROM contents WHERE titleId = ?', [id]);
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+      'SELECT * FROM contents WHERE titleId = ? ORDER BY `order` ASC',
+      [id],
+    );
 
     return List.generate(maps.length, (i) {
       return Zikr.fromMap(maps[i]);
@@ -172,8 +179,10 @@ class AzkarDBHelper {
   Future<Zikr> getContentById(int id) async {
     final Database db = await database;
 
-    final List<Map<String, dynamic>> maps =
-        await db.rawQuery('SELECT * FROM contents WHERE id = ?', [id]);
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+      'SELECT * FROM contents WHERE id = ? ORDER BY `order` ASC',
+      [id],
+    );
 
     return List.generate(maps.length, (i) {
       return Zikr.fromMap(maps[i]);
