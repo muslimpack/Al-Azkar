@@ -12,6 +12,7 @@ class ZikrItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAyah = zikr.body.contains("﴿");
     return InkWell(
       onTap: () {
         context
@@ -48,8 +49,8 @@ class ZikrItemCard extends StatelessWidget {
               Text(
                 zikr.body,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: "Kitab",
+                style: TextStyle(
+                  fontFamily: isAyah ? "Uthmanic2" : "Kitab",
                   fontSize: 30,
                   height: 2,
                 ),
