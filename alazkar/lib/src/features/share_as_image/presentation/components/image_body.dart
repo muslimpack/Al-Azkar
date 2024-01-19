@@ -54,7 +54,7 @@ class ShareAsImageBody extends StatelessWidget {
                   child: ImageBuilder(
                     key: imageKey,
                     width: state.width,
-                    content: (snapshot.data)!,
+                    content: snapshot.data!,
                     backgroundColor: state.backgroundColor,
                     textColor: state.textColor,
                     fontSize: state.fontSize,
