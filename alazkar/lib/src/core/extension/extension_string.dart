@@ -48,27 +48,33 @@ extension StringExtension on String {
 
     final List<String> words = split(' ');
 
-    int wordIndex = -1;
+    int wordStartIndex = -1;
+    int wordEndIndex = -1;
     int count = 0;
+    int countStart = 0;
     for (int i = 0; i < words.length; i++) {
       final e = words[i];
       count += e.length;
-      if (count >= selectedWordIndex) {
-        wordIndex = i;
+      if (wordStartIndex == -1 && count >= selectedWordIndex) {
+        wordStartIndex = i;
+        countStart = count;
+      }
+      if (wordStartIndex != -1 && count >= countStart + selectedWord.length) {
+        wordEndIndex = i;
         break;
       }
       count += 1;
     }
 
     // The selected word is not found, return the original text
-    if (wordIndex < 0) return this;
+    if (wordStartIndex < 0) return this;
 
     // Calculate the start and end indices for the truncated text
-    final int start = (wordIndex - maxWords ~/ 2).clamp(0, words.length - 1);
-    final int end = (wordIndex + maxWords ~/ 2).clamp(0, words.length - 1);
+    final int start = (wordStartIndex - maxWords).clamp(0, words.length - 1);
+    final int end = (wordEndIndex + maxWords).clamp(0, words.length - 1);
 
     // Truncate the text and add "..." from the trimmed side
-    final List<String> truncatedWords = words.sublist(start, end + 1);
+    final List<String> truncatedWords = words.sublist(start, end);
     if (start > 0) truncatedWords.insert(0, '...');
     if (end < words.length - 1) truncatedWords.add('...');
 
