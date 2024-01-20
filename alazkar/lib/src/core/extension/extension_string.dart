@@ -38,32 +38,30 @@ extension StringExtension on String {
     return truncatedText;
   }
 
-  String truncateTextAroundWordByWord(
-    String selectedWord,
-    int maxWords,
-  ) {
+  String truncateTextAroundWordByWord(String selectedWord, int maxWords) {
     final int selectedWordIndex = indexOf(selectedWord);
+
     // The selected word is not found, return the original text
     if (selectedWordIndex < 0) return this;
 
     final List<String> words = split(' ');
-
     int wordStartIndex = -1;
     int wordEndIndex = -1;
-    int count = 0;
-    int countStart = 0;
-    for (int i = 0; i < words.length; i++) {
-      final e = words[i];
-      count += e.length;
-      if (wordStartIndex == -1 && count >= selectedWordIndex) {
+
+    // Find the start and end indices for the selected word
+    for (int i = 0, count = 0; i < words.length; i++) {
+      final String word = words[i];
+      count += word.length + 1; // Add 1 for the space after each word
+
+      if (wordStartIndex == -1 && count > selectedWordIndex) {
         wordStartIndex = i;
-        countStart = count;
       }
-      if (wordStartIndex != -1 && count >= countStart + selectedWord.length) {
+
+      if (wordStartIndex != -1 &&
+          count >= selectedWordIndex + selectedWord.length) {
         wordEndIndex = i;
         break;
       }
-      count += 1;
     }
 
     // The selected word is not found, return the original text
@@ -74,7 +72,8 @@ extension StringExtension on String {
     final int end = (wordEndIndex + maxWords).clamp(0, words.length - 1);
 
     // Truncate the text and add "..." from the trimmed side
-    final List<String> truncatedWords = words.sublist(start, end);
+    final List<String> truncatedWords =
+        words.sublist(start, end + 1); // Include the end index
     if (start > 0) truncatedWords.insert(0, '...');
     if (end < words.length - 1) truncatedWords.add('...');
 
