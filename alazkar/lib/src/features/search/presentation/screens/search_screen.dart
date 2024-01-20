@@ -29,6 +29,7 @@ class SearchScreen extends StatelessWidget {
                     return SearchCard(
                       title: e.key,
                       zikr: e.value,
+                      searchText: state.searchText,
                     );
                   },
                 ).toList(),
