@@ -44,11 +44,7 @@ class ImageBuilder extends StatelessWidget {
             if (!showAppInfo)
               const SizedBox()
             else ...[
-              Divider(
-                thickness: 5,
-                height: 40,
-                color: Colors.brown.shade900,
-              ),
+              const SizedBox(height: 50),
               _footer(),
             ],
           ],
@@ -58,10 +54,16 @@ class ImageBuilder extends StatelessWidget {
   }
 
   Widget _footer() {
-    return Column(
+    return Row(
       children: [
+        Expanded(
+          child: Divider(
+            thickness: 5,
+            color: Colors.brown.shade900,
+          ),
+        ),
         Padding(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -70,7 +72,7 @@ class ImageBuilder extends StatelessWidget {
                 width: fontSize * 2,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   "بواسطة تطبيق الأذكار النووية",
                   style: TextStyle(
@@ -81,6 +83,12 @@ class ImageBuilder extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+        Expanded(
+          child: Divider(
+            thickness: 5,
+            color: Colors.brown.shade900,
           ),
         ),
       ],
