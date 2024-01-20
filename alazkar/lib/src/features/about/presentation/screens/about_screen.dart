@@ -49,6 +49,7 @@ class AboutScreen extends StatelessWidget {
           const ListTile(
             leading: Icon(Icons.source_outlined),
             title: Text("المصدر"),
+            isThreeLine: true,
             subtitle: Text("""
 الكتاب: حلية الأبرار وشعار الأخيار في تلخيص الدعوات والأذكار المستحبة في الليل والنهار
 المعروف بـ: الأذكار النواوية
