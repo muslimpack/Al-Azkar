@@ -1,0 +1,5 @@
+- Search Titles
+- Add titles to favorites
+- Count with app volume keys
+- Share zikr as image or as text
+- Control app theme

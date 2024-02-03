@@ -1,0 +1,44 @@
+Categories:
+  - Book
+License: GPL-3.0 license
+AuthorName: Hassan Eltantawy
+AuthorEmail: hasaneltantawy@gmail.com
+AuthorWebSite: https://github.com/7eltantawy
+SourceCode: https://github.com/muslimpack/Al-Azkar
+IssueTracker: https://github.com/muslimpack/Al-Azkar/issues
+Changelog: https://github.com/muslimpack/Al-Azkar/releases
+
+AutoName: الأذكار النووية
+
+RepoType: git
+Repo: https://github.com/muslimpack/Al-Azkar.git
+
+Builds:
+  - versionName: 0.5.0
+    versionCode: 6
+    commit: 686216fc8b878f094821a007f279af24db135ba6
+    subdir: alazkar
+    output: build/app/outputs/flutter-apk/app-release.apk
+    srclibs:
+      - flutter@3.10.0
+    rm:
+      - alazkar/ios
+      - alazkar/web
+      - alazkar/windows
+      - alazkar/linux
+      - alazkar/macos
+    prebuild:
+      - export PUB_CACHE=$(pwd)/.pub-cache
+      - $$flutter$$/bin/flutter config --no-analytics
+      - $$flutter$$/bin/flutter pub get
+    scandelete:
+      - alazkar/.pub-cache
+    build:
+      - export PUB_CACHE=$(pwd)/.pub-cache
+      - $$flutter$$/bin/flutter build apk --release
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+UpdateCheckData: alazkar/pubspec.yaml|version:\s.+\+(\d+)|.|version:\s(.+)\+
+CurrentVersion: 0.5.0
+CurrentVersionCode: 6
