@@ -11,6 +11,20 @@ class ZikrFilterStorage {
         .toList();
   }
 
+  static const String _filterPrefixNameKey = "ZikrFilterStorage";
+
+  static const String _enableFiltersKey =
+      "${_filterPrefixNameKey}enableFilters";
+
+  static bool getEnableFiltersStatus() {
+    final bool? data = box.read(_enableFiltersKey);
+    return data ?? false;
+  }
+
+  static Future setEnableFiltersStatus(bool activateFilters) async {
+    return box.write(_enableFiltersKey, activateFilters);
+  }
+
   static bool getFilterStatus(ZikrFilter zikrFilter) {
     final bool? data = box.read(_getZikrFilterKey(zikrFilter));
     return data ?? true;
@@ -21,6 +35,6 @@ class ZikrFilterStorage {
   }
 
   static String _getZikrFilterKey(ZikrFilter filter) {
-    return "filterPrefixName${filter.name}";
+    return "$_filterPrefixNameKey${filter.name}";
   }
 }

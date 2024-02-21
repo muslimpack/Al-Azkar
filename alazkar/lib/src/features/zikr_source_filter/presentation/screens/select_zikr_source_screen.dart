@@ -23,15 +23,28 @@ class _ZikrSourceFilterScreenState extends State<ZikrSourceFilterScreen> {
             centerTitle: true,
           ),
           body: ListView(
-            children: state.filters.map((filter) {
-              return SwitchListTile(
-                value: filter.isActivated,
-                title: Text(filter.filter.arabicName),
+            padding: const EdgeInsets.all(15),
+            children: [
+              SwitchListTile(
+                value: state.enableFilters,
+                title: const Text("تفعيل تصفية الأذكار"),
                 onChanged: (value) {
-                  zikrSourceFilterCubit.toggleFilter(filter);
+                  zikrSourceFilterCubit.toggleEnableFilters(value);
                 },
-              );
-            }).toList(),
+              ),
+              const Divider(),
+              ...state.filters.map((filter) {
+                return SwitchListTile(
+                  value: filter.isActivated,
+                  title: Text(filter.filter.arabicName),
+                  onChanged: !state.enableFilters
+                      ? null
+                      : (value) {
+                          zikrSourceFilterCubit.toggleFilter(filter);
+                        },
+                );
+              }),
+            ],
           ),
         );
       },

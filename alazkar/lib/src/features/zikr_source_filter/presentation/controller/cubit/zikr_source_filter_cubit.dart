@@ -1,5 +1,4 @@
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
-import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_enum.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -11,20 +10,25 @@ class ZikrSourceFilterCubit extends Cubit<ZikrSourceFilterState> {
       : super(
           const ZikrSourceFilterState(
             filters: [],
+            enableFilters: false,
           ),
         );
 
   void start() {
-    final List<Filter> filters = ZikrFilter.values
-        .map(
-          (e) => Filter(
-            filter: e,
-            isActivated: ZikrFilterStorage.getFilterStatus(e),
-          ),
-        )
-        .toList();
+    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
 
-    emit(ZikrSourceFilterState(filters: filters));
+    emit(
+      ZikrSourceFilterState(
+        filters: filters,
+        enableFilters: ZikrFilterStorage.getEnableFiltersStatus(),
+      ),
+    );
+  }
+
+  Future toggleEnableFilters(bool enableFilters) async {
+    ZikrFilterStorage.setEnableFiltersStatus(enableFilters);
+
+    emit(state.copyWith(enableFilters: enableFilters));
   }
 
   Future toggleFilter(Filter filter) async {
