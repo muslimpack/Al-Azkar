@@ -13,6 +13,33 @@ enum ZikrFilter {
 }
 
 extension ZikrFilterExt on ZikrFilter {
+  String get nameInDatabase {
+    switch (this) {
+      case ZikrFilter.quran:
+        return "سورة";
+      case ZikrFilter.sahihBukhari:
+        return "البخاري";
+      case ZikrFilter.sahihMuslim:
+        return "مسلم";
+      case ZikrFilter.abuDawood:
+        return "داود";
+      case ZikrFilter.atTirmidhi:
+        return "الترمذي";
+      case ZikrFilter.anNasai:
+        return "النسائي";
+      case ZikrFilter.ibnMajah:
+        return "ماجه";
+      case ZikrFilter.malik:
+        return "مالك";
+      case ZikrFilter.adDarami:
+        return "الدارمي";
+      case ZikrFilter.ahmad:
+        return "أحمد";
+      case ZikrFilter.ibnSunny:
+        return "السني";
+    }
+  }
+
   String get arabicName {
     switch (this) {
       case ZikrFilter.quran:
