@@ -67,66 +67,58 @@ class ShareAsImageBottomBar extends StatelessWidget {
                     },
                   ),
                 ),
-                Tooltip(
-                  message: "إعادة ضبط الخط",
-                  child: IconButton(
-                    icon: const Icon(Icons.restore),
-                    onPressed: () {
-                      context
-                          .read<ShareAsImageBloc>()
-                          .add(ShareAsImageResetFontSizeEvent());
-                    },
-                  ),
+                IconButton(
+                  tooltip: "إعادة ضبط الخط",
+                  icon: const Icon(Icons.restore),
+                  onPressed: () {
+                    context
+                        .read<ShareAsImageBloc>()
+                        .add(ShareAsImageResetFontSizeEvent());
+                  },
                 ),
-                Tooltip(
-                  message: "تكبير حجم الخط",
-                  child: IconButton(
-                    icon: Icon(MdiIcons.formatFontSizeIncrease),
-                    onPressed: () {
-                      context
-                          .read<ShareAsImageBloc>()
-                          .add(ShareAsImageIncreaseFontSizeEvent());
-                    },
-                  ),
+                IconButton(
+                  tooltip: "تكبير حجم الخط",
+                  icon: Icon(MdiIcons.formatFontSizeIncrease),
+                  onPressed: () {
+                    context
+                        .read<ShareAsImageBloc>()
+                        .add(ShareAsImageIncreaseFontSizeEvent());
+                  },
                 ),
-                Tooltip(
-                  message: "تصغير حجم الخط",
-                  child: IconButton(
-                    icon: Icon(MdiIcons.formatFontSizeDecrease),
-                    onPressed: () {
-                      context
-                          .read<ShareAsImageBloc>()
-                          .add(ShareAsImageDecreaseFontSizeEvent());
-                    },
-                  ),
+                IconButton(
+                  tooltip: "تصغير حجم الخط",
+                  icon: Icon(MdiIcons.formatFontSizeDecrease),
+                  onPressed: () {
+                    context
+                        .read<ShareAsImageBloc>()
+                        .add(ShareAsImageDecreaseFontSizeEvent());
+                  },
                 ),
-                Tooltip(
-                  message: "ضبط عرض الصورة",
-                  child: IconButton(
-                    onPressed: () async {
-                      await showDialog(
-                        barrierDismissible: true,
-                        context: context,
-                        builder: (_) {
-                          return ImageWidthDialog(
-                            initialValue:
-                                shareAsImageData.imageWidth.toInt().toString(),
-                            onSubmit: (width) async {
-                              final int tempWidth = int.tryParse(width) ??
-                                  shareAsImageData.imageWidth.toInt();
+                IconButton(
+                  tooltip: "ضبط عرض الصورة",
+                  onPressed: () async {
+                    await showDialog(
+                      barrierDismissible: true,
+                      context: context,
+                      builder: (_) {
+                        return ImageWidthDialog(
+                          initialValue:
+                              shareAsImageData.imageWidth.toInt().toString(),
+                          onSubmit: (width) async {
+                            final int tempWidth = int.tryParse(width) ??
+                                shareAsImageData.imageWidth.toInt();
 
-                              context.read<ShareAsImageBloc>().add(
-                                    ShareAsImageChangeWidthEvent(
-                                      width: tempWidth.toDouble(),
-                                    ),
-                                  );
-                            },
-                          );
-                        },
-                      );
-                    },
-                    icon: Icon(MdiIcons.resize),
-                  ),
+                            context.read<ShareAsImageBloc>().add(
+                                  ShareAsImageChangeWidthEvent(
+                                    width: tempWidth.toDouble(),
+                                  ),
+                                );
+                          },
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(MdiIcons.resize),
                 ),
               ],
             ),
