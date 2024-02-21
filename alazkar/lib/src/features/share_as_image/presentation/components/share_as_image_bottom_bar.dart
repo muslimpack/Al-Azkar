@@ -69,7 +69,7 @@ class ShareAsImageBottomBar extends StatelessWidget {
                 ),
                 IconButton(
                   tooltip: "إعادة ضبط الخط",
-                  icon: const Icon(Icons.restore),
+                  icon: Icon(MdiIcons.reload),
                   onPressed: () {
                     context
                         .read<ShareAsImageBloc>()
