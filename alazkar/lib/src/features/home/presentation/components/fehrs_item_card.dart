@@ -33,8 +33,9 @@ class FehrsItemCard extends StatelessWidget {
                     .read<HomeBloc>()
                     .add(HomeUnBookmarkTitleEvent(zikrTitle));
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.bookmark,
+                color: Theme.of(context).colorScheme.primary,
               ),
             )
           else
