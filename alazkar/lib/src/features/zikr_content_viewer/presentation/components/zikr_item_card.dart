@@ -37,7 +37,7 @@ class ZikrItemCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 200,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).dividerColor,
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 ),
               ),
             ),
