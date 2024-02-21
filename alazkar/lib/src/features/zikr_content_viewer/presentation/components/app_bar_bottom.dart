@@ -78,12 +78,13 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
               Icons.comment,
             ),
           ),
-        Card(
-          child: Text(
-            "${state.azkar.length} :: ${state.activeZikrIndex}",
-            style: const TextStyle(fontWeight: FontWeight.bold),
+        if (state.azkar.isNotEmpty)
+          Card(
+            child: Text(
+              "${state.azkar.length} :: ${state.activeZikrIndex + 1}",
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
       ],
     );
   }
