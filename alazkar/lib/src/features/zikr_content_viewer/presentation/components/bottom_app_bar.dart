@@ -27,40 +27,43 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
             icon: const Icon(Icons.keyboard_double_arrow_right_sharp),
           ),
           const Spacer(),
-          IconButton(
-            tooltip: "نسخ الذكر",
-            onPressed: () async {
-              context
-                  .read<ZikrContentViewerBloc>()
-                  .add(ZikrContentViewerCopyEvent());
-            },
-            icon: const Icon(Icons.copy),
-          ),
-          IconButton(
-            tooltip: "مشاركة الذكر",
-            onPressed: () async {
-              context
-                  .read<ZikrContentViewerBloc>()
-                  .add(ZikrContentViewerShareEvent());
-            },
-            icon: const Icon(Icons.share),
-          ),
-          IconButton(
-            tooltip: "مشاركة الذكر كصورة",
-            onPressed: () async {
-              azkarDBHelper.getContentById(state.activeZikr.id).then((zikr) {
-                Navigator.push(
-                  context,
-                  ShareAsImageScreen.route(
-                    zikr: zikr,
-                    zikrTitle: state.zikrTitle,
-                  ),
-                );
-              });
-            },
-            icon: const Icon(Icons.camera_alt_outlined),
-          ),
-          if (state.activeZikr.fadl.isNotEmpty)
+          if (state.activeZikr != null)
+            IconButton(
+              tooltip: "نسخ الذكر",
+              onPressed: () async {
+                context
+                    .read<ZikrContentViewerBloc>()
+                    .add(ZikrContentViewerCopyEvent());
+              },
+              icon: const Icon(Icons.copy),
+            ),
+          if (state.activeZikr != null)
+            IconButton(
+              tooltip: "مشاركة الذكر",
+              onPressed: () async {
+                context
+                    .read<ZikrContentViewerBloc>()
+                    .add(ZikrContentViewerShareEvent());
+              },
+              icon: const Icon(Icons.share),
+            ),
+          if (state.activeZikr != null)
+            IconButton(
+              tooltip: "مشاركة الذكر كصورة",
+              onPressed: () async {
+                azkarDBHelper.getContentById(state.activeZikr!.id).then((zikr) {
+                  Navigator.push(
+                    context,
+                    ShareAsImageScreen.route(
+                      zikr: zikr,
+                      zikrTitle: state.zikrTitle,
+                    ),
+                  );
+                });
+              },
+              icon: const Icon(Icons.camera_alt_outlined),
+            ),
+          if (state.activeZikr?.fadl.isNotEmpty ?? false)
             IconButton(
               tooltip: "فضل الذكر",
               onPressed: () async {
@@ -69,7 +72,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
                   builder: (context) {
                     return AlertDialog(
                       title: const Text("فضل الذكر"),
-                      content: Text(state.activeZikr.fadl),
+                      content: Text(state.activeZikr!.fadl),
                     );
                   },
                 );
@@ -78,7 +81,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
                 Icons.contact_support_outlined,
               ),
             ),
-          if (state.activeZikr.source.isNotEmpty)
+          if (state.azkar.isNotEmpty && state.activeZikr!.source.isNotEmpty)
             IconButton(
               tooltip: "مصدر الذكر",
               onPressed: () async {
@@ -87,7 +90,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
                   builder: (context) {
                     return AlertDialog(
                       title: const Text("مصدر الذكر"),
-                      content: Text(state.activeZikr.source),
+                      content: Text(state.activeZikr!.source),
                     );
                   },
                 );

@@ -134,7 +134,9 @@ class ZikrContentViewerBloc
     final state = this.state;
     if (state is! ZikrContentViewerLoadedState) return;
 
-    await Clipboard.setData(ClipboardData(text: state.activeZikr.body));
+    if (state.activeZikr == null) return;
+
+    await Clipboard.setData(ClipboardData(text: state.activeZikr!.body));
 
     showToast("تم نسخ الذكر");
   }
@@ -145,8 +147,8 @@ class ZikrContentViewerBloc
   ) async {
     final state = this.state;
     if (state is! ZikrContentViewerLoadedState) return;
-
-    Share.share(state.activeZikr.body);
+    if (state.activeZikr == null) return;
+    Share.share(state.activeZikr!.body);
   }
 
   Future _activateVolumeHandler(MethodCall call) async {
