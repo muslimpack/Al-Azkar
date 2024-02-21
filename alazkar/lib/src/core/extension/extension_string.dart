@@ -1,4 +1,13 @@
+import 'package:alazkar/src/core/constants/const.dart';
+
 extension StringExtension on String {
+  String get removeDiacritics {
+    return replaceAll(
+      RegExp(String.fromCharCodes(kArabicDiacriticsChar)),
+      "",
+    );
+  }
+
   String truncateText(int maxChars) {
     if (length <= maxChars) {
       return this;
