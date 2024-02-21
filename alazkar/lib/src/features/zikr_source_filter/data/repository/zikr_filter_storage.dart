@@ -5,7 +5,12 @@ import 'package:get_storage/get_storage.dart';
 class ZikrFilterStorage {
   static final box = GetStorage();
 
-  static const String filterPrefixName = "ZikrSourceFilter";
+  static List<Filter> getAllFilters() {
+    return ZikrFilter.values
+        .map((e) => Filter(filter: e, isActivated: getFilterStatus(e)))
+        .toList();
+  }
+
   static bool getFilterStatus(ZikrFilter zikrFilter) {
     final bool? data = box.read(_getZikrFilterKey(zikrFilter));
     return data ?? true;
