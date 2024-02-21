@@ -58,6 +58,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
           zikr: zikr,
           enableDiacritics: true,
           fontSize: fontSize * 1.5,
+          color: textColor,
         ),
         const SizedBox(height: 20),
         Text(
