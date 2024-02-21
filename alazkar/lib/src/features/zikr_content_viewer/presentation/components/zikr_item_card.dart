@@ -13,7 +13,6 @@ class ZikrItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAyah = zikr.body.contains("﴿");
     return InkWell(
       onTap: () {
         context
