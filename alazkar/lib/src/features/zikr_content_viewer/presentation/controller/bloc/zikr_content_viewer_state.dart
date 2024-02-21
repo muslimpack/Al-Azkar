@@ -32,7 +32,7 @@ final class ZikrContentViewerLoadedState extends ZikrContentViewerState {
   }
 
   double progress() {
-    if (azkar.isEmpty) return 0;
+    if (azkar.isEmpty) return 100;
     final length = azkar.length;
     final done = azkar.fold(
       0,
