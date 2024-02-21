@@ -63,16 +63,21 @@ class ZikrContentViewerBloc
     }
     emit(ZikrContentViewerLoadingState());
 
-    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    final List<Zikr> azkarToSet;
+    final azkarFromDB =
+        await azkarDBHelper.getContentByTitleId(event.zikrTitle.id);
 
-    final azkarToSet =
-        (await azkarDBHelper.getContentByTitleId(event.zikrTitle.id))
-            .fold(<Zikr>[], (previousValue, zikr) {
-      if (filters.validate(zikr.source)) {
-        return previousValue..add(zikr);
-      }
-      return previousValue;
-    });
+    if (ZikrFilterStorage.getEnableFiltersStatus()) {
+      final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+      azkarToSet = azkarFromDB.fold(<Zikr>[], (previousValue, zikr) {
+        if (filters.validate(zikr.source)) {
+          return previousValue..add(zikr);
+        }
+        return previousValue;
+      });
+    } else {
+      azkarToSet = azkarFromDB;
+    }
 
     emit(
       ZikrContentViewerLoadedState(
