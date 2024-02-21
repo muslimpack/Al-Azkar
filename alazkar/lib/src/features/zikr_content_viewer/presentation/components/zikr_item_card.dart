@@ -1,4 +1,5 @@
 import 'package:alazkar/src/core/models/zikr.dart';
+import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_content_builder.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class ZikrItemCard extends StatelessWidget {
               ZikrContentBuilder(
                 zikr: zikr,
                 enableDiacritics: true,
-                fontSize: 30,
+                fontSize: context.read<ThemeCubit>().state.fontSize,
               ),
               if (zikr.fadl.isNotEmpty) ...[
                 const SizedBox(height: 50),

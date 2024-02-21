@@ -32,11 +32,11 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   Future<void> increaseFontSize() async {
-    await _changeFontSize(state.fontSize + 5);
+    await _changeFontSize(state.fontSize + 2);
   }
 
   Future<void> decreaseFontSize() async {
-    await _changeFontSize(state.fontSize - 5);
+    await _changeFontSize(state.fontSize - 2);
   }
 
   Future<void> restoreFontSize() async {
@@ -44,7 +44,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   Future<void> _changeFontSize(double fontSize) async {
-    final double sizeToSet = fontSize.clamp(15, 60);
+    final double sizeToSet = fontSize.clamp(15, 45);
     await ThemeStorage.setFontSize(sizeToSet);
     emit(state.copyWith(fontSize: sizeToSet));
   }

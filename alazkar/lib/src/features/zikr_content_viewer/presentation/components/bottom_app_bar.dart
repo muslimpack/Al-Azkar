@@ -1,3 +1,4 @@
+import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,17 +40,23 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
           IconButton(
             tooltip: "إعادة ضبط الخط",
             icon: Icon(MdiIcons.reload),
-            onPressed: () {},
+            onPressed: () async {
+              await context.read<ThemeCubit>().restoreFontSize();
+            },
           ),
           IconButton(
             tooltip: "تكبير حجم الخط",
             icon: Icon(MdiIcons.formatFontSizeIncrease),
-            onPressed: () {},
+            onPressed: () async {
+              await context.read<ThemeCubit>().increaseFontSize();
+            },
           ),
           IconButton(
             tooltip: "تصغير حجم الخط",
             icon: Icon(MdiIcons.formatFontSizeDecrease),
-            onPressed: () {},
+            onPressed: () async {
+              await context.read<ThemeCubit>().decreaseFontSize();
+            },
           ),
           const Spacer(),
           IconButton(
