@@ -7,6 +7,8 @@ import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +63,16 @@ class ZikrContentViewerBloc
     }
     emit(ZikrContentViewerLoadingState());
 
+    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+
     final azkarToSet =
-        await azkarDBHelper.getContentByTitleId(event.zikrTitle.id);
+        (await azkarDBHelper.getContentByTitleId(event.zikrTitle.id))
+            .fold(<Zikr>[], (previousValue, zikr) {
+      if (filters.validate(zikr.source)) {
+        return previousValue..add(zikr);
+      }
+      return previousValue;
+    });
 
     emit(
       ZikrContentViewerLoadedState(
