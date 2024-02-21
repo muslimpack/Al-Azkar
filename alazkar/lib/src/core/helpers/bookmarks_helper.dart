@@ -81,18 +81,16 @@ class BookmarksDBHelper {
 
   /// default favourite titles
   Future addDefaultTitles(Database db) async {
-    final defaultTitlesId = [
-      2, //   أذكار الاستيقاظ
-      84, //   أذكار بعد السلام الصلاة
-      89, //  الصباح
-      94, //  المساء
-      99, //  النوم
-      191, //  السفر
-      254, //  دخول السوق
-    ];
-    for (final e in defaultTitlesId) {
-      await addTitleToFavourite(titleId: e, db_: db);
-    }
+    await db.execute('''
+    INSERT OR IGNORE INTO favourite_titles(titleId) VALUES
+    (2),     --  أذكار الاستيقاظ
+    (84),    --  أذكار بعد السلام الصلاة
+    (89),    --  الصباح
+    (94),    --  المساء
+    (99),    --  النوم
+    (191),   --  السفر
+    (254);   --  دخول السوق
+    ''');
   }
 
   /// On upgrade database version
@@ -130,9 +128,8 @@ class BookmarksDBHelper {
   /// Add title to favourite
   Future<void> addTitleToFavourite({
     required int titleId,
-    Database? db_,
   }) async {
-    final db = db_ ?? await database;
+    final db = await database;
     await db.rawInsert(
       'INSERT OR IGNORE INTO favourite_titles( titleId) VALUES(?)',
       [titleId],
