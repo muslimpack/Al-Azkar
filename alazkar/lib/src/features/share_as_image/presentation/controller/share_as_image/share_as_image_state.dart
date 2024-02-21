@@ -54,15 +54,10 @@ class ShareAsImageLoadedState extends ShareAsImageState {
           height: 40,
           color: Colors.brown.shade900,
         ),
-        Text(
-          zikr.body,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: fontSize * 1.5,
-            color: textColor,
-            fontFamily: "Kitab",
-            height: 2,
-          ),
+        ZikrContentBuilder(
+          zikr: zikr,
+          enableDiacritics: true,
+          fontSize: fontSize * 1.5,
         ),
         const SizedBox(height: 20),
         Text(
