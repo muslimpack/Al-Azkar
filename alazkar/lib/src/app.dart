@@ -2,6 +2,7 @@ import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc
 import 'package:alazkar/src/features/home/presentation/screens/home_page_screen.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
+import 'package:alazkar/src/features/zikr_source_filter/presentation/controller/cubit/zikr_source_filter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(create: (_) => ZikrSourceFilterCubit()..start()),
         BlocProvider(create: (_) => HomeBloc()),
         BlocProvider(
           create: (context) => SearchCubit(context.read<HomeBloc>()),
