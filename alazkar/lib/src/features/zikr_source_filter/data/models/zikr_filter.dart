@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_enum.dart';
 import 'package:equatable/equatable.dart';
 
@@ -28,7 +27,6 @@ class Filter extends Equatable {
 
 extension FilterListExt on List<Filter> {
   bool validate(String text) {
-    appPrint(text);
     bool isValid = false;
 
     for (final e in this) {
