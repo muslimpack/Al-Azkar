@@ -61,6 +61,7 @@ class ZikrContentPlainText extends StatelessWidget {
         fontSize: fontSize,
         height: 2,
         color: color,
+        fontFamily: "Kitab",
       ),
     );
   }
@@ -141,6 +142,7 @@ class ZikrContentTextWithQuran extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize,
               height: 2,
+              fontFamily: "Kitab",
               color: color ?? Theme.of(context).textTheme.bodyMedium?.color,
             ),
           ),
