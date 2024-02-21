@@ -1,6 +1,7 @@
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/app_bar_bottom.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/bottom_app_bar.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_item_card.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
@@ -86,9 +87,14 @@ class ZikrContentViewerScreen extends StatelessWidget {
                   ),
             centerTitle: true,
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(10),
-              child: LinearProgressIndicator(
-                value: state.progress(),
+              preferredSize: const Size.fromHeight(50),
+              child: Column(
+                children: [
+                  ZikrContentViewerAppBarBottom(state: state),
+                  LinearProgressIndicator(
+                    value: state.progress(),
+                  ),
+                ],
               ),
             ),
           ),
