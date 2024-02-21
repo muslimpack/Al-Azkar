@@ -12,6 +12,7 @@ class ThemeCubit extends Cubit<ThemeState> {
             brightness: ThemeStorage.getBrightness(),
             color: ThemeStorage.getColor(),
             useMaterial3: ThemeStorage.getUseMaterial3(),
+            fontSize: ThemeStorage.getFontSize(),
           ),
         );
 
@@ -28,5 +29,23 @@ class ThemeCubit extends Cubit<ThemeState> {
   Future<void> changeColor(Color color) async {
     await ThemeStorage.setColor(color);
     emit(state.copyWith(color: color));
+  }
+
+  Future<void> increaseFontSize() async {
+    await _changeFontSize(state.fontSize + 5);
+  }
+
+  Future<void> decreaseFontSize() async {
+    await _changeFontSize(state.fontSize - 5);
+  }
+
+  Future<void> restoreFontSize() async {
+    await _changeFontSize(30);
+  }
+
+  Future<void> _changeFontSize(double fontSize) async {
+    final double sizeToSet = fontSize.clamp(15, 60);
+    await ThemeStorage.setFontSize(sizeToSet);
+    emit(state.copyWith(fontSize: sizeToSet));
   }
 }
