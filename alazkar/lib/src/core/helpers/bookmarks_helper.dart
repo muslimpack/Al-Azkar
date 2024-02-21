@@ -55,7 +55,7 @@ class BookmarksDBHelper {
 
   /// On create database
   FutureOr<void> _onCreateDatabase(Database db, int version) async {
-    appPrint("Create data.db");
+    appPrint("Create Bookmarks.db");
 
     /// Create favourite_contents table
     await db.execute('''
