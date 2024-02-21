@@ -27,6 +27,12 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
             icon: const Icon(Icons.keyboard_double_arrow_right_sharp),
           ),
           const Spacer(),
+          Card(
+            child: Text(
+              "${state.azkar.length} :: ${state.activeZikrIndex}",
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           if (state.activeZikr != null)
             IconButton(
               tooltip: "نسخ الذكر",
