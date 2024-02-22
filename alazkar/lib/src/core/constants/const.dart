@@ -7,7 +7,8 @@ final String appVersion = [
   "0.1.0",
 ].first;
 
-const String kEstaaza = "أَعُوذُ بِاَللَّهِ مِنْ الشَّيْطَانِ الرَّجِيمِ";
+const String kEstaaza =
+    "أَعُوذُ بِاللَّهِ (السَّمِيعِ الْعَلِيمِ) مِنَ الشَّيْطَانِ الرَّجِيمِ (مِنْ هَمْزِهِ وَنَفْخِهِ وَنَفْثِهِ)";
 const String kArBasmallah = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
 const Iterable<int> kArabicDiacriticsChar = [
   1617,
