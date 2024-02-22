@@ -3,6 +3,7 @@ import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:flutter/material.dart';
 
 class ZikrContentBuilder extends StatelessWidget {
@@ -52,6 +53,7 @@ class ZikrContentPlainText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final containAyah = zikr.body.contains("﴿");
     return Text(
       enableDiacritics ? zikr.body : zikr.body.removeDiacritics,
       textAlign: TextAlign.center,
@@ -61,7 +63,7 @@ class ZikrContentPlainText extends StatelessWidget {
         fontSize: fontSize,
         height: 2,
         color: color,
-        fontFamily: "Kitab",
+        fontFamily: containAyah ? "Uthmanic2" : "Kitab",
       ),
     );
   }
@@ -80,7 +82,7 @@ class ZikrContentTextWithQuran extends StatelessWidget {
     this.color,
   });
 
-  List<InlineSpan> getTextSpan(List<String> verses) {
+  Future<List<InlineSpan>> getTextSpan() async {
     final List<String> lines = zikr.body.split("\n");
 
     lines.indexWhere((e) => e.contains("QuranText"));
@@ -91,36 +93,24 @@ class ZikrContentTextWithQuran extends StatelessWidget {
       final line = lines[lineIndex];
 
       if (line.contains("QuranText")) {
-        if (lineIndex != 0) spans.add(const TextSpan(text: "\n\n"));
-        for (var i = 0; i < verses.length; i++) {
-          final List<String> verse = [];
-
-          if (i == 0) verse.addAll([kEstaaza, "\n\n"]);
-
-          verse.add(kArBasmallah);
-
-          verse.add(" ﴿ ${verses[i].trim()} ﴾");
-
-          if (i != verses.length - 1) verse.add("\n\n");
-
-          spans.add(
-            TextSpan(
-              text: enableDiacritics
-                  ? verse.join()
-                  : verse.join().removeDiacritics,
-              style: const TextStyle(
-                fontFamily: "Uthmanic2",
-              ),
-            ),
-          );
-        }
-        if (lineIndex != lines.length - 1) {
-          spans.add(const TextSpan(text: "\n\n"));
-        }
+        appPrint(line);
+        spans.addAll(
+          _getTextSpanForSingleItem(
+            await zikr.getQuranVersesTextFormSingleRange(line),
+            lines.length,
+            lineIndex,
+          ),
+        );
       } else {
+        final containAyah = zikr.body.contains("﴿");
         spans.add(
           TextSpan(
             text: enableDiacritics ? line : line.removeDiacritics,
+            style: containAyah
+                ? TextStyle(
+                    fontFamily: containAyah ? "Uthmanic2" : "Kitab",
+                  )
+                : null,
           ),
         );
       }
@@ -128,17 +118,51 @@ class ZikrContentTextWithQuran extends StatelessWidget {
     return spans;
   }
 
+  List<InlineSpan> _getTextSpanForSingleItem(
+    List<String> verses,
+    int linesLength,
+    int lineIndex,
+  ) {
+    final List<InlineSpan> spans = [];
+    if (lineIndex != 0) spans.add(const TextSpan(text: "\n\n"));
+    for (var i = 0; i < verses.length; i++) {
+      final List<String> verse = [];
+
+      if (i == 0) verse.addAll([kEstaaza, "\n\n"]);
+
+      verse.add(kArBasmallah);
+
+      verse.add(" ﴿ ${verses[i].trim()} ﴾");
+
+      if (i != verses.length - 1) verse.add("\n\n");
+
+      spans.add(
+        TextSpan(
+          text: enableDiacritics ? verse.join() : verse.join().removeDiacritics,
+          style: const TextStyle(
+            fontFamily: "Uthmanic2",
+          ),
+        ),
+      );
+    }
+    if (lineIndex != linesLength - 1) {
+      spans.add(const TextSpan(text: "\n\n"));
+    }
+
+    return spans;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: zikr.getQuranVersesText(),
+      future: getTextSpan(),
       builder: (context, snap) {
         if (!snap.hasData) return const LinearProgressIndicator();
 
         return RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
-            children: getTextSpan(snap.data ?? []),
+            children: snap.data ?? [],
             style: TextStyle(
               fontSize: fontSize,
               height: 2,

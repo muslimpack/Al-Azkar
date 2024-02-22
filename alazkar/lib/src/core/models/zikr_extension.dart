@@ -7,11 +7,9 @@ import 'package:alazkar/src/features/quran/data/models/verse_range.dart';
 import 'package:alazkar/src/features/quran/data/repository/uthmani_repository.dart';
 
 extension ZikrExt on Zikr {
-  Future<List<String>> getQuranVersesText() async {
-    if (!body.contains("QuranText")) return [];
-
-    final List<String> textList = body.split("\n");
-    final rangeText = textList.where((e) => e.contains("QuranText")).first;
+  Future<List<String>> getQuranVersesTextFormSingleRange(
+    String rangeText,
+  ) async {
     final List<VerseRange> ranges = RangeTextFormatter.parse(rangeText);
 
     final List<String> verses = [];
@@ -27,7 +25,7 @@ extension ZikrExt on Zikr {
     return verses;
   }
 
-  List<String> convertVersesToText(List<String> verses) {
+  Future<List<String>> convertVersesToText() async {
     final List<String> lines = body.split("\n");
 
     lines.indexWhere((e) => e.contains("QuranText"));
@@ -38,25 +36,13 @@ extension ZikrExt on Zikr {
       final line = lines[lineIndex];
 
       if (line.contains("QuranText")) {
-        if (lineIndex != 0) spans.add("\n\n");
-        for (var i = 0; i < verses.length; i++) {
-          final List<String> verse = [];
-
-          if (i == 0) verse.addAll([kEstaaza, "\n\n"]);
-
-          verse.add(kArBasmallah);
-
-          verse.add(" ﴿ ${verses[i].trim()} ﴾");
-
-          if (i != verses.length - 1) verse.add("\n\n");
-
-          spans.add(
-            verse.join(),
-          );
-        }
-        if (lineIndex != lines.length - 1) {
-          spans.add("\n\n");
-        }
+        spans.addAll(
+          _convertVersesToTextForSingleItem(
+            await getQuranVersesTextFormSingleRange(line),
+            lines.length,
+            lineIndex,
+          ),
+        );
       } else {
         spans.add(
           line,
@@ -66,10 +52,38 @@ extension ZikrExt on Zikr {
     return spans;
   }
 
+  List<String> _convertVersesToTextForSingleItem(
+    List<String> verses,
+    int linesLength,
+    int lineIndex,
+  ) {
+    final List<String> spans = [];
+    if (lineIndex != 0) spans.add("\n\n");
+    for (var i = 0; i < verses.length; i++) {
+      final List<String> verse = [];
+
+      if (i == 0) verse.addAll([kEstaaza, "\n\n"]);
+
+      verse.add(kArBasmallah);
+
+      verse.add(" ﴿ ${verses[i].trim()} ﴾");
+
+      if (i != verses.length - 1) verse.add("\n\n");
+
+      spans.add(
+        verse.join(),
+      );
+    }
+    if (lineIndex != linesLength - 1) {
+      spans.add("\n\n");
+    }
+
+    return spans;
+  }
+
   Future<String> getPlainText() async {
     if (body.contains("QuranText")) {
-      final verses = await getQuranVersesText();
-      final text = convertVersesToText(verses);
+      final text = await convertVersesToText();
       return text.join();
     } else {
       return body;
