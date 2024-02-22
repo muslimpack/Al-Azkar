@@ -66,7 +66,7 @@ extension ZikrExt on Zikr {
     return spans;
   }
 
-  FutureOr<String> getPlainText() async {
+  Future<String> getPlainText() async {
     if (body.contains("QuranText")) {
       final verses = await getQuranVersesText();
       final text = convertVersesToText(verses);

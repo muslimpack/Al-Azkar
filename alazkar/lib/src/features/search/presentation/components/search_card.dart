@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
+import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/features/home/presentation/components/fehrs_item_card.dart';
 import 'package:flutter/material.dart';
@@ -30,15 +31,23 @@ class SearchCard extends StatelessWidget {
             ...zikr.map((e) {
               final isAyah = e.body.contains("﴿");
               return Card(
-                child: ListTile(
-                  title: Text(
-                    e.search.truncateTextAroundWordByWord(searchText, 7),
-                    style: TextStyle(
-                      fontFamily: isAyah ? "Uthmanic2" : "Kitab",
-                      fontSize: 20,
-                      height: 2,
-                    ),
-                  ),
+                child: FutureBuilder(
+                  future: e.getPlainText(),
+                  builder: (context, snap) {
+                    if (!snap.hasData) return const LinearProgressIndicator();
+                    return ListTile(
+                      title: Text(
+                        (snap.data ?? "")
+                            .removeDiacritics
+                            .truncateTextAroundWordByWord(searchText, 7),
+                        style: TextStyle(
+                          fontFamily: isAyah ? "Uthmanic2" : "Kitab",
+                          fontSize: 20,
+                          height: 2,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               );
             }),
