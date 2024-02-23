@@ -32,7 +32,7 @@ class SearchCard extends StatelessWidget {
               final isAyah = e.body.contains("﴿");
               return Card(
                 child: FutureBuilder(
-                  future: e.getPlainText(),
+                  future: e.toPlainText(),
                   builder: (context, snap) {
                     if (!snap.hasData) return const LinearProgressIndicator();
                     return ListTile(

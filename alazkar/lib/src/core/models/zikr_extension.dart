@@ -1,12 +1,31 @@
 import 'dart:async';
 
 import 'package:alazkar/src/core/constants/const.dart';
+import 'package:alazkar/src/core/extension/extension_rich_text.dart';
+import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/range_text_formatter.dart';
 import 'package:alazkar/src/features/quran/data/models/verse_range.dart';
 import 'package:alazkar/src/features/quran/data/repository/uthmani_repository.dart';
+import 'package:flutter/material.dart';
 
 extension ZikrExt on Zikr {
+  Future<String> toPlainText({bool enableDiacritics = true}) async {
+    if (body.contains("QuranText")) {
+      final spans = await getTextSpan(enableDiacritics: enableDiacritics);
+      final RichText richText = RichText(
+        text: TextSpan(
+          children: spans,
+        ),
+      );
+
+      return richText.toPlainText();
+    } else {
+      return body;
+    }
+  }
+
   Future<List<String>> getQuranVersesTextFormSingleRange(
     String rangeText,
   ) async {
@@ -25,40 +44,51 @@ extension ZikrExt on Zikr {
     return verses;
   }
 
-  Future<List<String>> convertVersesToText() async {
+  Future<List<InlineSpan>> getTextSpan({bool enableDiacritics = true}) async {
     final List<String> lines = body.split("\n");
 
     lines.indexWhere((e) => e.contains("QuranText"));
 
-    final List<String> spans = [];
+    final List<InlineSpan> spans = [];
 
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
       final line = lines[lineIndex];
 
       if (line.contains("QuranText")) {
+        appPrint(line);
         spans.addAll(
-          _convertVersesToTextForSingleItem(
+          _getTextSpanForSingleItem(
             await getQuranVersesTextFormSingleRange(line),
             lines.length,
             lineIndex,
+            enableDiacritics,
           ),
         );
       } else {
+        final containAyah = body.contains("﴿");
         spans.add(
-          line,
+          TextSpan(
+            text: enableDiacritics ? line : line.removeDiacritics,
+            style: containAyah
+                ? TextStyle(
+                    fontFamily: containAyah ? "Uthmanic2" : "Kitab",
+                  )
+                : null,
+          ),
         );
       }
     }
     return spans;
   }
 
-  List<String> _convertVersesToTextForSingleItem(
+  List<InlineSpan> _getTextSpanForSingleItem(
     List<String> verses,
     int linesLength,
     int lineIndex,
+    bool enableDiacritics,
   ) {
-    final List<String> spans = [];
-    if (lineIndex != 0) spans.add("\n\n");
+    final List<InlineSpan> spans = [];
+    if (lineIndex != 0) spans.add(const TextSpan(text: "\n\n"));
     for (var i = 0; i < verses.length; i++) {
       final List<String> verse = [];
 
@@ -71,22 +101,18 @@ extension ZikrExt on Zikr {
       if (i != verses.length - 1) verse.add("\n\n");
 
       spans.add(
-        verse.join(),
+        TextSpan(
+          text: enableDiacritics ? verse.join() : verse.join().removeDiacritics,
+          style: const TextStyle(
+            fontFamily: "Uthmanic2",
+          ),
+        ),
       );
     }
     if (lineIndex != linesLength - 1) {
-      spans.add("\n\n");
+      spans.add(const TextSpan(text: "\n\n"));
     }
 
     return spans;
-  }
-
-  Future<String> getPlainText() async {
-    if (body.contains("QuranText")) {
-      final text = await convertVersesToText();
-      return text.join();
-    } else {
-      return body;
-    }
   }
 }
