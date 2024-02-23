@@ -1,6 +1,6 @@
-import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
+import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/custom_text_formater.dart';
 import 'package:flutter/material.dart';
 
 class ZikrContentBuilder extends StatelessWidget {
@@ -50,18 +50,11 @@ class ZikrContentPlainText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final containAyah = zikr.body.contains("﴿");
-    return Text(
-      enableDiacritics ? zikr.body : zikr.body.removeDiacritics,
-      textAlign: TextAlign.center,
-      softWrap: true,
-      textDirection: TextDirection.rtl,
-      style: TextStyle(
-        fontSize: fontSize,
-        height: 2,
-        color: color,
-        fontFamily: containAyah ? "Uthmanic2" : "Kitab",
-      ),
+    return StringFormatter(
+      text: zikr.body,
+      fontSize: fontSize,
+      color: color,
+      enableDiacritics: enableDiacritics,
     );
   }
 }
