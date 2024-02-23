@@ -1,6 +1,6 @@
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
-import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/custom_text_formater.dart';
+import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/custom_text_formatter.dart';
 import 'package:flutter/material.dart';
 
 class ZikrContentBuilder extends StatelessWidget {
