@@ -33,7 +33,7 @@ class AppBlocObserver extends BlocObserver {
     super.onChange(bloc, change);
     if (bloc is Cubit) {
       printColor(
-        '[Cubit] currentState: ${change.currentState.runtimeType} | nextState: ${change.nextState.runtimeType}',
+        '[Cubit] currentState: ${change.currentState} | nextState: ${change.nextState}',
         color: PrintColors.red,
       );
     }
@@ -43,7 +43,7 @@ class AppBlocObserver extends BlocObserver {
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
     printColor(
-      '[Bloc] event: ${transition.event.runtimeType} | currentState: ${transition.currentState.runtimeType} | nextState: ${transition.nextState.runtimeType}',
+      '[Bloc] event: ${transition.event} | currentState: ${transition.currentState} | nextState: ${transition.nextState}',
       color: PrintColors.magenta,
     );
   }
