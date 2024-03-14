@@ -41,6 +41,7 @@ class DBHelper {
         final List<int> bytes = data.buffer.asUint8List();
         await File(path).writeAsBytes(bytes, flush: true);
       }
+      appPrint("$dbName copy done");
     } catch (e) {
       appPrint("$dbName copy failed: $e");
     }
