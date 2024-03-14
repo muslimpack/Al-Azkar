@@ -30,6 +30,8 @@ class DBHelper {
   }
 
   Future<void> copyFromAssets(String path, String dbAssetPath) async {
+    appPrint("$dbName copying new db...");
+
     try {
       if (Platform.isWindows) {
         File(dbAssetPath).copy(path);
@@ -40,11 +42,12 @@ class DBHelper {
         await File(path).writeAsBytes(bytes, flush: true);
       }
     } catch (e) {
-      appPrint(e);
+      appPrint("$dbName copy failed: $e");
     }
   }
 
   Future<Database> initDatabase() async {
+    appPrint("$dbName init db");
     final String path = await getDbPath();
     final bool exist = await databaseExists(path);
 
@@ -56,6 +59,7 @@ class DBHelper {
 
     await database.getVersion().then((currentVersion) async {
       if (currentVersion < dbVersion) {
+        appPrint("$dbName detect new version");
         database.close();
         await deleteDatabase(path);
         await copyFromAssets(path, 'assets/db/$dbName');
