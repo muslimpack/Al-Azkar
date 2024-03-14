@@ -6,6 +6,7 @@ import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/quran/data/models/verse_model.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 UthmaniRepository uthmaniRepository = UthmaniRepository();
@@ -36,11 +37,23 @@ class UthmaniRepository {
   }
 
   ///|*| ************* Database Creation ************* *|
+  Future<String> getDbPath() async {
+    late final String path;
+
+    if (Platform.isWindows) {
+      final dbPath = (await getApplicationSupportDirectory()).path;
+      path = join(dbPath, dbName);
+    } else {
+      final dbPath = await getDatabasesPath();
+      path = join(dbPath, dbName);
+    }
+
+    return path;
+  }
 
   /// init
   Future<Database> _initDatabase() async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, dbName);
+    final path = await getDbPath();
 
     final exist = await databaseExists(path);
 
@@ -68,48 +81,32 @@ class UthmaniRepository {
     return database = await openDatabase(
       path,
       version: dbVersion,
-      onCreate: _onCreateDatabase,
-      onUpgrade: _onUpgradeDatabase,
-      onDowngrade: _onDowngradeDatabase,
     );
-  }
-
-  /// On create database
-  FutureOr<void> _onCreateDatabase(Database db, int version) async {
-    /// Create bookmark table
-  }
-
-  /// On upgrade database version
-  FutureOr<void> _onUpgradeDatabase(
-    Database db,
-    int oldVersion,
-    int newVersion,
-  ) {
-    //
-  }
-
-  /// On downgrade database version
-  FutureOr<void> _onDowngradeDatabase(
-    Database db,
-    int oldVersion,
-    int newVersion,
-  ) {
-    //
   }
 
   /// Copy database from assets to Database Directory of app
   FutureOr<void> _copyFromAssets({required String path}) async {
-    //
+    appPrint("[DB] Start copying...");
+
     try {
-      await Directory(dirname(path)).create(recursive: true);
+      final String dbAssetPath = join("assets", "db", dbName);
+      if (Platform.isWindows) {
+        appPrint("Azkar Try copy for windows");
+        try {
+          await File(dbAssetPath).copy(path);
+        } catch (e) {
+          appPrint(e);
+        }
+      } else {
+        Directory(dirname(path)).createSync(recursive: true);
 
-      final ByteData data = await rootBundle.load(join("assets", "db", dbName));
-      final List<int> bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+        final ByteData data = await rootBundle.load(dbAssetPath);
+        final List<int> bytes = data.buffer.asUint8List();
 
-      await File(path).writeAsBytes(bytes, flush: true);
+        await File(path).writeAsBytes(bytes, flush: true);
+      }
     } catch (e) {
-      appPrint(e.toString());
+      appPrint(e);
     }
   }
 
