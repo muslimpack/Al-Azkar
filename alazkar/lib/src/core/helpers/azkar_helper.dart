@@ -38,6 +38,7 @@ class AzkarDBHelper {
 
   Future<String> getDbPath() async {
     late final String path;
+
     if (Platform.isWindows) {
       final dbPath = (await getApplicationSupportDirectory()).path;
       path = join(dbPath, dbName);
@@ -116,10 +117,9 @@ class AzkarDBHelper {
         Directory(dirname(path)).createSync(recursive: true);
 
         final ByteData data = await rootBundle.load(dbAssetPath);
-        final List<int> bytes =
-            data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+        final List<int> bytes = data.buffer.asUint8List();
 
-        File(path).writeAsBytesSync(bytes, flush: true);
+        await File(path).writeAsBytes(bytes, flush: true);
       }
     } catch (e) {
       appPrint(e);
