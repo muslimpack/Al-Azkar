@@ -25,17 +25,20 @@ dependencies:
   material_design_icons_flutter: ^7.0.7296
   path: ^1.8.3
   path_provider: ^2.1.0
-  share_plus: ^7.1.0
+  share_plus: ^9.0.0
   sqflite: ^2.3.0
   sqflite_common_ffi: ^2.3.0+2
   url_launcher: ^6.1.12
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
   lint: ^2.1.2
+
+dependency_overrides:
+  fading_edge_scrollview: ^4.1.1
 
 flutter:
   uses-material-design: true
