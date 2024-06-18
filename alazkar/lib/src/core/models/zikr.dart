@@ -10,6 +10,7 @@ class Zikr extends Equatable {
   final String body;
   final String source;
   final String fadl;
+  final String hokm;
   final int count;
   final String search;
   const Zikr({
@@ -19,6 +20,7 @@ class Zikr extends Equatable {
     required this.body,
     required this.source,
     required this.fadl,
+    required this.hokm,
     required this.count,
     required this.search,
   });
@@ -31,6 +33,7 @@ class Zikr extends Equatable {
       'body': body,
       'source': source,
       'fadl': fadl,
+      'hokm': hokm,
       'count': count,
       'search': search,
     };
@@ -42,10 +45,11 @@ class Zikr extends Equatable {
       titleId: map['titleId'] as int,
       order: map['order'] as int,
       body: map['body'] as String,
-      count: map['count'] as int,
       search: (map['search'] as String?) ?? "",
       source: (map['source'] as String?) ?? "",
       fadl: (map['fadl'] as String?) ?? "",
+      hokm: map['hokm'] as String,
+      count: map['count'] as int,
     );
   }
 
@@ -61,6 +65,7 @@ class Zikr extends Equatable {
     String? body,
     String? source,
     String? fadl,
+    String? hokm,
     int? count,
     String? search,
   }) {
@@ -71,22 +76,13 @@ class Zikr extends Equatable {
       body: body ?? this.body,
       source: source ?? this.source,
       fadl: fadl ?? this.fadl,
+      hokm: hokm ?? this.hokm,
       count: count ?? this.count,
       search: search ?? this.search,
     );
   }
 
   @override
-  List<Object> get props {
-    return [
-      id,
-      titleId,
-      order,
-      body,
-      source,
-      fadl,
-      count,
-      search,
-    ];
-  }
+  List<Object> get props =>
+      [id, titleId, order, body, source, fadl, hokm, count, search];
 }

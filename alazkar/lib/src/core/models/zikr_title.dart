@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -6,11 +7,13 @@ class ZikrTitle extends Equatable {
   final int id;
   final int order;
   final String name;
+  final String freq;
   final bool? isBookmarked;
   const ZikrTitle({
     required this.id,
     required this.order,
     required this.name,
+    required this.freq,
     this.isBookmarked,
   });
 
@@ -19,6 +22,7 @@ class ZikrTitle extends Equatable {
       'id': id,
       'order': order,
       'name': name,
+      'freq': freq,
     };
   }
 
@@ -27,6 +31,7 @@ class ZikrTitle extends Equatable {
       id: map['id'] as int,
       order: map['order'] as int,
       name: map['name'] as String,
+      freq: map['freq'] as String,
     );
   }
 
@@ -39,16 +44,18 @@ class ZikrTitle extends Equatable {
     int? id,
     int? order,
     String? name,
+    String? freq,
     bool? isBookmarked,
   }) {
     return ZikrTitle(
       id: id ?? this.id,
       order: order ?? this.order,
       name: name ?? this.name,
+      freq: freq ?? this.freq,
       isBookmarked: isBookmarked ?? this.isBookmarked,
     );
   }
 
   @override
-  List<Object?> get props => [id, order, name, isBookmarked];
+  List<Object?> get props => [id, order, name, freq, isBookmarked];
 }
