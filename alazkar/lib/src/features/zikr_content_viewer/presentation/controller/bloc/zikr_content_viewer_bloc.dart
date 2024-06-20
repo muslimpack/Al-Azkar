@@ -69,25 +69,6 @@ class ZikrContentViewerBloc
     final azkarFromDB =
         await azkarDBHelper.getContentByTitleId(event.zikrTitle.id);
 
-    // final filterBySource = ZikrFilterStorage.getEnableFiltersStatus();
-    // final filterByHokm = ZikrFilterStorage.getEnableHokmFiltersStatus();
-
-    // if (filterBySource || filterByHokm) {
-    //   final List<Filter> filters = ZikrFilterStorage.getAllFilters();
-    //   azkarToSet = azkarFromDB.fold(<Zikr>[], (previousValue, zikr) {
-    //     final validSource =
-    //         filterBySource && filters.validateSource(zikr.source);
-    //     final validHokm = filterByHokm && filters.validateHokm(zikr.hokm);
-
-    //     if (validSource || validHokm) {
-    //       return previousValue..add(zikr);
-    //     }
-
-    //     return previousValue;
-    //   });
-    // } else {
-    //   azkarToSet = azkarFromDB;
-    // }
     final List<Filter> filters = ZikrFilterStorage.getAllFilters();
     azkarToSet = filters.getFilteredZikr(azkarFromDB);
 
