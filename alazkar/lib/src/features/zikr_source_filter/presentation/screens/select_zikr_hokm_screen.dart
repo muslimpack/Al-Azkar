@@ -3,14 +3,14 @@ import 'package:alazkar/src/features/zikr_source_filter/presentation/controller/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ZikrSourceFilterScreen extends StatefulWidget {
-  const ZikrSourceFilterScreen({super.key});
+class ZikrHokmFilterScreen extends StatefulWidget {
+  const ZikrHokmFilterScreen({super.key});
 
   @override
-  State<ZikrSourceFilterScreen> createState() => _ZikrSourceFilterScreenState();
+  State<ZikrHokmFilterScreen> createState() => _ZikrHokmFilterScreenState();
 }
 
-class _ZikrSourceFilterScreenState extends State<ZikrSourceFilterScreen> {
+class _ZikrHokmFilterScreenState extends State<ZikrHokmFilterScreen> {
   @override
   Widget build(BuildContext context) {
     final zikrSourceFilterCubit = context.read<ZikrSourceFilterCubit>();
@@ -19,25 +19,25 @@ class _ZikrSourceFilterScreenState extends State<ZikrSourceFilterScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("اختيار مصدر الأذكار"),
+            title: const Text("اختيار حكم الأذكار"),
             centerTitle: true,
           ),
           body: ListView(
             padding: const EdgeInsets.all(15),
             children: [
               SwitchListTile(
-                value: state.enableFilters,
+                value: state.enableHokmFilters,
                 title: const Text("تفعيل تصفية الأذكار"),
                 onChanged: (value) {
-                  zikrSourceFilterCubit.toggleEnableFilters(value);
+                  zikrSourceFilterCubit.toggleEnableHokmFilters(value);
                 },
               ),
               const Divider(),
-              ...state.filters.where((x) => !x.filter.isForHokm).map((filter) {
+              ...state.filters.where((x) => x.filter.isForHokm).map((filter) {
                 return SwitchListTile(
                   value: filter.isActivated,
                   title: Text(filter.filter.arabicName),
-                  onChanged: !state.enableFilters
+                  onChanged: !state.enableHokmFilters
                       ? null
                       : (value) {
                           zikrSourceFilterCubit.toggleFilter(filter);

@@ -11,6 +11,7 @@ class ZikrSourceFilterCubit extends Cubit<ZikrSourceFilterState> {
           const ZikrSourceFilterState(
             filters: [],
             enableFilters: false,
+            enableHokmFilters: false,
           ),
         );
 
@@ -21,6 +22,7 @@ class ZikrSourceFilterCubit extends Cubit<ZikrSourceFilterState> {
       ZikrSourceFilterState(
         filters: filters,
         enableFilters: ZikrFilterStorage.getEnableFiltersStatus(),
+        enableHokmFilters: ZikrFilterStorage.getEnableHokmFiltersStatus(),
       ),
     );
   }
@@ -29,6 +31,12 @@ class ZikrSourceFilterCubit extends Cubit<ZikrSourceFilterState> {
     ZikrFilterStorage.setEnableFiltersStatus(enableFilters);
 
     emit(state.copyWith(enableFilters: enableFilters));
+  }
+
+  Future toggleEnableHokmFilters(bool enableFilters) async {
+    ZikrFilterStorage.setEnableHokmFiltersStatus(enableFilters);
+
+    emit(state.copyWith(enableHokmFilters: enableFilters));
   }
 
   Future toggleFilter(Filter filter) async {

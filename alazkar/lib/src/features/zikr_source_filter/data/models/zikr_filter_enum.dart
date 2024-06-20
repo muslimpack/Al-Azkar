@@ -1,4 +1,5 @@
 enum ZikrFilter {
+  /// Source
   quran,
   sahihBukhari,
   sahihMuslim,
@@ -10,9 +11,29 @@ enum ZikrFilter {
   adDarami,
   ahmad,
   ibnSunny,
+  hakim,
+  bayhaqi,
+  athar,
+
+  /// Hokm
+  hokmSahih,
+  hokmHasan,
+  hokmDaeif,
+  hokmMawdue,
+  hokmAthar,
 }
 
 extension ZikrFilterExt on ZikrFilter {
+  List<ZikrFilter> get hokmFilters => [
+        ZikrFilter.hokmSahih,
+        ZikrFilter.hokmHasan,
+        ZikrFilter.hokmDaeif,
+        ZikrFilter.hokmMawdue,
+        ZikrFilter.hokmAthar,
+      ];
+
+  bool get isForHokm => hokmFilters.contains(this);
+
   String get nameInDatabase {
     switch (this) {
       case ZikrFilter.quran:
@@ -28,7 +49,7 @@ extension ZikrFilterExt on ZikrFilter {
       case ZikrFilter.anNasai:
         return "النسائي";
       case ZikrFilter.ibnMajah:
-        return "ماجه";
+        return "ابن ماج";
       case ZikrFilter.malik:
         return "مالك";
       case ZikrFilter.adDarami:
@@ -36,7 +57,25 @@ extension ZikrFilterExt on ZikrFilter {
       case ZikrFilter.ahmad:
         return "أحمد";
       case ZikrFilter.ibnSunny:
-        return "السني";
+        return "ابن السني";
+      case ZikrFilter.hakim:
+        return "حاكم";
+      case ZikrFilter.bayhaqi:
+        return "بيهق";
+      case ZikrFilter.athar:
+        return "أثر";
+
+      ///
+      case ZikrFilter.hokmSahih:
+        return "صحيح";
+      case ZikrFilter.hokmHasan:
+        return "حسن";
+      case ZikrFilter.hokmDaeif:
+        return "ضعيف";
+      case ZikrFilter.hokmMawdue:
+        return "موضوع";
+      case ZikrFilter.hokmAthar:
+        return "أثر";
     }
   }
 
@@ -64,6 +103,24 @@ extension ZikrFilterExt on ZikrFilter {
         return "مسند أحمد";
       case ZikrFilter.ibnSunny:
         return "عمل اليوم والليلة لابن السني";
+      case ZikrFilter.hakim:
+        return "المستدرك على الصحيحين للحاكم النيسابوري";
+      case ZikrFilter.bayhaqi:
+        return "سنن البيهقي";
+      case ZikrFilter.athar:
+        return "أثر";
+
+      ///
+      case ZikrFilter.hokmSahih:
+        return "صحيح";
+      case ZikrFilter.hokmHasan:
+        return "حسن";
+      case ZikrFilter.hokmDaeif:
+        return "ضعيف";
+      case ZikrFilter.hokmMawdue:
+        return "موضوع";
+      case ZikrFilter.hokmAthar:
+        return "أثر";
     }
   }
 
@@ -91,6 +148,24 @@ extension ZikrFilterExt on ZikrFilter {
         return "Ahmad";
       case ZikrFilter.ibnSunny:
         return "IbnSunny";
+      case ZikrFilter.hakim:
+        return "AlHakim";
+      case ZikrFilter.bayhaqi:
+        return "AlBayhaqi";
+      case ZikrFilter.athar:
+        return "Athr";
+
+      ///
+      case ZikrFilter.hokmSahih:
+        return "Authentic";
+      case ZikrFilter.hokmHasan:
+        return "Good";
+      case ZikrFilter.hokmDaeif:
+        return "Weak";
+      case ZikrFilter.hokmMawdue:
+        return "Fabricated";
+      case ZikrFilter.hokmAthar:
+        return "Athar";
     }
   }
 }

@@ -24,17 +24,3 @@ class Filter extends Equatable {
   @override
   List<Object> get props => [filter, isActivated];
 }
-
-extension FilterListExt on List<Filter> {
-  bool validate(String text) {
-    bool isValid = false;
-
-    for (final e in this) {
-      if (!e.isActivated) continue;
-      isValid = text.contains(e.filter.nameInDatabase);
-      if (isValid) break;
-    }
-
-    return isValid;
-  }
-}

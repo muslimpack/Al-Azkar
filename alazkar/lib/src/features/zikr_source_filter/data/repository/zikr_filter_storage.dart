@@ -16,13 +16,29 @@ class ZikrFilterStorage {
   static const String _enableFiltersKey =
       "${_filterPrefixNameKey}enableFilters";
 
+  /// Filters for zikr source
   static bool getEnableFiltersStatus() {
     final bool? data = box.read(_enableFiltersKey);
     return data ?? false;
   }
 
+  /// Filters for zikr source
   static Future setEnableFiltersStatus(bool activateFilters) async {
     return box.write(_enableFiltersKey, activateFilters);
+  }
+
+  static const String _enableHokmFiltersKey =
+      "${_filterPrefixNameKey}enableHokmFilters";
+
+  /// Filters for zikr Hokm
+  static bool getEnableHokmFiltersStatus() {
+    final bool? data = box.read(_enableHokmFiltersKey);
+    return data ?? false;
+  }
+
+  /// Filters for zikr Hokm
+  static Future setEnableHokmFiltersStatus(bool activateFilters) async {
+    return box.write(_enableHokmFiltersKey, activateFilters);
   }
 
   static bool getFilterStatus(ZikrFilter zikrFilter) {

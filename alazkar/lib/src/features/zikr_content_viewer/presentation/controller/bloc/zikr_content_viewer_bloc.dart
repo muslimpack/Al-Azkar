@@ -9,6 +9,7 @@ import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_list_extension.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -68,17 +69,27 @@ class ZikrContentViewerBloc
     final azkarFromDB =
         await azkarDBHelper.getContentByTitleId(event.zikrTitle.id);
 
-    if (ZikrFilterStorage.getEnableFiltersStatus()) {
-      final List<Filter> filters = ZikrFilterStorage.getAllFilters();
-      azkarToSet = azkarFromDB.fold(<Zikr>[], (previousValue, zikr) {
-        if (filters.validate(zikr.source)) {
-          return previousValue..add(zikr);
-        }
-        return previousValue;
-      });
-    } else {
-      azkarToSet = azkarFromDB;
-    }
+    // final filterBySource = ZikrFilterStorage.getEnableFiltersStatus();
+    // final filterByHokm = ZikrFilterStorage.getEnableHokmFiltersStatus();
+
+    // if (filterBySource || filterByHokm) {
+    //   final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    //   azkarToSet = azkarFromDB.fold(<Zikr>[], (previousValue, zikr) {
+    //     final validSource =
+    //         filterBySource && filters.validateSource(zikr.source);
+    //     final validHokm = filterByHokm && filters.validateHokm(zikr.hokm);
+
+    //     if (validSource || validHokm) {
+    //       return previousValue..add(zikr);
+    //     }
+
+    //     return previousValue;
+    //   });
+    // } else {
+    //   azkarToSet = azkarFromDB;
+    // }
+    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    azkarToSet = filters.getFilteredZikr(azkarFromDB);
 
     emit(
       ZikrContentViewerLoadedState(
