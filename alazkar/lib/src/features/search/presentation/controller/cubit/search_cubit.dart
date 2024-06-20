@@ -4,6 +4,9 @@ import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_list_extension.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -51,6 +54,10 @@ class SearchCubit extends Cubit<SearchState> {
     final searchedTitles = await azkarDBHelper.getTitlesByName(searchText);
     final searchedZikr = await azkarDBHelper.getContentsByName(searchText);
 
+    /// Get Filtered Zikr
+    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    final filteredZikr = filters.getFilteredZikr(searchedZikr);
+
     appPrint("$searchText: ${searchedZikr.length}");
 
     // Get Titles with favorites
@@ -72,17 +79,20 @@ class SearchCubit extends Cubit<SearchState> {
     // Start to handle  Result
     final Map<ZikrTitle, List<Zikr>> result = {};
 
+    /// Titles
     for (final title in searchedTitles) {
       result[titleMap[title.id]!] = [];
     }
 
-    for (final zikr in searchedZikr) {
+    /// Zikr in each title
+    for (final zikr in filteredZikr) {
       if (result[titleMap[zikr.titleId]!]?.isEmpty ?? true) {
         result[titleMap[zikr.titleId]!] = [];
       }
       result[titleMap[zikr.titleId]!]?.add(zikr);
     }
 
+    /// Sort result
     final sortedEntries = result.entries.toList()
       ..sort((a, b) => a.key.order.compareTo(b.key.order));
 
