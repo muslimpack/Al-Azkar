@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -18,6 +20,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeBookmarkTitleEvent>(_bookmarkTitle);
     on<HomeUnBookmarkTitleEvent>(_unBookmarkTitle);
     on<HomeBookmarksChangedEvent>(_bookmarksChanged);
+    on<HomeToggleFilterEvent>(_toggleFreqFilter);
 
     add(HomeStartEvent());
   }
@@ -48,6 +51,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         titles: titlesToSet,
         titlesToShow: titlesToSet,
         isSearching: false,
+        freq: List.empty(),
       ),
     );
   }
@@ -122,6 +126,39 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       state.copyWith(
         titles: titlesToSet,
         titlesToShow: titlesToShow,
+      ),
+    );
+  }
+
+  FutureOr<void> _toggleFreqFilter(
+    HomeToggleFilterEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    final state = this.state;
+    if (state is! HomeLoadedState) return;
+
+    /// Handle freq change
+    final List<TitlesFreqEnum> newFreq = List.of(state.freq);
+    if (newFreq.contains(event.filter)) {
+      newFreq.remove(event.filter);
+    } else {
+      newFreq.add(event.filter);
+    }
+
+    /// Handle titles change
+    final List<ZikrTitle> titleToView;
+    if (newFreq.isEmpty) {
+      titleToView = List.of(state.titles);
+    } else {
+      titleToView =
+          state.titles.where((x) => newFreq.validate(x.freq)).toList();
+    }
+
+    appPrint(newFreq);
+    emit(
+      state.copyWith(
+        freq: newFreq,
+        titlesToShow: titleToView,
       ),
     );
   }

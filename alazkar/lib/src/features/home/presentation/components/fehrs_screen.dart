@@ -1,5 +1,6 @@
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/features/home/presentation/components/fehrs_item_card.dart';
+import 'package:alazkar/src/features/home/presentation/components/titles_freq_filters_card.dart';
 import 'package:flutter/material.dart';
 
 class FehrsScreen extends StatelessWidget {
@@ -9,15 +10,22 @@ class FehrsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: titles.map(
-          (e) {
-            return FehrsItemCard(
-              zikrTitle: e,
-            );
-          },
-        ).toList(),
+      child: Column(
+        children: [
+          const TitleFreqFilterCard(),
+          Expanded(
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: titles.map(
+                (e) {
+                  return FehrsItemCard(
+                    zikrTitle: e,
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+        ],
       ),
     );
   }

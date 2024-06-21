@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'home_bloc.dart';
 
 sealed class HomeState extends Equatable {
@@ -11,11 +12,13 @@ final class HomeLoadingState extends HomeState {}
 
 final class HomeLoadedState extends HomeState {
   final List<ZikrTitle> titles;
+  final List<TitlesFreqEnum> freq;
   final List<ZikrTitle> titlesToShow;
   final bool isSearching;
 
   const HomeLoadedState({
     required this.titles,
+    required this.freq,
     required this.titlesToShow,
     required this.isSearching,
   });
@@ -37,15 +40,18 @@ final class HomeLoadedState extends HomeState {
         titles,
         titlesToShow,
         isSearching,
+        freq,
       ];
 
   HomeLoadedState copyWith({
     List<ZikrTitle>? titles,
+    List<TitlesFreqEnum>? freq,
     List<ZikrTitle>? titlesToShow,
     bool? isSearching,
   }) {
     return HomeLoadedState(
       titles: titles ?? this.titles,
+      freq: freq ?? this.freq,
       titlesToShow: titlesToShow ?? this.titlesToShow,
       isSearching: isSearching ?? this.isSearching,
     );
