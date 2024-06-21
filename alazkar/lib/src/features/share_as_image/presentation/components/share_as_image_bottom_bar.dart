@@ -98,7 +98,6 @@ class ShareAsImageBottomBar extends StatelessWidget {
                   tooltip: "ضبط عرض الصورة",
                   onPressed: () async {
                     await showDialog(
-                      barrierDismissible: true,
                       context: context,
                       builder: (_) {
                         return ImageWidthDialog(

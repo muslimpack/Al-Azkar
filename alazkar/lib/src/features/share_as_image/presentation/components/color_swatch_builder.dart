@@ -26,7 +26,6 @@ class ColorSwatchBuilder extends StatelessWidget {
         GestureDetector(
           onTap: () {
             showDialog(
-              barrierDismissible: true,
               context: context,
               builder: (BuildContext context) {
                 return Center(

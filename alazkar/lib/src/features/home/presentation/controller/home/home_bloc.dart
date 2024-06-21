@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
-import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

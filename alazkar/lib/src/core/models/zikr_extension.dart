@@ -4,7 +4,6 @@ import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/extension/extension_rich_text.dart';
 import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
-import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/range_text_formatter.dart';
 import 'package:alazkar/src/features/quran/data/models/verse_range.dart';
 import 'package:alazkar/src/features/quran/data/repository/uthmani_repository.dart';

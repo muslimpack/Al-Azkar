@@ -1,4 +1,3 @@
-import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
