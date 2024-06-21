@@ -18,6 +18,14 @@ extension TitlesFreqEnumExt on TitlesFreqEnum {
         return "سنوي";
     }
   }
+
+  String toJson() {
+    return name;
+  }
+
+  static TitlesFreqEnum fromJson(String jsonString) {
+    return TitlesFreqEnum.values.firstWhere((e) => e.name == jsonString);
+  }
 }
 
 extension TitlesFreqEnumListExt on List<TitlesFreqEnum> {
@@ -33,5 +41,15 @@ extension TitlesFreqEnumListExt on List<TitlesFreqEnum> {
     }
 
     return isValid;
+  }
+
+  String toJson() {
+    final List<String> jsonList = map((e) => e.toJson()).toList();
+    return jsonList.join(',');
+  }
+
+  List<TitlesFreqEnum> toEnumList(String jsonString) {
+    final List<String> jsonList = jsonString.split(',');
+    return jsonList.map((e) => TitlesFreqEnumExt.fromJson(e)).toList();
   }
 }

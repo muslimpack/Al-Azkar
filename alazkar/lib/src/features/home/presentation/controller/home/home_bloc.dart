@@ -4,6 +4,7 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -50,7 +51,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         titles: titlesToSet,
         titlesToShow: titlesToSet,
         isSearching: false,
-        freq: List.empty(),
+        freq: ZikrFilterStorage.getTitlesFreqFilterStatus(),
       ),
     );
   }
@@ -152,6 +153,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       titleToView =
           state.titles.where((x) => newFreq.validate(x.freq)).toList();
     }
+
+    await ZikrFilterStorage.setTitlesFreqFilterStatus(newFreq);
 
     emit(
       state.copyWith(

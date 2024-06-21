@@ -1,3 +1,5 @@
+import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_enum.dart';
 import 'package:get_storage/get_storage.dart';
@@ -52,5 +54,25 @@ class ZikrFilterStorage {
 
   static String _getZikrFilterKey(ZikrFilter filter) {
     return "$_filterPrefixNameKey${filter.name}";
+  }
+
+  /// Titles Freq filters
+  static const String _titlesFreqFilter =
+      "${_filterPrefixNameKey}titlesFreqFilter";
+
+  /// Filters for zikr source
+  static List<TitlesFreqEnum> getTitlesFreqFilterStatus() {
+    final String? data = box.read(_titlesFreqFilter);
+    appPrint("FreqFilter: $data");
+
+    final List<TitlesFreqEnum> result = List.of([]);
+    if (data != null && data.isNotEmpty) result.addAll(result.toEnumList(data));
+
+    return result;
+  }
+
+  /// Filters for zikr source
+  static Future setTitlesFreqFilterStatus(List<TitlesFreqEnum> freqList) async {
+    return box.write(_titlesFreqFilter, freqList.toJson());
   }
 }
