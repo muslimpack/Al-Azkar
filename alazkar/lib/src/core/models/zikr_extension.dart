@@ -55,7 +55,6 @@ extension ZikrExt on Zikr {
       final line = lines[lineIndex];
 
       if (line.contains("QuranText")) {
-        appPrint(line);
         spans.addAll(
           _getTextSpanForSingleItem(
             await getQuranVersesTextFormSingleRange(line),

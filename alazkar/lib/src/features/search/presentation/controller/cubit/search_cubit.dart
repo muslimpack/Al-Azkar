@@ -58,8 +58,6 @@ class SearchCubit extends Cubit<SearchState> {
     final List<Filter> filters = ZikrFilterStorage.getAllFilters();
     final filteredZikr = filters.getFilteredZikr(searchedZikr);
 
-    appPrint("$searchText: ${searchedZikr.length}");
-
     // Get Titles with favorites
     final allTitles = await azkarDBHelper.getAllTitles();
     final List<int> favouriteTitlesIds =

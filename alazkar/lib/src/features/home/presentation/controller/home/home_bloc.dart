@@ -154,7 +154,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           state.titles.where((x) => newFreq.validate(x.freq)).toList();
     }
 
-    appPrint(newFreq);
     emit(
       state.copyWith(
         freq: newFreq,

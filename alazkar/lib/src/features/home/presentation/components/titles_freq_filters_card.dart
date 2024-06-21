@@ -26,7 +26,6 @@ class TitleFreqFilterCard extends StatelessWidget {
                   label: Text(e.arabicName),
                   selected: state.freq.contains(e),
                   onSelected: (bool value) {
-                    appPrint(value);
                     context.read<HomeBloc>().add(HomeToggleFilterEvent(e));
                   },
                 ),

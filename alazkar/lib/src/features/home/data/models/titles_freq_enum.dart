@@ -1,5 +1,3 @@
-import 'package:alazkar/src/core/utils/app_print.dart';
-
 enum TitlesFreqEnum {
   daily,
   week,
@@ -28,7 +26,7 @@ extension TitlesFreqEnumListExt on List<TitlesFreqEnum> {
 
     for (var i = 0; i < length; i++) {
       final freqTxt = this[i].name[0].toLowerCase();
-      appPrint(freqTxt);
+
       isValid = freq.contains(freqTxt);
 
       if (isValid) break;
