@@ -30,11 +30,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(HomeLoadingState());
+
+    /// Get titles form db
     final List<ZikrTitle> titles = (await azkarDBHelper.getAllTitles())
       ..sort(
         (a, b) => a.order.compareTo(b.order),
       );
 
+    /// Wire bookmaked data
     final List<int> favouriteTitlesIds =
         await bookmarksDBHelper.getAllFavoriteTitles();
 
@@ -46,12 +49,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )
         .toList();
 
+    /// Handle Freq Filter
+    final List<ZikrTitle> titleToView;
+    final freq = ZikrFilterStorage.getTitlesFreqFilterStatus();
+    if (freq.isEmpty) {
+      titleToView = titlesToSet;
+    } else {
+      titleToView = titlesToSet.where((x) => freq.validate(x.freq)).toList();
+    }
+
+    ///
     emit(
       HomeLoadedState(
         titles: titlesToSet,
-        titlesToShow: titlesToSet,
+        titlesToShow: titleToView,
         isSearching: false,
-        freq: ZikrFilterStorage.getTitlesFreqFilterStatus(),
+        freq: freq,
       ),
     );
   }
