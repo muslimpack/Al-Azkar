@@ -1,0 +1,34 @@
+{
+  "info": {
+    "csvFilePath": "تطبيق الأذكار النووية - مرجع.xlsx",
+    "dbFilePath": "Al-Azkar.db"
+  },
+  "mapping": [
+    {
+      "csvSheet": "titles",
+      "dbTable": "titles",
+      "columns": [
+        { "csvColName": "id", "dbType": "INTEGER NOT NULL PRIMARY KEY" },
+        { "csvColName": "order", "dbType": "INTEGER NOT NULL" },
+        { "csvColName": "name", "dbType": "TEXT" },
+        { "csvColName": "freq", "dbType": "TEXT" }
+      ]
+    },
+    {
+      "csvSheet": "contents",
+      "dbTable": "contents",
+      "dbConstraints": ["FOREIGN KEY(titleId) REFERENCES titles(id)"],
+      "columns": [
+        { "csvColName": "id", "dbType": "INTEGER NOT NULL PRIMARY KEY" },
+        { "csvColName": "titleId", "dbType": "INTEGER NOT NULL" },
+        { "csvColName": "order", "dbType": "INTEGER NOT NULL" },
+        { "csvColName": "body", "dbType": "TEXT NOT NULL" },
+        { "csvColName": "count", "dbType": "INTEGER NOT NULL" },
+        { "csvColName": "source", "dbType": "TEXT" },
+        { "csvColName": "auth", "dbColName": "hokm", "dbType": "TEXT" },
+        { "csvColName": "fadl", "dbType": "TEXT" },
+        { "csvColName": "search", "dbType": "TEXT" }
+      ]
+    }
+  ]
+}

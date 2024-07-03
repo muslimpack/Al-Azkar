@@ -1,0 +1,27 @@
+{
+  "info": {
+    "csvFilePath": "تطبيق الأذكار النووية - مرجع.xlsx",
+    "dbFilePath": "Al-Azkar.db"
+  },
+  "mapping": [
+    {
+      "csvSheet": "contents",
+      "dbTable": "contents",
+      "dbConstraints": ["FOREIGN KEY(titleId) REFERENCES titles(id)"],
+      "columns": [
+        {
+          "csvColName": "fadl",
+          "csvColHeader": "",
+          "dbColName": "fadl",
+          "dbType": "TEXT"
+        },
+        {
+          "csvColName": "search",
+          "csvColHeader": "",
+          "dbColName": "search",
+          "dbType": "TEXT"
+        }
+      ]
+    }
+  ]
+}
