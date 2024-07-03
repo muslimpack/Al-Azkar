@@ -8,6 +8,7 @@ import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_list_extension.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
@@ -65,10 +66,21 @@ class ZikrContentViewerBloc
     }
     emit(ZikrContentViewerLoadingState());
 
+    final showTextInBrackets = SettingsStorage.showTextInBrackets();
+    final RegExp regExp = RegExp(r'\(.*?\)');
+
+    /// get all zikr
     final List<Zikr> azkarToSet;
     final azkarFromDB =
-        await azkarDBHelper.getContentByTitleId(event.zikrTitle.id);
+        (await azkarDBHelper.getContentByTitleId(event.zikrTitle.id))
+            .map(
+              (e) => showTextInBrackets
+                  ? e
+                  : e.copyWith(body: e.body.replaceAll(regExp, "")),
+            )
+            .toList();
 
+    /// filter out zikr
     final List<Filter> filters = ZikrFilterStorage.getAllFilters();
     azkarToSet = filters.getFilteredZikr(azkarFromDB);
 
@@ -133,7 +145,6 @@ class ZikrContentViewerBloc
     if (state is! ZikrContentViewerLoadedState) return;
 
     if (state.activeZikr == null) return;
-    final plainText = await state.activeZikr!.toPlainText();
     await Clipboard.setData(ClipboardData(text: plainText));
 
     showToast("تم نسخ الذكر");
