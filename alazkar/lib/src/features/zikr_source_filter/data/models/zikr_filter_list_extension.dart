@@ -5,34 +5,24 @@ import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_fil
 
 extension FilterListExt on List<Filter> {
   List<Zikr> getFilteredZikr(List<Zikr> azkar) {
-    final List<Zikr> filterdZikr;
     final filterBySource = ZikrFilterStorage.getEnableFiltersStatus();
     final filterByHokm = ZikrFilterStorage.getEnableHokmFiltersStatus();
 
-    if (filterBySource || filterByHokm) {
-      final List<Filter> filters = ZikrFilterStorage.getAllFilters();
-      filterdZikr = azkar.fold(<Zikr>[], (previousValue, zikr) {
-        bool validToAdd = true;
-
-        if (filterBySource) {
-          validToAdd = filters.validateSource(zikr.source);
-        }
-
-        if (validToAdd && filterByHokm) {
-          validToAdd = filters.validateHokm(zikr.hokm);
-        }
-
-        if (validToAdd) {
-          return previousValue..add(zikr);
-        }
-
-        return previousValue;
-      });
-    } else {
-      filterdZikr = azkar;
+    if (!filterBySource && !filterByHokm) {
+      return azkar;
     }
 
-    return filterdZikr;
+    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+
+    return azkar.where((zikr) {
+      if (filterBySource && !filters.validateSource(zikr.source)) {
+        return false;
+      }
+      if (filterByHokm && !filters.validateHokm(zikr.hokm)) {
+        return false;
+      }
+      return true;
+    }).toList();
   }
 
   bool validateSource(String source) {
