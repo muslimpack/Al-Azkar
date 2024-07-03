@@ -66,6 +66,6 @@ class ZikrContentStats {
 
   @override
   String toString() {
-    return "[${filter.arabicName}]=> عدد: $count  | عدد الأبواب: $titleCount";
+    return "[${filter.arabicName}]=> عدد: $count";
   }
 }
