@@ -62,14 +62,16 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
           ),
         if (state.azkar.isNotEmpty && state.activeZikr!.source.isNotEmpty)
           IconButton(
-            tooltip: "مصدر الذكر",
+            tooltip: "مصدر الذكر وحكمه",
             onPressed: () async {
               showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text("مصدر الذكر"),
-                    content: Text(state.activeZikr!.source),
+                    // title: const Text("مصدر الذكر وحكمه"),
+                    content: Text(
+                      "المصدر:\n${state.activeZikr!.source}\n\nالحكم: ${state.activeZikr!.hokm}",
+                    ),
                   );
                 },
               );
