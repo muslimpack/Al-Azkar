@@ -39,7 +39,18 @@ class DBHelper {
         Directory(dirname(path)).createSync(recursive: true);
         final ByteData data = await rootBundle.load(dbAssetPath);
         final List<int> bytes = data.buffer.asUint8List();
-        await File(path).writeAsBytes(bytes, flush: true);
+
+        // Check if the ByteData size matches the expected size (optional, for debugging)
+        appPrint(
+          "Expected size: ${data.lengthInBytes}, actual size: ${bytes.length}",
+        );
+
+        final file = File(path);
+        file.writeAsBytesSync(bytes, flush: true);
+
+        // Verify file size after writing (optional, for debugging)
+        final writtenFileSize = await file.length();
+        appPrint("Written file size: $writtenFileSize");
       }
       appPrint("$dbName copy done");
     } catch (e) {
@@ -55,7 +66,6 @@ class DBHelper {
     if (!exist) {
       await copyFromAssets(path, 'assets/db/$dbName');
     }
-
     final Database database = await openDatabase(path);
 
     await database.getVersion().then((currentVersion) async {
