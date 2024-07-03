@@ -16,7 +16,7 @@ extension FilterListExt on List<Filter> {
             filterBySource && filters.validateSource(zikr.source);
         final validHokm = filterByHokm && filters.validateHokm(zikr.hokm);
 
-        if (validSource || validHokm) {
+        if (validSource && validHokm) {
           return previousValue..add(zikr);
         }
 
