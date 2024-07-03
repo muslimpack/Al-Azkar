@@ -145,6 +145,12 @@ class ZikrContentViewerBloc
     if (state is! ZikrContentViewerLoadedState) return;
 
     if (state.activeZikr == null) return;
+    final activeZikr = state.activeZikr!;
+    final fadlTxt = activeZikr.fadl.isEmpty
+        ? ""
+        : "\n\n-------\nالفضل:\n${activeZikr.fadl}";
+    final plainText =
+        "${await activeZikr.toPlainText()}\n\n-------\nعدد مرات الذكر:  ${activeZikr.count}$fadlTxt\n\n-------\nالحكم: ${activeZikr.hokm}\n\n==============\nالمصدر:\n${activeZikr.source}";
     await Clipboard.setData(ClipboardData(text: plainText));
 
     showToast("تم نسخ الذكر");
