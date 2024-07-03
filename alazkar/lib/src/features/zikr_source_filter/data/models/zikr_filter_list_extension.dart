@@ -12,13 +12,11 @@ extension FilterListExt on List<Filter> {
       return azkar;
     }
 
-    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
-
     return azkar.where((zikr) {
-      if (filterBySource && !filters.validateSource(zikr.source)) {
+      if (filterBySource && !validateSource(zikr.source)) {
         return false;
       }
-      if (filterByHokm && !filters.validateHokm(zikr.hokm)) {
+      if (filterByHokm && !validateHokm(zikr.hokm)) {
         return false;
       }
       return true;
