@@ -86,13 +86,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     /// Handle Freq Filter
     final List<ZikrTitle> filterdFreqTitles;
-    if (titleFreqList.isEmpty) {
-      filterdFreqTitles = titlesWithBookmarkedData;
-    } else {
-      filterdFreqTitles = titlesWithBookmarkedData
-          .where((x) => titleFreqList.validate(x.freq))
-          .toList();
-    }
+
+    filterdFreqTitles = titlesWithBookmarkedData
+        .where((x) => titleFreqList.validate(x.freq))
+        .toList();
 
     /// Handle titles with no content after applying zikr filters
     final List<ZikrTitle> reducedTitles = List.of([]);
