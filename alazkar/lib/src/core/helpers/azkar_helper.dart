@@ -56,6 +56,17 @@ class AzkarDBHelper {
     });
   }
 
+  Future<List<Zikr>> getAllContents() async {
+    final Database db = await database;
+
+    final List<Map<String, dynamic>> maps =
+        await db.rawQuery('SELECT * FROM contents ORDER BY `order` ASC');
+
+    return List.generate(maps.length, (i) {
+      return Zikr.fromMap(maps[i]);
+    });
+  }
+
   Future<List<Zikr>> getContentsByName(String name) async {
     final Database db = await database;
 
