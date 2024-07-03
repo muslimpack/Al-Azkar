@@ -9,78 +9,63 @@ Future<void> viewStatistics() async {
   if (!kDebugMode) return;
   final allTitles = await azkarDBHelper.getAllTitles();
   final allContent = await azkarDBHelper.getAllContents();
+  appPrint("عدد الأذكار: ${allContent.length}");
+  appPrint("عدد الأبواب: ${allTitles.length}");
+  appPrint("***********");
 
   await viewContentsStatistics(allContent);
 }
 
 Future<void> viewContentsStatistics(List<Zikr> allContent) async {
-  appPrint(allContent.length);
-  appPrint("***********");
-
-  const List<ZikrFilter> filters = ZikrFilter.values;
-  final filterResult = {for (final f in filters) getKey(f): 0};
+  final filterResult = ZikrFilter.values
+      .map(
+        (e) => ZikrContentStats(filter: e),
+      )
+      .toList();
 
   for (final content in allContent) {
-    for (final f in filters) {
-      if (f.isForHokm) {
-        final result = (content.hokm == f.nameInDatabase) ? 1 : 0;
-        filterResult[getKey(f)] = result + (filterResult[getKey(f)] ?? 0);
+    for (final f in filterResult) {
+      if (f.filter.isForHokm) {
+        f.count += (content.hokm == f.filter.nameInDatabase) ? 1 : 0;
+        f.titlesId.add(content.titleId);
       } else {
-        final result = content.source.contains(f.nameInDatabase) ? 1 : 0;
-        filterResult[getKey(f)] = result + (filterResult[getKey(f)] ?? 0);
+        f.count += (content.source.contains(f.filter.nameInDatabase)) ? 1 : 0;
+        f.titlesId.add(content.titleId);
       }
     }
   }
 
-  // Convert map to a list of entries
-  final entries = filterResult.entries.toList();
-
   // Sort the list of entries by value
-  entries.sort((a, b) => b.value.compareTo(a.value));
+  filterResult.sort((a, b) => b.count.compareTo(a.count));
 
-  // Create a new map from the sorted list of entries
-  final Map<String, int> sortedMap = Map.fromEntries(entries);
-
-  for (final f in sortedMap.entries) {
-    if (!f.key.contains("حكم")) {
-      appPrint("${f.key}: ${f.value}");
+  for (final f in filterResult) {
+    if (!f.filter.isForHokm) {
+      appPrint(f);
     }
   }
   appPrint("***********");
-  for (final f in sortedMap.entries) {
-    if (f.key.contains("حكم")) {
-      appPrint("${f.key.split(" ")[1]}: ${f.value}");
+  for (final f in filterResult) {
+    if (f.filter.isForHokm) {
+      appPrint(f);
     }
   }
 }
 
-String getKey(ZikrFilter f) {
-  return "${f.isForHokm ? "حكم " : ""}${f.arabicName}";
+class ZikrContentStats {
+  final ZikrFilter filter;
+  final Set<int> titlesId;
+  int count;
+  String get statsKey =>
+      "${filter.isForHokm ? "حكم " : ""}${filter.arabicName}";
+  int get titleCount => titlesId.length;
+
+  ZikrContentStats({
+    required this.filter,
+    this.count = 0,
+  }) : titlesId = {};
+
+  @override
+  String toString() {
+    return "[${filter.arabicName}]=> عدد: $count  | عدد الأبواب: $titleCount";
+  }
 }
-
-
-
-/*
-contents: 1456
-**********************
- سنن الترمذي: 660
- سنن أبي داود: 620
- مسند أحمد: 609
- صحيح مسلم: 474
- سنن ابن ماجه: 459
- صحيح البخاري: 367
- سنن النسائي: 334
- مسند الدارمي: 258
- أثر: 224
- عمل اليوم والليلة لابن السني: 182
- القرآن: 176
- موطأ مالك: 134
- سنن البيهقي: 19
- المستدرك على الصحيحين للحاكم النيسابوري: 13
- ************************
- حكم صحيح: 943
- حكم ضعيف: 221
- حكم أثر: 200
- حكم حسن: 79
- حكم موضوع: 14
-*/
