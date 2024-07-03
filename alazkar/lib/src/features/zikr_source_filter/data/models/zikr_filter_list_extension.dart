@@ -12,11 +12,17 @@ extension FilterListExt on List<Filter> {
     if (filterBySource || filterByHokm) {
       final List<Filter> filters = ZikrFilterStorage.getAllFilters();
       filterdZikr = azkar.fold(<Zikr>[], (previousValue, zikr) {
-        final validSource =
-            filterBySource && filters.validateSource(zikr.source);
-        final validHokm = filterByHokm && filters.validateHokm(zikr.hokm);
+        bool validToAdd = true;
 
-        if (validSource && validHokm) {
+        if (filterBySource) {
+          validToAdd = filters.validateSource(zikr.source);
+        }
+
+        if (validToAdd && filterByHokm) {
+          validToAdd = filters.validateHokm(zikr.hokm);
+        }
+
+        if (validToAdd) {
           return previousValue..add(zikr);
         }
 

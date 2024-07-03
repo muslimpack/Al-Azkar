@@ -18,7 +18,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => SettingsCubit()),
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => ZikrSourceFilterCubit()..start()),
-        BlocProvider(create: (_) => HomeBloc()),
+        BlocProvider(
+          create: (context) => HomeBloc(
+            zikrSourceFilterCubit: context.read<ZikrSourceFilterCubit>(),
+          ),
+        ),
         BlocProvider(
           create: (context) => SearchCubit(context.read<HomeBloc>()),
         ),
