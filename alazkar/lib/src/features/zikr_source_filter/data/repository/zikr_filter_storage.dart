@@ -66,7 +66,11 @@ class ZikrFilterStorage {
     appPrint("FreqFilter: $data");
 
     final List<TitlesFreqEnum> result = List.of([]);
-    if (data != null && data.isNotEmpty) result.addAll(result.toEnumList(data));
+    if (data != null && data.isNotEmpty) {
+      result.addAll(result.toEnumList(data));
+    } else {
+      result.addAll(TitlesFreqEnum.values);
+    }
 
     return result;
   }
