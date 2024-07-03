@@ -23,7 +23,7 @@ class TitleFreqFilterCard extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 child: FilterChip(
                   label: Text(e.arabicName),
-                  selected: state.freq.contains(e),
+                  selected: state.freqFilters.contains(e),
                   onSelected: (bool value) {
                     context.read<HomeBloc>().add(HomeToggleFilterEvent(e));
                   },

@@ -4,6 +4,8 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
+import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_list_extension.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -31,8 +33,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(HomeLoadingState());
 
+    final List<ZikrTitle> titlesToSet;
+
     /// Get titles form db
-    final List<ZikrTitle> titles = (await azkarDBHelper.getAllTitles())
+    final List<ZikrTitle> dbTitles = (await azkarDBHelper.getAllTitles())
       ..sort(
         (a, b) => a.order.compareTo(b.order),
       );
@@ -41,7 +45,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final List<int> favouriteTitlesIds =
         await bookmarksDBHelper.getAllFavoriteTitles();
 
-    final titlesToSet = titles
+    final titlesWithBookmarkedData = dbTitles
         .map(
           (e) => e.copyWith(
             isBookmarked: favouriteTitlesIds.contains(e.id),
@@ -49,24 +53,51 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )
         .toList();
 
-    /// Handle Freq Filter
-    final List<ZikrTitle> titleToView;
-    final freq = ZikrFilterStorage.getTitlesFreqFilterStatus();
-    if (freq.isEmpty) {
-      titleToView = titlesToSet;
-    } else {
-      titleToView = titlesToSet.where((x) => freq.validate(x.freq)).toList();
-    }
-
     ///
+    final freq = ZikrFilterStorage.getTitlesFreqFilterStatus();
+
+    /// Filters
+    titlesToSet = await applyFiltersOnTitels(titlesWithBookmarkedData, freq);
+
     emit(
       HomeLoadedState(
-        titles: titlesToSet,
-        titlesToShow: titleToView,
+        titles: titlesWithBookmarkedData,
+        titlesToShow: titlesToSet,
         isSearching: false,
-        freq: freq,
+        freqFilters: freq,
       ),
     );
+  }
+
+  Future<List<ZikrTitle>> applyFiltersOnTitels(
+    List<ZikrTitle> titlesWithBookmarkedData,
+    List<TitlesFreqEnum> titleFreqList,
+  ) async {
+    final List<ZikrTitle> titlesToSet;
+
+    /// Handle Freq Filter
+    final List<ZikrTitle> filterdFreqTitles;
+    if (titleFreqList.isEmpty) {
+      filterdFreqTitles = titlesWithBookmarkedData;
+    } else {
+      filterdFreqTitles = titlesWithBookmarkedData
+          .where((x) => titleFreqList.validate(x.freq))
+          .toList();
+    }
+
+    /// Handle titles with no content after applying zikr filters
+    final List<ZikrTitle> reducedTitles = List.of([]);
+    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    for (var i = 0; i < filterdFreqTitles.length; i++) {
+      final title = filterdFreqTitles[i];
+      final azkarFromDB = await azkarDBHelper.getContentByTitleId(title.id);
+      final azkarToSet = filters.getFilteredZikr(azkarFromDB);
+      if (azkarToSet.isNotEmpty) reducedTitles.add(title);
+    }
+
+    titlesToSet = reducedTitles;
+
+    return titlesToSet;
   }
 
   FutureOr<void> _search(
@@ -151,7 +182,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (state is! HomeLoadedState) return;
 
     /// Handle freq change
-    final List<TitlesFreqEnum> newFreq = List.of(state.freq);
+    final List<TitlesFreqEnum> newFreq = List.of(state.freqFilters);
     if (newFreq.contains(event.filter)) {
       newFreq.remove(event.filter);
     } else {
@@ -159,19 +190,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
 
     /// Handle titles change
-    final List<ZikrTitle> titleToView;
-    if (newFreq.isEmpty) {
-      titleToView = List.of(state.titles);
-    } else {
-      titleToView =
-          state.titles.where((x) => newFreq.validate(x.freq)).toList();
-    }
+    final List<ZikrTitle> titleToView = await applyFiltersOnTitels(
+      List.of(state.titles),
+      newFreq,
+    );
 
     await ZikrFilterStorage.setTitlesFreqFilterStatus(newFreq);
 
     emit(
       state.copyWith(
-        freq: newFreq,
+        freqFilters: newFreq,
         titlesToShow: titleToView,
       ),
     );

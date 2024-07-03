@@ -35,7 +35,7 @@ extension TitlesFreqEnumListExt on List<TitlesFreqEnum> {
     for (var i = 0; i < length; i++) {
       final freqTxt = this[i].name[0].toLowerCase();
 
-      isValid = freq.contains(freqTxt);
+      isValid = freq.toLowerCase().contains(freqTxt);
 
       if (isValid) break;
     }

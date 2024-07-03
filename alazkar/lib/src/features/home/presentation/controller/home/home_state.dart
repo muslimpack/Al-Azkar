@@ -12,13 +12,13 @@ final class HomeLoadingState extends HomeState {}
 
 final class HomeLoadedState extends HomeState {
   final List<ZikrTitle> titles;
-  final List<TitlesFreqEnum> freq;
+  final List<TitlesFreqEnum> freqFilters;
   final List<ZikrTitle> titlesToShow;
   final bool isSearching;
 
   const HomeLoadedState({
     required this.titles,
-    required this.freq,
+    required this.freqFilters,
     required this.titlesToShow,
     required this.isSearching,
   });
@@ -40,18 +40,18 @@ final class HomeLoadedState extends HomeState {
         titles,
         titlesToShow,
         isSearching,
-        freq,
+        freqFilters,
       ];
 
   HomeLoadedState copyWith({
     List<ZikrTitle>? titles,
-    List<TitlesFreqEnum>? freq,
+    List<TitlesFreqEnum>? freqFilters,
     List<ZikrTitle>? titlesToShow,
     bool? isSearching,
   }) {
     return HomeLoadedState(
       titles: titles ?? this.titles,
-      freq: freq ?? this.freq,
+      freqFilters: freqFilters ?? this.freqFilters,
       titlesToShow: titlesToShow ?? this.titlesToShow,
       isSearching: isSearching ?? this.isSearching,
     );
