@@ -24,6 +24,7 @@ class TitleFreqFilterCard extends StatelessWidget {
                 child: FilterChip(
                   label: Text(e.arabicName),
                   selected: state.freqFilters.contains(e),
+                  showCheckmark: false,
                   onSelected: (bool value) {
                     context.read<HomeBloc>().add(HomeToggleFilterEvent(e));
                   },
