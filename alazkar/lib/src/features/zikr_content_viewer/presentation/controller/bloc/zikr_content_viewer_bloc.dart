@@ -201,12 +201,14 @@ class ZikrContentViewerBloc
     if (homeState is! HomeLoadedState) return;
 
     try {
+      final titles = homeState.titlesToShow;
       final int currentTitleIndex =
-          homeState.titles.indexWhere((e) => e.id == state.zikrTitle.id);
+          titles.indexWhere((e) => e.id == state.zikrTitle.id);
       appPrint(currentTitleIndex);
-      if (currentTitleIndex == -1 ||
-          currentTitleIndex == homeState.titles.length - 1) return;
-      add(ZikrContentViewerStartEvent(homeState.titles[currentTitleIndex + 1]));
+      if (currentTitleIndex == -1 || currentTitleIndex == titles.length - 1) {
+        return;
+      }
+      add(ZikrContentViewerStartEvent(titles[currentTitleIndex + 1]));
     } catch (e) {
       appPrint(e);
     }
@@ -223,10 +225,11 @@ class ZikrContentViewerBloc
     if (homeState is! HomeLoadedState) return;
 
     try {
+      final titles = homeState.titlesToShow;
       final int currentTitleIndex =
-          homeState.titles.indexWhere((e) => e.id == state.zikrTitle.id);
+          titles.indexWhere((e) => e.id == state.zikrTitle.id);
       if (currentTitleIndex == -1 || currentTitleIndex == 0) return;
-      add(ZikrContentViewerStartEvent(homeState.titles[currentTitleIndex - 1]));
+      add(ZikrContentViewerStartEvent(titles[currentTitleIndex - 1]));
     } catch (e) {
       appPrint(e);
     }
