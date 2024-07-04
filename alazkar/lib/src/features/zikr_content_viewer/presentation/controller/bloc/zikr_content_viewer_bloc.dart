@@ -74,7 +74,7 @@ class ZikrContentViewerBloc
     final azkarFromDB =
         (await azkarDBHelper.getContentByTitleId(event.zikrTitle.id))
             .map(
-              (e) => showTextInBrackets
+              (e) => showTextInBrackets || e.body.contains("QuranText")
                   ? e
                   : e.copyWith(body: e.body.replaceAll(regExp, "")),
             )
