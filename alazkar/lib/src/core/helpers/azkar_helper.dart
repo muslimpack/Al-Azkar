@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alazkar/src/core/helpers/db_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
+import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -62,9 +63,11 @@ class AzkarDBHelper {
     final List<Map<String, dynamic>> maps =
         await db.rawQuery('SELECT * FROM contents ORDER BY `order` ASC');
 
-    return List.generate(maps.length, (i) {
-      return Zikr.fromMap(maps[i]);
-    });
+    return flattenZikrBodyText(
+      List.generate(maps.length, (i) {
+        return Zikr.fromMap(maps[i]);
+      }),
+    );
   }
 
   Future<List<Zikr>> getContentsByName(String name) async {
@@ -75,9 +78,11 @@ class AzkarDBHelper {
       ['%$name%'],
     );
 
-    return List.generate(maps.length, (i) {
-      return Zikr.fromMap(maps[i]);
-    });
+    return flattenZikrBodyText(
+      List.generate(maps.length, (i) {
+        return Zikr.fromMap(maps[i]);
+      }),
+    );
   }
 
   Future<List<Zikr>> getContentByTitleId(int id) async {
@@ -88,9 +93,19 @@ class AzkarDBHelper {
       [id],
     );
 
-    return List.generate(maps.length, (i) {
-      return Zikr.fromMap(maps[i]);
-    });
+    return flattenZikrBodyText(
+      List.generate(maps.length, (i) {
+        return Zikr.fromMap(maps[i]);
+      }),
+    );
+  }
+
+  Future<List<Zikr>> flattenZikrBodyText(List<Zikr> contents) {
+    return Future.wait(
+      contents
+          .map((e) async => e.copyWith(body: await e.toPlainText()))
+          .toList(),
+    );
   }
 
   Future<Zikr> getContentById(int id) async {
@@ -101,9 +116,12 @@ class AzkarDBHelper {
       [id],
     );
 
-    return List.generate(maps.length, (i) {
-      return Zikr.fromMap(maps[i]);
-    }).first;
+    return (await flattenZikrBodyText(
+      List.generate(maps.length, (i) {
+        return Zikr.fromMap(maps[i]);
+      }),
+    ))
+        .first;
   }
 
   /// Close database
