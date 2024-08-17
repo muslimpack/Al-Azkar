@@ -137,20 +137,30 @@ class ZikrContentViewerBloc
     );
   }
 
-  FutureOr<void> _copy(
-    ZikrContentViewerCopyEvent event,
-    Emitter<ZikrContentViewerState> emit,
-  ) async {
+  Future<String> sharedZikrText() async {
     final state = this.state;
-    if (state is! ZikrContentViewerLoadedState) return;
+    if (state is! ZikrContentViewerLoadedState) return "";
 
-    if (state.activeZikr == null) return;
-    final activeZikr = state.activeZikr!;
+    if (state.activeZikr == null) return "";
+    final Zikr zikrFromDB =
+        await azkarDBHelper.getContentById(state.activeZikr!.id);
+
+    final activeZikr = zikrFromDB;
     final fadlTxt = activeZikr.fadl.isEmpty
         ? ""
         : "\n\n-------\nالفضل:\n${activeZikr.fadl}";
     final plainText =
         "${await activeZikr.toPlainText()}\n\n-------\nعدد مرات الذكر:  ${activeZikr.count}$fadlTxt\n\n-------\nالحكم: ${activeZikr.hokm}\n\n==============\nالمصدر:\n${activeZikr.source}";
+    return plainText;
+  }
+
+  FutureOr<void> _copy(
+    ZikrContentViewerCopyEvent event,
+    Emitter<ZikrContentViewerState> emit,
+  ) async {
+    final plainText = await sharedZikrText();
+    if (plainText.isEmpty) return;
+
     await Clipboard.setData(ClipboardData(text: plainText));
 
     showToast("تم نسخ الذكر");
@@ -160,10 +170,9 @@ class ZikrContentViewerBloc
     ZikrContentViewerShareEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
-    final state = this.state;
-    if (state is! ZikrContentViewerLoadedState) return;
-    if (state.activeZikr == null) return;
-    final plainText = await state.activeZikr!.toPlainText();
+    final plainText = await sharedZikrText();
+    if (plainText.isEmpty) return;
+
     Share.share(plainText);
   }
 
