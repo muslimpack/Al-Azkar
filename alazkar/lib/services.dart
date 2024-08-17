@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:alazkar/src/core/utils/app_print.dart';
-import 'package:alazkar/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +26,7 @@ Future initServices() async {
 
   await GetStorage.init();
 
-  await viewStatistics();
+  // if(kDebugMode) await viewStatistics();
 }
 
 class AppBlocObserver extends BlocObserver {
