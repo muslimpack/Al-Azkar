@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
@@ -5,7 +6,7 @@ import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_
 import 'package:get_storage/get_storage.dart';
 
 class ZikrFilterStorage {
-  static final box = GetStorage();
+  static final box = GetStorage(kGetStorageName);
 
   static List<Filter> getAllFilters() {
     return ZikrFilter.values

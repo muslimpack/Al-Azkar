@@ -1,8 +1,9 @@
+import 'package:alazkar/src/core/constants/const.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ThemeStorage {
-  static final box = GetStorage();
+  static final box = GetStorage(kGetStorageName);
 
   /// *****************************
   static const String _brightnessKey = "ThemeBrightness";

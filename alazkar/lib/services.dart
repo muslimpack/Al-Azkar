@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/extension/extension_platform.dart';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
@@ -32,7 +33,7 @@ Future initServices() async {
 
   await initDBs();
 
-  await GetStorage.init();
+  await GetStorage.init(kGetStorageName);
 
   if (PlatformExtension.isDesktop) {
     await windowManager.ensureInitialized();

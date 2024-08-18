@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/extension/extension_platform.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
@@ -248,7 +249,7 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
   }
 
   FutureOr<void> _saveDate(String key, dynamic data) async {
-    final box = GetStorage();
+    final box = GetStorage(kGetStorageName);
     await box.write(key, data);
   }
 

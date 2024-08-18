@@ -1,3 +1,5 @@
+import 'package:alazkar/src/core/extension/extension_platform.dart';
+
 final String appVersion = [
   "0.9.0",
   "0.8.0",
@@ -30,3 +32,6 @@ const Iterable<int> kArabicDiacriticsChar = [
   124,
   1618,
 ];
+
+String kGetStorageName =
+    PlatformExtension.isDesktop ? "AlAzkarGetStorage" : "GetStorage";

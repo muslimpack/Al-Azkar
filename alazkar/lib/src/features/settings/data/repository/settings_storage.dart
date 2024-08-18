@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
 class SettingsStorage {
-  static final _box = GetStorage();
+  static final _box = GetStorage(kGetStorageName);
 
   static const String _settingsPrefixNameKey = "SettingsStorage";
 

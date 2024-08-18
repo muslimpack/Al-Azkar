@@ -35,7 +35,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
   });
 
   // ******************************************* //
-  final box = GetStorage();
+  final box = GetStorage(kGetStorageName);
 
   Future<Widget> generateImageBodyContent() async {
     return Column(
@@ -133,7 +133,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
 ShareAsImageData shareAsImageData = ShareAsImageData();
 
 class ShareAsImageData {
-  final box = GetStorage();
+  final box = GetStorage(kGetStorageName);
   //////////////////
   ///
   final String showAppInfoKey = 'share_image_show_app_info';
