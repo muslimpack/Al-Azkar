@@ -4,7 +4,6 @@ import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/extension/extension_rich_text.dart';
 import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
-import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/range_text_formatter.dart';
 import 'package:alazkar/src/features/quran/data/models/verse_range.dart';
 import 'package:alazkar/src/features/quran/data/repository/uthmani_repository.dart';
@@ -55,7 +54,6 @@ extension ZikrExt on Zikr {
 
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
       final line = lines[lineIndex];
-      appPrint("line:: $line");
       if (line.contains("QuranText")) {
         spans.addAll(
           _getTextSpanForSingleItem(

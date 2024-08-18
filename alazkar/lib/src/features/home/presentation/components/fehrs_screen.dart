@@ -9,24 +9,22 @@ class FehrsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: Column(
-        children: [
-          const TitleFreqFilterCard(),
-          Expanded(
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: titles.map(
-                (e) {
-                  return FehrsItemCard(
-                    zikrTitle: e,
-                  );
-                },
-              ).toList(),
-            ),
+    return Column(
+      children: [
+        const TitleFreqFilterCard(),
+        Expanded(
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            children: titles.map(
+              (e) {
+                return FehrsItemCard(
+                  zikrTitle: e,
+                );
+              },
+            ).toList(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
