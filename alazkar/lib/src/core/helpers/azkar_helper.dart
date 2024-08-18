@@ -33,6 +33,13 @@ class AzkarDBHelper {
     return _database!;
   }
 
+  Future<void> init() async {
+    // Ensure the database is initialized
+    await database;
+  }
+
+  /* ************* | ************* */
+
   Future<List<ZikrTitle>> getAllTitles() async {
     final Database db = await database;
 

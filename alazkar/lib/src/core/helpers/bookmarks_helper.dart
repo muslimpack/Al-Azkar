@@ -31,6 +31,11 @@ class BookmarksDBHelper {
     return _database!;
   }
 
+  Future<void> init() async {
+    // Ensure the database is initialized
+    await database;
+  }
+
   /* ************* Database Creation ************* */
 
   // init
