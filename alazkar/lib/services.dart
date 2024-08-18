@@ -3,6 +3,7 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/utils/app_bloc_observer.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/core/utils/show_toast.dart';
 import 'package:alazkar/src/features/quran/data/repository/uthmani_repository.dart';
 import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
 import 'package:flutter/material.dart';
@@ -54,9 +55,13 @@ Future initServices() async {
 }
 
 Future initDBs() async {
-  return Future.wait([
-    azkarDBHelper.init(),
-    uthmaniRepository.init(),
-    bookmarksDBHelper.init(),
-  ]);
+  try {
+    return Future.wait([
+      azkarDBHelper.init(),
+      uthmaniRepository.init(),
+      bookmarksDBHelper.init(),
+    ]);
+  } catch (e) {
+    showToast(e.toString());
+  }
 }
