@@ -7,6 +7,7 @@ import 'package:alazkar/src/features/settings/presentation/controller/cubit/sett
 import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
 import 'package:alazkar/src/features/ui/presentation/components/desktop_window_wrapper.dart';
 import 'package:alazkar/src/features/zikr_source_filter/presentation/controller/cubit/zikr_source_filter_cubit.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -54,7 +55,10 @@ class MyApp extends StatelessWidget {
             ],
             builder: (context, child) {
               if (PlatformExtension.isDesktop) {
-                return DesktopWindowWrapper(child: child);
+                final botToastBuilder = BotToastInit();
+                return DesktopWindowWrapper(
+                  child: botToastBuilder(context, child),
+                );
               }
               return child ?? const SizedBox();
             },
