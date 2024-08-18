@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   dotted_border: ^2.0.0+3
   equatable: ^2.0.5
+  file_picker: ^8.0.7
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
