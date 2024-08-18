@@ -65,7 +65,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
         const SizedBox(height: 20),
         Text(
           "عدد مرات الذكر: ${zikr.count}",
-          // textAlign: TextAlign.center,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: fontSize,
             color: textColor,
