@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
                 seedColor: state.color,
                 brightness: state.brightness,
               ),
+              visualDensity: VisualDensity.adaptivePlatformDensity,
               fontFamily: "Cairo",
               useMaterial3: state.useMaterial3,
             ),
