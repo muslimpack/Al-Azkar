@@ -57,7 +57,7 @@ class DBHelper {
     final String path = await getDbPath();
     final bool exist = await databaseExists(path);
 
-    final assetDBPath = join('assets', 'db', dbName);
+    final assetDBPath = join('assets/db/$dbName');
 
     if (!exist) {
       await copyFromAssets(path, assetDBPath);
