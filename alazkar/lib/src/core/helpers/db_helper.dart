@@ -34,7 +34,7 @@ class DBHelper {
 
     try {
       if (Platform.isWindows) {
-        File(dbAssetPath).copy(path);
+        await File(dbAssetPath).copy(path);
       } else {
         Directory(dirname(path)).createSync(recursive: true);
         final ByteData data = await rootBundle.load(dbAssetPath);

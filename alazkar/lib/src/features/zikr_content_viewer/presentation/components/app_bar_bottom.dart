@@ -57,7 +57,7 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
               );
             },
             icon: const Icon(
-              Icons.contact_support_outlined,
+              Icons.emoji_events_rounded,
             ),
           ),
         if (state.azkar.isNotEmpty && state.activeZikr!.source.isNotEmpty)

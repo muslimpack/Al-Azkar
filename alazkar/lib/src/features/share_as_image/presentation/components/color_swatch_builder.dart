@@ -45,6 +45,7 @@ class ColorSwatchBuilder extends StatelessWidget {
                               labelTypes: const [],
                               enableAlpha: false,
                               pickerColor: colorToTrack,
+                              hexInputBar: true,
                               onColorChanged: changeColor,
                               onHistoryChanged: (value) {},
                             ),
@@ -54,9 +55,9 @@ class ColorSwatchBuilder extends StatelessWidget {
                                 Navigator.pop(context);
                               },
                               title: const Text(
-                                "Select color",
+                                "اختر اللون",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 25),
+                                style: TextStyle(fontSize: 20),
                               ),
                             ),
                           ],

@@ -25,10 +25,11 @@ extension ZikrExt on Zikr {
     }
   }
 
-  Future<List<String>> getQuranVersesTextFormSingleRange(
+  Future<Map<VerseRange, String>> getQuranVersesTextFormSingleRange(
     String rangeText,
   ) async {
     final List<VerseRange> ranges = RangeTextFormatter.parse(rangeText);
+    final Map<VerseRange, String> result = {};
 
     final List<String> verses = [];
     for (final range in ranges) {
@@ -38,9 +39,10 @@ extension ZikrExt on Zikr {
         endAyah: range.endingAyah,
       );
       verses.add(text);
+      result[range] = text;
     }
 
-    return verses;
+    return result;
   }
 
   Future<List<InlineSpan>> getTextSpan({bool enableDiacritics = true}) async {
@@ -52,7 +54,6 @@ extension ZikrExt on Zikr {
 
     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
       final line = lines[lineIndex];
-
       if (line.contains("QuranText")) {
         spans.addAll(
           _getTextSpanForSingleItem(
@@ -80,21 +81,27 @@ extension ZikrExt on Zikr {
   }
 
   List<InlineSpan> _getTextSpanForSingleItem(
-    List<String> verses,
+    Map<VerseRange, String> verses,
     int linesLength,
     int lineIndex,
     bool enableDiacritics,
   ) {
     final List<InlineSpan> spans = [];
     if (lineIndex != 0) spans.add(const TextSpan(text: "\n\n"));
-    for (var i = 0; i < verses.length; i++) {
+    for (var i = 0; i < verses.entries.length; i++) {
+      final currentVerse = verses.entries.elementAt(i);
+
       final List<String> verse = [];
 
-      if (i == 0) verse.addAll([kEstaaza, "\n\n"]);
+      final alhashrFinalAyah =
+          currentVerse.key.startSura == 59 && currentVerse.key.startAyah == 22;
+
+      final bool notHaveEstaaza = alhashrFinalAyah;
+      if (i == 0 && !notHaveEstaaza) verse.addAll([kEstaaza, "\n\n"]);
 
       verse.add(kArBasmallah);
 
-      verse.add(" ﴿ ${verses[i].trim()} ﴾");
+      verse.add(" ﴿ ${currentVerse.value.trim()} ﴾");
 
       if (i != verses.length - 1) verse.add("\n\n");
 

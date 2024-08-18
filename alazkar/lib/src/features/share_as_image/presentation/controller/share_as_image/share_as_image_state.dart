@@ -39,20 +39,22 @@ class ShareAsImageLoadedState extends ShareAsImageState {
 
   Future<Widget> generateImageBodyContent() async {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          zikrTitle.name,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: fontSize * 1.5,
-            color: textColor,
-            fontFamily: "Kitab",
+        ImageSharedBorder(
+          padding: const EdgeInsets.all(20),
+          margin: const EdgeInsets.only(bottom: 50),
+          child: Center(
+            child: Text(
+              zikrTitle.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: fontSize * 1.3,
+                color: textColor,
+                fontFamily: "Kitab",
+              ),
+            ),
           ),
-        ),
-        Divider(
-          thickness: 5,
-          height: 40,
-          color: Colors.brown.shade900,
         ),
         ZikrContentBuilder(
           zikr: zikr,
@@ -63,11 +65,12 @@ class ShareAsImageLoadedState extends ShareAsImageState {
         const SizedBox(height: 20),
         Text(
           "عدد مرات الذكر: ${zikr.count}",
-          textAlign: TextAlign.center,
+          // textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: fontSize,
             color: textColor,
-            fontFamily: "Cairo",
+            fontFamily: "Kitab",
+            fontStyle: FontStyle.italic,
           ),
         ),
         if (zikr.fadl.isNotEmpty) ...[
@@ -79,6 +82,7 @@ class ShareAsImageLoadedState extends ShareAsImageState {
               fontSize: fontSize * 1.3,
               color: textColor,
               fontFamily: "Kitab",
+              fontStyle: FontStyle.italic,
               height: 2,
             ),
           ),

@@ -13,6 +13,10 @@ class ShareAsImageBottomBar extends StatelessWidget {
     final List<Color> colorSwatchList = [
       Colors.brown,
       Colors.white,
+      const Color(0xFFD7CCC8),
+      const Color(0xFFFFF8EE),
+      const Color(0xFFF6EBDC),
+      const Color(0xFFFFEB3B),
     ];
     return BlocBuilder<ShareAsImageBloc, ShareAsImageState>(
       builder: (context, state) {

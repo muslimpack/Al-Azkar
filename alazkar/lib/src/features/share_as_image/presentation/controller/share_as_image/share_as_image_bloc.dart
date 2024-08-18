@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:alazkar/src/core/extension/extension_platform.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/features/share_as_image/presentation/components/image_builder.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_content_builder.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get_storage/get_storage.dart';
@@ -70,19 +74,49 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
       final image = await boundary.toImage(pixelRatio: pixelRatio);
 
       final byteData = await image.toByteData(format: ImageByteFormat.png);
-      final tempDir = await getTemporaryDirectory();
 
-      final File file =
-          await File('${tempDir.path}/QuranSharedImage.png').create();
-      await file.writeAsBytes(byteData!.buffer.asUint8List());
-
-      await Share.shareXFiles([XFile(file.path)]);
-
-      await file.delete();
+      if (PlatformExtension.isDesktop) {
+        await _saveDesktop(byteData);
+      } else {
+        await _savePhone(byteData);
+      }
     } catch (e) {
       appPrint(e.toString());
     }
     emit(state.copyWith(isLoading: false));
+  }
+
+  Future _saveDesktop(ByteData? byteData) async {
+    if (byteData == null) return;
+
+    final Uint8List uint8List = byteData.buffer.asUint8List();
+
+    final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    String? outputFile = await FilePicker.platform.saveFile(
+      dialogTitle: 'Please select an output file:',
+      fileName: 'SharedImage-$timestamp.png',
+    );
+
+    if (outputFile == null) return;
+    if (!outputFile.endsWith(".png")) {
+      outputFile += ".png";
+    }
+
+    appPrint(outputFile);
+
+    final File file = File(outputFile);
+    await file.writeAsBytes(uint8List);
+  }
+
+  Future _savePhone(ByteData? byteData) async {
+    final tempDir = await getTemporaryDirectory();
+
+    final File file = await File('${tempDir.path}/SharedImage.png').create();
+    await file.writeAsBytes(byteData!.buffer.asUint8List());
+
+    await Share.shareXFiles([XFile(file.path)]);
+
+    await file.delete();
   }
 
   /// Font size

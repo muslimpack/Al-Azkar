@@ -9,11 +9,11 @@ class FehrsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: Column(
-        children: [
-          const TitleFreqFilterCard(),
-          Expanded(
+    return Column(
+      children: [
+        const TitleFreqFilterCard(),
+        Expanded(
+          child: Scrollbar(
             child: ListView(
               physics: const BouncingScrollPhysics(),
               children: titles.map(
@@ -25,8 +25,8 @@ class FehrsScreen extends StatelessWidget {
               ).toList(),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
