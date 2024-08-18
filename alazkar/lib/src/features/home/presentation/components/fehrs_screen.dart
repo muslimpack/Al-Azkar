@@ -13,15 +13,17 @@ class FehrsScreen extends StatelessWidget {
       children: [
         const TitleFreqFilterCard(),
         Expanded(
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            children: titles.map(
-              (e) {
-                return FehrsItemCard(
-                  zikrTitle: e,
-                );
-              },
-            ).toList(),
+          child: Scrollbar(
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: titles.map(
+                (e) {
+                  return FehrsItemCard(
+                    zikrTitle: e,
+                  );
+                },
+              ).toList(),
+            ),
           ),
         ),
       ],
