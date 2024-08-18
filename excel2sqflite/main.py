@@ -1,9 +1,7 @@
-
 import json
 import sqlite3
-
 import pandas as pd
-
+from tqdm import tqdm
 
 def read_config(config_path):
     with open(config_path, 'r', encoding='utf-8') as f:
@@ -18,12 +16,7 @@ def ExcelColumnToNumber(column):
     return number - 1
 
 def get_last_occurrence(columns, name):
-  
-    # result = next((col for col in reversed(columns) if col == name), None)
     index = next((len(columns) - i - 1 for i, col in enumerate(reversed(columns)) if col == name), None)
-
-    # result = columns.index(name)
-    print(f"get_column_index: {name} | {columns} | {index}")
     return index
 
 def get_column_index(header, column_name, column_header):
@@ -72,11 +65,8 @@ def map_xlsx_to_db(config):
         header = df.columns
         data = []
 
-        # Print headers and columns for debugging
-        print(f"Headers: {header}")
-        print(f"Columns: {columns}")
-
-        for _, row in df.iterrows():
+        # Use tqdm to show progress
+        for _, row in tqdm(df.iterrows(), total=len(df), desc=f'Processing {csv_sheet}'):
             row_data = []
             for col in columns:
                 csv_col_name = col['csvColName']
@@ -86,7 +76,6 @@ def map_xlsx_to_db(config):
                     row_data.append(row.iloc[col_idx])  # Use iloc to get value by integer index
                 else:
                     row_data.append(None)  # Handle missing column gracefully
-            print(f"Row Data: {row_data}")
             data.append(tuple(row_data))
         
         # Insert data into table
@@ -96,6 +85,9 @@ def map_xlsx_to_db(config):
     conn.close()
 
 if __name__ == '__main__':
-    config_path = 'config.json'
-    config = read_config(config_path)
-    map_xlsx_to_db(config)
+    try:
+        config_path = 'config.json'
+        config = read_config(config_path)
+        map_xlsx_to_db(config)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
