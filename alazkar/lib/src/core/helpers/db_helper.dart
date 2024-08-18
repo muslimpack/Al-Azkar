@@ -56,39 +56,20 @@ class DBHelper {
     appPrint("$dbName init db");
     final String path = await getDbPath();
     final bool exist = await databaseExists(path);
-    bool copyRequired = false;
 
-    if (exist) {
-      final File dbFile = File(path);
-      final File assetFile = File('assets/db/$dbName');
-      final int dbFileSize = await dbFile.length();
-      final int assetFileSize = await assetFile.length();
+    final assetDBPath = join('assets', 'db', dbName);
 
-      if (dbFileSize != assetFileSize) {
-        appPrint("$dbName file size mismatch, copying new database");
-        await deleteDatabase(path);
-        copyRequired = true;
-      }
-    } else {
-      copyRequired = true;
+    if (!exist) {
+      await copyFromAssets(path, assetDBPath);
     }
-
-    if (copyRequired) {
-      await copyFromAssets(path, 'assets/db/$dbName');
-      final tempDB = await openDatabase(path, version: dbVersion);
-      await tempDB.close();
-    }
-
     final Database database = await openDatabase(path);
 
     await database.getVersion().then((currentVersion) async {
       if (currentVersion < dbVersion) {
-        appPrint(
-          "$dbName detect new version | C:$currentVersion - N:$dbVersion",
-        );
+        appPrint("$dbName detect new version");
         database.close();
         await deleteDatabase(path);
-        await copyFromAssets(path, 'assets/db/$dbName');
+        await copyFromAssets(path, assetDBPath);
       }
     });
 
