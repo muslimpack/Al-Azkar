@@ -1,9 +1,11 @@
+import 'package:alazkar/src/core/extension/extension_platform.dart';
 import 'package:alazkar/src/core/utils/scroll_behavior.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/home/presentation/screens/home_page_screen.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:alazkar/src/features/settings/presentation/controller/cubit/settings_cubit.dart';
 import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
+import 'package:alazkar/src/features/ui/presentation/components/desktop_window_wrapper.dart';
 import 'package:alazkar/src/features/zikr_source_filter/presentation/controller/cubit/zikr_source_filter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +52,12 @@ class MyApp extends StatelessWidget {
             supportedLocales: const [
               Locale("ar", "EG"),
             ],
+            builder: (context, child) {
+              if (PlatformExtension.isDesktop) {
+                return DesktopWindowWrapper(child: child);
+              }
+              return child ?? const SizedBox();
+            },
             home: const HomePageScreen(),
           );
         },
