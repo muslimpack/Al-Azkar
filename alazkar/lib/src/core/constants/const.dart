@@ -34,4 +34,4 @@ const Iterable<int> kArabicDiacriticsChar = [
 ];
 
 String kGetStorageName =
-    PlatformExtension.isDesktop ? "AlAzkarGetStorage" : "GetStorage";
+    PlatformExtension.isDesktop ? "alazkar_storage" : "GetStorage";
