@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/features/share_as_image/presentation/components/image_builder.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_content_builder.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
