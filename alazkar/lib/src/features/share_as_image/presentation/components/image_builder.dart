@@ -23,7 +23,7 @@ class ImageBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: const EdgeInsets.all(0),
+      padding: EdgeInsets.zero,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(25),
