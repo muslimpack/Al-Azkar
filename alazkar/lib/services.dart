@@ -1,6 +1,5 @@
-import 'dart:io';
-
-import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/core/extension/extension_platform.dart';
+import 'package:alazkar/src/core/utils/app_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +18,7 @@ Future initServices() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  if (Platform.isWindows) {
+  if (PlatformExtension.isDesktopOrWeb) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
@@ -27,26 +26,4 @@ Future initServices() async {
   await GetStorage.init();
 
   // if(kDebugMode) await viewStatistics();
-}
-
-class AppBlocObserver extends BlocObserver {
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    super.onChange(bloc, change);
-    if (bloc is Cubit) {
-      printColor(
-        '[Cubit] currentState: ${change.currentState} | nextState: ${change.nextState}',
-        color: PrintColors.red,
-      );
-    }
-  }
-
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    printColor(
-      '[Bloc] event: ${transition.event} | currentState: ${transition.currentState} | nextState: ${transition.nextState}',
-      color: PrintColors.magenta,
-    );
-  }
 }
