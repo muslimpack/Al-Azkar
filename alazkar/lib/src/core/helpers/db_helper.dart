@@ -12,7 +12,7 @@ class DBHelper {
   late final int dbVersion;
 
   DBHelper({required this.dbName, required this.dbVersion}) {
-    appPrint("DatabaseHelper for $dbName");
+    appPrint("# DatabaseHelper for $dbName");
   }
 
   Future<String> getDbPath() async {
@@ -33,25 +33,19 @@ class DBHelper {
     appPrint("$dbName copying new db...");
 
     try {
-      if (Platform.isWindows) {
-        await File(dbAssetPath).copy(path);
-      } else {
-        Directory(dirname(path)).createSync(recursive: true);
-        final ByteData data = await rootBundle.load(dbAssetPath);
-        final List<int> bytes = data.buffer.asUint8List();
+      final ByteData data = await rootBundle.load(dbAssetPath);
+      final List<int> bytes = data.buffer.asUint8List();
+      final File file = File(path);
 
-        // Check if the ByteData size matches the expected size (optional, for debugging)
-        appPrint(
-          "Expected size: ${data.lengthInBytes}, actual size: ${bytes.length}",
-        );
+      await file.writeAsBytes(bytes, flush: true);
 
-        final file = File(path);
-        file.writeAsBytesSync(bytes, flush: true);
+      // Verify file size after writing (optional, for debugging)
+      final writtenFileSize = await file.length();
+      // Check if the ByteData size matches the expected size (optional, for debugging)
+      appPrint(
+        "$dbName Expected size: ${data.lengthInBytes}, actual size: ${bytes.length} | Written file size: $writtenFileSize",
+      );
 
-        // Verify file size after writing (optional, for debugging)
-        final writtenFileSize = await file.length();
-        appPrint("Written file size: $writtenFileSize");
-      }
       appPrint("$dbName copy done");
     } catch (e) {
       appPrint("$dbName copy failed: $e");
@@ -62,15 +56,36 @@ class DBHelper {
     appPrint("$dbName init db");
     final String path = await getDbPath();
     final bool exist = await databaseExists(path);
+    bool copyRequired = false;
 
-    if (!exist) {
-      await copyFromAssets(path, 'assets/db/$dbName');
+    if (exist) {
+      final File dbFile = File(path);
+      final File assetFile = File('assets/db/$dbName');
+      final int dbFileSize = await dbFile.length();
+      final int assetFileSize = await assetFile.length();
+
+      if (dbFileSize != assetFileSize) {
+        appPrint("$dbName file size mismatch, copying new database");
+        await deleteDatabase(path);
+        copyRequired = true;
+      }
+    } else {
+      copyRequired = true;
     }
+
+    if (copyRequired) {
+      await copyFromAssets(path, 'assets/db/$dbName');
+      final tempDB = await openDatabase(path, version: dbVersion);
+      await tempDB.close();
+    }
+
     final Database database = await openDatabase(path);
 
     await database.getVersion().then((currentVersion) async {
       if (currentVersion < dbVersion) {
-        appPrint("$dbName detect new version");
+        appPrint(
+          "$dbName detect new version | C:$currentVersion - N:$dbVersion",
+        );
         database.close();
         await deleteDatabase(path);
         await copyFromAssets(path, 'assets/db/$dbName');
