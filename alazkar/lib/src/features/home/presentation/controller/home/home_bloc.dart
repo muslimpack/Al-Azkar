@@ -102,6 +102,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (azkarToSet.isNotEmpty) reducedTitles.add(title);
     }
 
+    // ignore: join_return_with_assignment
     titlesToSet = reducedTitles;
 
     return titlesToSet;
