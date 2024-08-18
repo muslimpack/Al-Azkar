@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/utils/scroll_behavior.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/home/presentation/screens/home_page_screen.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            scrollBehavior: AppScrollBehavior(),
             title: 'Al-Azkar',
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
