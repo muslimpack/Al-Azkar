@@ -105,11 +105,10 @@ class ShareAsImageBottomBar extends StatelessWidget {
                       context: context,
                       builder: (_) {
                         return ImageWidthDialog(
-                          initialValue:
-                              shareAsImageData.imageWidth.toInt().toString(),
+                          initialValue: state.width.toInt().toString(),
                           onSubmit: (width) async {
-                            final int tempWidth = int.tryParse(width) ??
-                                shareAsImageData.imageWidth.toInt();
+                            final int tempWidth =
+                                int.tryParse(width) ?? state.width.toInt();
 
                             context.read<ShareAsImageBloc>().add(
                                   ShareAsImageChangeWidthEvent(

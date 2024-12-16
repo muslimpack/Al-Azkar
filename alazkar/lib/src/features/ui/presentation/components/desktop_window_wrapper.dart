@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
+import 'package:alazkar/src/core/di/dependency_injection.dart';
+import 'package:alazkar/src/features/ui/data/repository/ui_repo.dart';
 import 'package:alazkar/src/features/ui/presentation/components/windows_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
@@ -32,7 +33,7 @@ class _DesktopWindowWrapperState extends State<DesktopWindowWrapper>
   @override
   void onWindowResize() {
     super.onWindowResize();
-    SettingsStorage.changeDesktopWindowSize(MediaQuery.of(context).size);
+    sl<UIRepo>().changeDesktopWindowSize(MediaQuery.of(context).size);
   }
 
   @override

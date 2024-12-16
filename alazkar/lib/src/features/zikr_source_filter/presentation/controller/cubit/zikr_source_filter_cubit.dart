@@ -6,7 +6,8 @@ import 'package:equatable/equatable.dart';
 part 'zikr_source_filter_state.dart';
 
 class ZikrSourceFilterCubit extends Cubit<ZikrSourceFilterState> {
-  ZikrSourceFilterCubit()
+  final ZikrFilterStorage zikrFilterStorage;
+  ZikrSourceFilterCubit(this.zikrFilterStorage)
       : super(
           const ZikrSourceFilterState(
             filters: [],
@@ -16,32 +17,32 @@ class ZikrSourceFilterCubit extends Cubit<ZikrSourceFilterState> {
         );
 
   void start() {
-    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    final List<Filter> filters = zikrFilterStorage.getAllFilters();
 
     emit(
       ZikrSourceFilterState(
         filters: filters,
-        enableFilters: ZikrFilterStorage.getEnableFiltersStatus(),
-        enableHokmFilters: ZikrFilterStorage.getEnableHokmFiltersStatus(),
+        enableFilters: zikrFilterStorage.getEnableFiltersStatus(),
+        enableHokmFilters: zikrFilterStorage.getEnableHokmFiltersStatus(),
       ),
     );
   }
 
   Future toggleEnableFilters(bool enableFilters) async {
-    ZikrFilterStorage.setEnableFiltersStatus(enableFilters);
+    zikrFilterStorage.setEnableFiltersStatus(enableFilters);
 
     emit(state.copyWith(enableFilters: enableFilters));
   }
 
   Future toggleEnableHokmFilters(bool enableFilters) async {
-    ZikrFilterStorage.setEnableHokmFiltersStatus(enableFilters);
+    zikrFilterStorage.setEnableHokmFiltersStatus(enableFilters);
 
     emit(state.copyWith(enableHokmFilters: enableFilters));
   }
 
   Future toggleFilter(Filter filter) async {
     final newFilter = filter.copyWith(isActivated: !filter.isActivated);
-    await ZikrFilterStorage.setFilterStatus(newFilter);
+    await zikrFilterStorage.setFilterStatus(newFilter);
 
     final newList = List.of(state.filters).map((e) {
       if (e.filter == newFilter.filter) return newFilter;

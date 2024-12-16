@@ -24,14 +24,19 @@ part 'zikr_content_viewer_state.dart';
 class ZikrContentViewerBloc
     extends Bloc<ZikrContentViewerEvent, ZikrContentViewerState> {
   final HomeBloc homeBloc;
-  final ZikrTitle zikrTitle;
+  final SettingsStorage settingsStorage;
+  final ZikrFilterStorage zikrFilterStorage;
+
   final PageController pageController = PageController(
     viewportFraction: 1.004,
   );
   static final MethodChannel _volumeBtnChannel = VolumeButtonManager.channel;
 
-  ZikrContentViewerBloc(this.zikrTitle, {required this.homeBloc})
-      : super(ZikrContentViewerLoadingState()) {
+  ZikrContentViewerBloc(
+    this.homeBloc,
+    this.settingsStorage,
+    this.zikrFilterStorage,
+  ) : super(ZikrContentViewerLoadingState()) {
     VolumeButtonManager.setActivationStatus(
       activate: true,
     );
@@ -44,8 +49,6 @@ class ZikrContentViewerBloc
     on<ZikrContentViewerShareEvent>(_share);
     on<ZikrContentViewerNextTitleEvent>(_nextTitle);
     on<ZikrContentViewerPerviousTitleEvent>(_perviousTitle);
-
-    add(ZikrContentViewerStartEvent(zikrTitle));
 
     pageController.addListener(() {
       final state = this.state;
@@ -66,7 +69,7 @@ class ZikrContentViewerBloc
     }
     emit(ZikrContentViewerLoadingState());
 
-    final showTextInBrackets = SettingsStorage.showTextInBrackets();
+    final showTextInBrackets = settingsStorage.showTextInBrackets();
     final RegExp regExp = RegExp(r'\(.*?\)');
 
     /// get all zikr
@@ -81,7 +84,7 @@ class ZikrContentViewerBloc
             .toList();
 
     /// filter out zikr
-    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    final List<Filter> filters = zikrFilterStorage.getAllFilters();
     azkarToSet = filters.getFilteredZikr(azkarFromDB);
 
     emit(

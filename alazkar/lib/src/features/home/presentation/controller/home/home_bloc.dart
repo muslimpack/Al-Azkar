@@ -17,8 +17,10 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ZikrSourceFilterCubit zikrSourceFilterCubit;
+  final ZikrFilterStorage zikrFilterStorage;
   late StreamSubscription zikrSourceFilterCubitStram;
-  HomeBloc({required this.zikrSourceFilterCubit}) : super(HomeLoadingState()) {
+  HomeBloc(this.zikrSourceFilterCubit, this.zikrFilterStorage)
+      : super(HomeLoadingState()) {
     zikrSourceFilterCubitStram =
         zikrSourceFilterCubit.stream.listen(zikrSourceFilterCubitChanged);
 
@@ -31,8 +33,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeBookmarksChangedEvent>(_bookmarksChanged);
     on<HomeToggleFilterEvent>(_toggleFreqFilter);
     on<HomeFiltersChange>(_handleSettingsFiltersChanges);
-
-    add(HomeStartEvent());
   }
 
   FutureOr<void> _start(
@@ -62,7 +62,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .toList();
 
     ///
-    final freq = ZikrFilterStorage.getTitlesFreqFilterStatus();
+    final freq = zikrFilterStorage.getTitlesFreqFilterStatus();
 
     /// Filters
     titlesToSet = await applyFiltersOnTitels(titlesWithBookmarkedData, freq);
@@ -94,7 +94,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     /// Handle titles with no content after applying zikr filters
     final List<ZikrTitle> reducedTitles = List.of([]);
     final List<Filter> filters =
-        zikrFilters ?? ZikrFilterStorage.getAllFilters();
+        zikrFilters ?? zikrFilterStorage.getAllFilters();
     for (var i = 0; i < filterdFreqTitles.length; i++) {
       final title = filterdFreqTitles[i];
       final azkarFromDB = await azkarDBHelper.getContentByTitleId(title.id);
@@ -203,7 +203,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       newFreq,
     );
 
-    await ZikrFilterStorage.setTitlesFreqFilterStatus(newFreq);
+    await zikrFilterStorage.setTitlesFreqFilterStatus(newFreq);
 
     emit(
       state.copyWith(

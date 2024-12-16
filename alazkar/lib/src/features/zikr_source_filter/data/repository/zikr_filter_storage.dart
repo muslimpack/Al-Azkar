@@ -1,4 +1,3 @@
-import 'package:alazkar/src/core/constants/const.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/home/data/models/titles_freq_enum.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
@@ -6,9 +5,11 @@ import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_
 import 'package:get_storage/get_storage.dart';
 
 class ZikrFilterStorage {
-  static final box = GetStorage(kGetStorageName);
+  final GetStorage box;
 
-  static List<Filter> getAllFilters() {
+  ZikrFilterStorage(this.box);
+
+  List<Filter> getAllFilters() {
     return ZikrFilter.values
         .map((e) => Filter(filter: e, isActivated: getFilterStatus(e)))
         .toList();
@@ -20,13 +21,13 @@ class ZikrFilterStorage {
       "${_filterPrefixNameKey}enableFilters";
 
   /// Filters for zikr source
-  static bool getEnableFiltersStatus() {
+  bool getEnableFiltersStatus() {
     final bool? data = box.read(_enableFiltersKey);
     return data ?? false;
   }
 
   /// Filters for zikr source
-  static Future setEnableFiltersStatus(bool activateFilters) async {
+  Future setEnableFiltersStatus(bool activateFilters) async {
     return box.write(_enableFiltersKey, activateFilters);
   }
 
@@ -34,22 +35,22 @@ class ZikrFilterStorage {
       "${_filterPrefixNameKey}enableHokmFilters";
 
   /// Filters for zikr Hokm
-  static bool getEnableHokmFiltersStatus() {
+  bool getEnableHokmFiltersStatus() {
     final bool? data = box.read(_enableHokmFiltersKey);
     return data ?? false;
   }
 
   /// Filters for zikr Hokm
-  static Future setEnableHokmFiltersStatus(bool activateFilters) async {
+  Future setEnableHokmFiltersStatus(bool activateFilters) async {
     return box.write(_enableHokmFiltersKey, activateFilters);
   }
 
-  static bool getFilterStatus(ZikrFilter zikrFilter) {
+  bool getFilterStatus(ZikrFilter zikrFilter) {
     final bool? data = box.read(_getZikrFilterKey(zikrFilter));
     return data ?? true;
   }
 
-  static Future setFilterStatus(Filter filter) async {
+  Future setFilterStatus(Filter filter) async {
     return box.write(_getZikrFilterKey(filter.filter), filter.isActivated);
   }
 
@@ -62,7 +63,7 @@ class ZikrFilterStorage {
       "${_filterPrefixNameKey}titlesFreqFilter";
 
   /// Filters for zikr source
-  static List<TitlesFreqEnum> getTitlesFreqFilterStatus() {
+  List<TitlesFreqEnum> getTitlesFreqFilterStatus() {
     final String? data = box.read(_titlesFreqFilter);
     appPrint("FreqFilter: $data");
 
@@ -77,7 +78,7 @@ class ZikrFilterStorage {
   }
 
   /// Filters for zikr source
-  static Future setTitlesFreqFilterStatus(List<TitlesFreqEnum> freqList) async {
+  Future setTitlesFreqFilterStatus(List<TitlesFreqEnum> freqList) async {
     return box.write(_titlesFreqFilter, freqList.toJson());
   }
 }

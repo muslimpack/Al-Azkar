@@ -129,37 +129,3 @@ class ShareAsImageLoadedState extends ShareAsImageState {
         transformationController,
       ];
 }
-
-ShareAsImageData shareAsImageData = ShareAsImageData();
-
-class ShareAsImageData {
-  final box = GetStorage(kGetStorageName);
-  //////////////////
-  ///
-  final String showAppInfoKey = 'share_image_show_app_info';
-  bool get showAppInfo => box.read<bool?>(showAppInfoKey) ?? true;
-
-  ///
-  final String textColorKey = 'share_image_text_color';
-  Color get textColor => Color(
-        box.read<int?>(textColorKey) ?? Colors.white.value,
-      );
-
-  ///
-  final String backgroundColorKey = 'share_image_background_color';
-  Color get backgroundColor => Color(
-        box.read<int?>(backgroundColorKey) ?? Colors.brown.value,
-      );
-
-  ///
-  final String fontSizeKey = 'share_image_font_size';
-  double get fontSize => box.read(fontSizeKey) ?? 30;
-
-  ///
-  final String imageWidthKey = 'share_image_image_width';
-  double get imageWidth => box.read(imageWidthKey) ?? 900;
-
-  ///
-  final String imageQualityKey = 'share_image_image_quality';
-  double get imageQuality => box.read(imageQualityKey) ?? 2;
-}
