@@ -30,15 +30,16 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
           IconButton(
             tooltip: "مشاركة الذكر كصورة",
             onPressed: () async {
-              azkarDBHelper.getContentById(state.activeZikr!.id).then((zikr) {
-                Navigator.push(
-                  context,
-                  ShareAsImageScreen.route(
-                    zikr: zikr,
-                    zikrTitle: state.zikrTitle,
-                  ),
-                );
-              });
+              final zikr =
+                  await azkarDBHelper.getContentById(state.activeZikr!.id);
+              if (!context.mounted) return;
+              Navigator.push(
+                context,
+                ShareAsImageScreen.route(
+                  zikr: zikr,
+                  zikrTitle: state.zikrTitle,
+                ),
+              );
             },
             icon: const Icon(Icons.camera_alt_outlined),
           ),

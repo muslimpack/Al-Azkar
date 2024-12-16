@@ -9,6 +9,7 @@ import 'package:alazkar/src/core/extension/extension_platform.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/features/share_as_image/data/repository/share_image_repo.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/components/image_builder.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_content_builder.dart';
 import 'package:bloc/bloc.dart';
@@ -24,7 +25,8 @@ part 'share_as_image_event.dart';
 part 'share_as_image_state.dart';
 
 class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
-  ShareAsImageBloc() : super(ShareAsImageLoadingState()) {
+  final ShareAsImageRepo shareAsImageRepo;
+  ShareAsImageBloc(this.shareAsImageRepo) : super(ShareAsImageLoadingState()) {
     on<ShareAsImageStartEvent>(_start);
     on<ShareAsImageShareEvent>(_share);
     on<ShareAsImageChangeFontSizeEvent>(_fontSizeChange);
@@ -47,11 +49,11 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
         zikrTitle: event.zikrTitle,
         zikr: event.zikr,
         isLoading: false,
-        showAppInfo: shareAsImageData.showAppInfo,
-        textColor: shareAsImageData.textColor,
-        backgroundColor: shareAsImageData.backgroundColor,
-        fontSize: shareAsImageData.fontSize,
-        width: shareAsImageData.imageWidth,
+        showAppInfo: shareAsImageRepo.showAppInfo,
+        textColor: shareAsImageRepo.textColor,
+        backgroundColor: shareAsImageRepo.backgroundColor,
+        fontSize: shareAsImageRepo.fontSize,
+        width: shareAsImageRepo.imageWidth,
         transformationController: TransformationController(),
       ),
     );
@@ -132,7 +134,7 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
 
     final double newFontSize = event.fontSize.clamp(5, 50);
     emit(state.copyWith(fontSize: newFontSize));
-    await _saveDate(shareAsImageData.fontSizeKey, newFontSize);
+    await shareAsImageRepo.updateFontSize(newFontSize);
   }
 
   FutureOr<void> _increaseFontSize(
@@ -219,7 +221,7 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
     }
     final double newWidth = event.width.clamp(600, double.infinity);
     emit(state.copyWith(width: newWidth));
-    await _saveDate(shareAsImageData.imageWidthKey, newWidth);
+    await shareAsImageRepo.updateImageWidth(newWidth);
   }
 
   FutureOr<void> _changeBackgroundColor(
@@ -232,7 +234,7 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
     }
     final Color newColor = event.backgroundColor;
     emit(state.copyWith(backgroundColor: newColor));
-    await _saveDate(shareAsImageData.backgroundColorKey, newColor.value);
+    await shareAsImageRepo.updateBackgroundColor(newColor);
   }
 
   FutureOr<void> _changeTextColor(
@@ -245,12 +247,7 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
     }
     final Color newColor = event.textColor;
     emit(state.copyWith(textColor: newColor));
-    await _saveDate(shareAsImageData.textColorKey, newColor.value);
-  }
-
-  FutureOr<void> _saveDate(String key, dynamic data) async {
-    final box = GetStorage(kGetStorageName);
-    await box.write(key, data);
+    await shareAsImageRepo.updateTextColor(newColor);
   }
 
   FutureOr<void> _changeShowAppInfo(
@@ -263,6 +260,6 @@ class ShareAsImageBloc extends Bloc<ShareAsImageEvent, ShareAsImageState> {
     }
     final bool newValue = event.showAppInfo;
     emit(state.copyWith(showAppInfo: newValue));
-    await _saveDate(shareAsImageData.showAppInfoKey, newValue);
+    await shareAsImageRepo.updateShowAppInfo(newValue);
   }
 }

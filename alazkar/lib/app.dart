@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/extension/extension_platform.dart';
 import 'package:alazkar/src/core/utils/scroll_behavior.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
@@ -19,17 +20,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => SettingsCubit()),
-        BlocProvider(create: (_) => ThemeCubit()),
-        BlocProvider(create: (_) => ZikrSourceFilterCubit()..start()),
+        BlocProvider(create: (_) => sl<SettingsCubit>()),
+        BlocProvider(create: (_) => sl<ThemeCubit>()),
+        BlocProvider(create: (_) => sl<ZikrSourceFilterCubit>()..start()),
         BlocProvider(
-          create: (context) => HomeBloc(
-            zikrSourceFilterCubit: context.read<ZikrSourceFilterCubit>(),
-          ),
+          create: (context) => sl<HomeBloc>()..add(HomeStartEvent()),
         ),
-        BlocProvider(
-          create: (context) => SearchCubit(context.read<HomeBloc>()),
-        ),
+        BlocProvider(create: (context) => sl<SearchCubit>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {

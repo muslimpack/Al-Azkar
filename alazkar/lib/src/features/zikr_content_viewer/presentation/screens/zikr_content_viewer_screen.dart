@@ -1,6 +1,6 @@
+import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
-import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/app_bar_bottom.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/bottom_app_bar.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_item_card.dart';
@@ -21,14 +21,8 @@ class ZikrContentViewerScreen extends StatelessWidget {
   static Route route({required ZikrTitle zikrTitle}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => BlocProvider(
-        create: (context) => ZikrContentViewerBloc(
-          zikrTitle,
-          homeBloc: context.read<HomeBloc>(),
-        ),
-        child: ZikrContentViewerScreen(
-          zikrTitle: zikrTitle,
-        ),
+      builder: (_) => ZikrContentViewerScreen(
+        zikrTitle: zikrTitle,
       ),
     );
   }
@@ -50,67 +44,70 @@ class ZikrContentViewerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ZikrContentViewerBloc, ZikrContentViewerState>(
-      bloc: context.read<ZikrContentViewerBloc>(),
-      builder: (context, state) {
-        if (state is! ZikrContentViewerLoadedState) {
-          return const Loading();
-        }
-        const headerStyle = TextStyle(
-          fontFamily: "Kitab",
-          fontWeight: FontWeight.bold,
-        );
-        final Size screenSize = MediaQuery.of(context).size;
-        final bool isSliding =
-            getTextWidth(state.zikrTitle.name, headerStyle, context) >
-                (screenSize.width * .5);
-        return Scaffold(
-          appBar: AppBar(
-            title: isSliding
-                ? SizedBox(
-                    height: 60,
-                    child: Marquee(
-                      text: state.zikrTitle.name,
-                      blankSpace: screenSize.width,
-                      pauseAfterRound: const Duration(seconds: 1),
-                      accelerationCurve: Curves.easeInOut,
-                      decelerationCurve: Curves.easeOut,
-                      fadingEdgeEndFraction: 1,
-                      fadingEdgeStartFraction: .5,
-                      showFadingOnlyWhenScrolling: false,
+    return BlocProvider(
+      create: (context) => sl<ZikrContentViewerBloc>()
+        ..add(ZikrContentViewerStartEvent(zikrTitle)),
+      child: BlocBuilder<ZikrContentViewerBloc, ZikrContentViewerState>(
+        builder: (context, state) {
+          if (state is! ZikrContentViewerLoadedState) {
+            return const Loading();
+          }
+          const headerStyle = TextStyle(
+            fontFamily: "Kitab",
+            fontWeight: FontWeight.bold,
+          );
+          final Size screenSize = MediaQuery.of(context).size;
+          final bool isSliding =
+              getTextWidth(state.zikrTitle.name, headerStyle, context) >
+                  (screenSize.width * .5);
+          return Scaffold(
+            appBar: AppBar(
+              title: isSliding
+                  ? SizedBox(
+                      height: 60,
+                      child: Marquee(
+                        text: state.zikrTitle.name,
+                        blankSpace: screenSize.width,
+                        pauseAfterRound: const Duration(seconds: 1),
+                        accelerationCurve: Curves.easeInOut,
+                        decelerationCurve: Curves.easeOut,
+                        fadingEdgeEndFraction: 1,
+                        fadingEdgeStartFraction: .5,
+                        showFadingOnlyWhenScrolling: false,
+                        style: headerStyle,
+                      ),
+                    )
+                  : Text(
+                      state.zikrTitle.name,
                       style: headerStyle,
                     ),
-                  )
-                : Text(
-                    state.zikrTitle.name,
-                    style: headerStyle,
-                  ),
-            centerTitle: true,
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: Column(
-                children: [
-                  ZikrContentViewerAppBarBottom(state: state),
-                  LinearProgressIndicator(
-                    value: state.progress(),
-                  ),
-                ],
+              centerTitle: true,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: Column(
+                  children: [
+                    ZikrContentViewerAppBarBottom(state: state),
+                    LinearProgressIndicator(
+                      value: state.progress(),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          body: PageView.builder(
-            controller: context.read<ZikrContentViewerBloc>().pageController,
-            itemCount: state.azkar.length,
-            itemBuilder: (context, index) {
-              final zikr = state.azkar[index];
-              return ZikrItemCard(zikr: zikr);
-            },
-          ),
-          bottomNavigationBar: ZikrContentViewerBottomAppBar(
-            state: state,
-          ),
-        );
-      },
+            body: PageView.builder(
+              controller: context.read<ZikrContentViewerBloc>().pageController,
+              itemCount: state.azkar.length,
+              itemBuilder: (context, index) {
+                final zikr = state.azkar[index];
+                return ZikrItemCard(zikr: zikr);
+              },
+            ),
+            bottomNavigationBar: ZikrContentViewerBottomAppBar(
+              state: state,
+            ),
+          );
+        },
+      ),
     );
   }
 }

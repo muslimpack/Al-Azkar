@@ -5,16 +5,17 @@ import 'package:equatable/equatable.dart';
 part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit()
+  final SettingsStorage settingsStorage;
+  SettingsCubit(this.settingsStorage)
       : super(
           SettingsState(
-            showTextInBrackets: SettingsStorage.showTextInBrackets(),
+            showTextInBrackets: settingsStorage.showTextInBrackets(),
           ),
         );
 
   Future toggleShowTextInBrackets() async {
     final bool showTextInBrackets = !state.showTextInBrackets;
-    await SettingsStorage.setShowTextInBrackets(showTextInBrackets);
+    await settingsStorage.setShowTextInBrackets(showTextInBrackets);
     emit(state.copyWith(showTextInBrackets: showTextInBrackets));
   }
 }

@@ -13,7 +13,8 @@ part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   final HomeBloc homeBloc;
-  SearchCubit(this.homeBloc)
+  final ZikrFilterStorage zikrFilterStorage;
+  SearchCubit(this.homeBloc, this.zikrFilterStorage)
       : super(
           const SearchState(
             searchText: "",
@@ -54,7 +55,7 @@ class SearchCubit extends Cubit<SearchState> {
     final searchedZikr = await azkarDBHelper.getContentsByName(searchText);
 
     /// Get Filtered Zikr
-    final List<Filter> filters = ZikrFilterStorage.getAllFilters();
+    final List<Filter> filters = zikrFilterStorage.getAllFilters();
     final filteredZikr = filters.getFilteredZikr(searchedZikr);
 
     // Get Titles with favorites

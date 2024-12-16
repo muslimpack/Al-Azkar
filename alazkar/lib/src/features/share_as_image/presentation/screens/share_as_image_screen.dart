@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
@@ -15,12 +16,9 @@ class ShareAsImageScreen extends StatefulWidget {
   static Route route({required Zikr zikr, required ZikrTitle zikrTitle}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => BlocProvider(
-        create: (context) => ShareAsImageBloc(),
-        child: ShareAsImageScreen(
-          zikr: zikr,
-          zikrTitle: zikrTitle,
-        ),
+      builder: (_) => ShareAsImageScreen(
+        zikr: zikr,
+        zikrTitle: zikrTitle,
       ),
     );
   }
@@ -43,47 +41,45 @@ class _ShareAsImageScreenState extends State<ShareAsImageScreen> {
   final GlobalKey imageKey = GlobalKey();
   final GlobalKey repaintKey = GlobalKey();
   final GlobalKey interactiveViewerKey = GlobalKey();
-  @override
-  void initState() {
-    super.initState();
 
-    context.read<ShareAsImageBloc>().add(
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => sl<ShareAsImageBloc>()
+        ..add(
           ShareAsImageStartEvent(
             zikr: widget.zikr,
             zikrTitle: widget.zikrTitle,
           ),
-        );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ShareAsImageBloc, ShareAsImageState>(
-      builder: (context, state) {
-        if (state is ShareAsImageLoadingState) {
-          return const Loading();
-        }
-        if (state is ShareAsImageLoadedState) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: ShareAsImageAppBar(
+        ),
+      child: BlocBuilder<ShareAsImageBloc, ShareAsImageState>(
+        builder: (context, state) {
+          if (state is ShareAsImageLoadingState) {
+            return const Loading();
+          }
+          if (state is ShareAsImageLoadedState) {
+            return Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: ShareAsImageAppBar(
+                  state: state,
+                  repaintKey: repaintKey,
+                ),
+              ),
+              body: ShareAsImageBody(
                 state: state,
+                interactiveViewerKey: interactiveViewerKey,
+                imageKey: imageKey,
                 repaintKey: repaintKey,
               ),
-            ),
-            body: ShareAsImageBody(
-              state: state,
-              interactiveViewerKey: interactiveViewerKey,
-              imageKey: imageKey,
-              repaintKey: repaintKey,
-            ),
-            bottomSheet: const ShareAsImageBottomBar(),
-          );
-        }
+              bottomSheet: const ShareAsImageBottomBar(),
+            );
+          }
 
-        return const SizedBox();
-      },
+          return const SizedBox();
+        },
+      ),
     );
   }
 }

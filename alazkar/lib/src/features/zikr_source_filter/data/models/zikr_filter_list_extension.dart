@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_enum.dart';
@@ -5,8 +6,8 @@ import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_fil
 
 extension FilterListExt on List<Filter> {
   List<Zikr> getFilteredZikr(List<Zikr> azkar) {
-    final filterBySource = ZikrFilterStorage.getEnableFiltersStatus();
-    final filterByHokm = ZikrFilterStorage.getEnableHokmFiltersStatus();
+    final filterBySource = sl<ZikrFilterStorage>().getEnableFiltersStatus();
+    final filterByHokm = sl<ZikrFilterStorage>().getEnableHokmFiltersStatus();
 
     if (!filterBySource && !filterByHokm) {
       return azkar;
