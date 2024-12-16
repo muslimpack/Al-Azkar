@@ -33,6 +33,7 @@ dependencies:
   sqflite_common_ffi: ^2.3.0+2
   url_launcher: ^6.1.12
   window_manager: ^0.4.2
+  get_it: ^8.0.3
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
