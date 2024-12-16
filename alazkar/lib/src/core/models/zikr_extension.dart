@@ -93,14 +93,20 @@ extension ZikrExt on Zikr {
 
       final List<String> verse = [];
 
+      // add Estaaza
       final alhashrFinalAyah =
           currentVerse.key.startSura == 59 && currentVerse.key.startAyah == 22;
 
       final bool notHaveEstaaza = alhashrFinalAyah;
       if (i == 0 && !notHaveEstaaza) verse.addAll([kEstaaza, "\n\n"]);
 
-      verse.add(kArBasmallah);
+      // add Basmallah
+      final notHaveBasmallah =
+          currentVerse.key.startSura == 1 && currentVerse.key.startAyah == 1;
 
+      if (i == 0 && !notHaveBasmallah) verse.add(kArBasmallah);
+
+      // add Brackets
       verse.add(" ﴿ ${currentVerse.value.trim()} ﴾");
 
       if (i != verses.length - 1) verse.add("\n\n");
