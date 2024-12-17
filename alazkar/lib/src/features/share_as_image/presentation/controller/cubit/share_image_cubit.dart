@@ -38,10 +38,10 @@ class ShareImageCubit extends Cubit<ShareImageState> {
       return standardLength;
     }
 
-    final chunkCount = (text.length / standardLength).ceil();
+    final chunkCount = (text.split(" ").length / standardLength).ceil();
 
-    final charLength = text.length ~/ chunkCount;
-    final overflowChars = text.length % chunkCount;
+    final charLength = text.split(" ").length ~/ chunkCount;
+    final overflowChars = text.split(" ").length % chunkCount;
     final result = charLength + overflowChars;
 
     appPrint(overflowChars);
@@ -58,7 +58,11 @@ class ShareImageCubit extends Cubit<ShareImageState> {
       charLengthPerSize: 560,
     );
 
-    final charsPerChunk = charPer1080(settings.charLengthPerSize, zikr.body);
+    appPrint(zikr.body.split(" ").length);
+
+    const int standardLength = 120;
+
+    final charsPerChunk = charPer1080(standardLength, zikr.body);
 
     final List<TextRange> splittedMatnRanges = splitStringIntoChunksRange(
       zikr.body,
@@ -82,55 +86,39 @@ class ShareImageCubit extends Cubit<ShareImageState> {
 
   ///MARK: Split
 
-  List<TextRange> splitStringIntoChunksRange(String text, int charsPerChunk) {
-    // Split the text into individual words
+  List<TextRange> splitStringIntoChunksRange(String text, int wordsPerChunk) {
+    // Handle edge cases
+    if (text.isEmpty || wordsPerChunk <= 0) {
+      return [];
+    }
+
     final List<String> words = text.split(' ');
     final List<TextRange> chunkIndices = [];
 
     int chunkStart = 0;
-    int chunkCharCount = 0;
-    int start = 0;
-    String currentChunk = '';
+    int wordCount = 0;
+    int currentPos = 0;
 
-    for (final String word in words) {
-      // Get the word's position in the original text
-      final int wordStart = text.indexOf(word, start);
+    for (int i = 0; i < words.length; i++) {
+      // Get the word's start and end indices in the text
+      final String word = words[i];
+      final int wordStart = text.indexOf(word, currentPos);
       final int wordEnd = wordStart + word.length;
 
-      // Check if adding the word will exceed charsPerChunk
-      if (chunkCharCount + word.length + 1 <= charsPerChunk) {
+      if (wordCount < wordsPerChunk) {
         // Add the word to the current chunk
-        currentChunk += (currentChunk.isEmpty ? word : ' $word');
-        chunkCharCount = currentChunk.length;
-        start = wordEnd;
-      } else {
-        // If current chunk size is valid, add it to the list of ranges
-        if (chunkCharCount >= charsPerChunk / 3) {
-          chunkIndices.add(TextRange(start: chunkStart, end: wordStart));
-
-          // Start a new chunk with the current word
-          currentChunk = word;
-          chunkCharCount = word.length;
-          chunkStart = wordStart;
-        } else {
-          // Merge small chunk into the previous one
-          if (chunkIndices.isNotEmpty) {
-            chunkIndices.last =
-                TextRange(start: chunkIndices.last.start, end: wordEnd);
-          } else {
-            chunkIndices.add(TextRange(start: chunkStart, end: wordEnd));
-          }
-          currentChunk = word;
-          chunkStart = wordStart;
-        }
-
-        start = wordEnd;
+        wordCount++;
+        currentPos = wordEnd;
       }
-    }
 
-    // Add the last chunk if it's non-empty
-    if (currentChunk.isNotEmpty) {
-      chunkIndices.add(TextRange(start: chunkStart, end: text.length));
+      // If the chunk reaches the word limit, finalize it
+      if (wordCount == wordsPerChunk || i == words.length - 1) {
+        chunkIndices.add(TextRange(start: chunkStart, end: wordEnd));
+
+        // Start a new chunk
+        chunkStart = wordEnd + 1; // Skip the space
+        wordCount = 0;
+      }
     }
 
     return chunkIndices;
