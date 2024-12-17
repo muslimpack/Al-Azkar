@@ -1,4 +1,5 @@
 import 'package:alazkar/src/core/constants/const.dart';
+import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/manager/volume_button_manager.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
@@ -35,6 +36,7 @@ Future<void> initSL() async {
   ///MARK: Init Repo
   sl.registerLazySingleton(() => UthmaniRepository());
   sl.registerLazySingleton(() => BookmarksDBHelper());
+  sl.registerLazySingleton(() => AzkarDBHelper());
 
   ///MARK: Init Manager
   sl.registerFactory(() => VolumeButtonManager());
