@@ -27,16 +27,6 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
             icon: const Icon(Icons.keyboard_double_arrow_right_sharp),
           ),
           const Spacer(),
-          if (state.activeZikr != null)
-            IconButton(
-              tooltip: "نسخ الذكر",
-              onPressed: () async {
-                context
-                    .read<ZikrContentViewerBloc>()
-                    .add(ZikrContentViewerCopyEvent());
-              },
-              icon: const Icon(Icons.copy),
-            ),
           IconButton(
             tooltip: "إعادة ضبط الخط",
             icon: Icon(MdiIcons.reload),
