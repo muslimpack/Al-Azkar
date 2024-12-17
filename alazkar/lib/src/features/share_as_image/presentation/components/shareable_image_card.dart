@@ -126,7 +126,7 @@ class ShareableImageCard extends StatelessWidget {
                 if (zikr.fadl.isNotEmpty) ...[
                   const SizedBox(height: 30),
                   Padding(
-                    padding: const EdgeInsets.only(left: 50),
+                    padding: const EdgeInsets.only(left: 65),
                     child: Text(
                       "الفضل: ${zikr.fadl}",
                       style: secondaryTextStyle,
