@@ -8,7 +8,7 @@ import 'package:alazkar/src/features/settings/data/repository/settings_storage.d
 import 'package:alazkar/src/features/settings/data/repository/zikr_text_repo.dart';
 import 'package:alazkar/src/features/settings/presentation/controller/cubit/settings_cubit.dart';
 import 'package:alazkar/src/features/share_as_image/data/repository/share_image_repo.dart';
-import 'package:alazkar/src/features/share_as_image/presentation/controller/share_as_image/share_as_image_bloc.dart';
+import 'package:alazkar/src/features/share_as_image/presentation/controller/cubit/share_image_cubit.dart';
 import 'package:alazkar/src/features/theme/domain/repository/theme_storage.dart';
 import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
 import 'package:alazkar/src/features/ui/data/repository/ui_repo.dart';
@@ -47,8 +47,8 @@ Future<void> initSL() async {
   sl.registerLazySingleton(() => ZikrSourceFilterCubit(sl()));
 
   /// Factory BLoC
-  sl.registerFactory(() => ShareAsImageBloc(sl()));
   sl.registerFactory(
     () => ZikrContentViewerBloc(sl(), sl(), sl()),
   );
+  sl.registerFactory(() => ShareImageCubit(sl()));
 }
