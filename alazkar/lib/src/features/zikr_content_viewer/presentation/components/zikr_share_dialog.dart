@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/extension/extension.dart';
+import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
+import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/screens/share_as_image_screen.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/data/repository/zikr_viewer_repo.dart';
 import 'package:flutter/material.dart';
@@ -52,8 +54,12 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
 
   Future<String> sharedText() async {
     final StringBuffer sb = StringBuffer();
-    final content = (await zikr.getTextSpan()).toString();
-    sb.writeln("$content\n");
+    final content =
+        (await zikr.getTextSpan()).map((e) => e.toPlainText()).join("\n");
+    final proccessedText = sl<SettingsStorage>().showTextInBrackets()
+        ? content
+        : content.removeTextInBrackets;
+    sb.writeln("$proccessedText\n");
     sb.writeln("🔢عدد المرات: ${zikr.count}\n");
     if (shareFadl && zikr.fadl.isNotEmpty) {
       sb.writeln("🏆الفضل: ${zikr.fadl}\n");
@@ -84,7 +90,13 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
                       constraints: const BoxConstraints(maxHeight: 350),
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.all(10),
-                        child: Text(shareText),
+                        child: Text(
+                          shareText,
+                          style: const TextStyle(
+                            fontFamily: "Kitab",
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                   ),
