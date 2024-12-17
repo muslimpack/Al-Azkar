@@ -69,7 +69,7 @@ class AzkarDBHelper {
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(
       'SELECT * FROM titles WHERE id = ? ',
-      ['%$id%'],
+      [id],
     );
 
     return List.generate(maps.length, (i) {
