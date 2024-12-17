@@ -177,13 +177,13 @@ class ZikrContentViewerBloc
     final state = this.state;
     if (state is! ZikrContentViewerLoadedState) return;
 
-    if (state.azkar.isEmpty) return;
+    if (state.activeZikr == null || state.azkar.isEmpty) return;
 
     showDialog(
       context: MyApp.navigatorKey.currentState!.context,
       builder: (context) {
         return ZikrShareDialog(
-          zikrId: state.azkar[state.activeZikrIndex].id,
+          zikrId: state.activeZikr!.id,
         );
       },
     );
