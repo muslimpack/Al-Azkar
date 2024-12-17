@@ -10,12 +10,15 @@ environment:
   flutter: "3.27.0"
 
 dependencies:
+  auto_size_text: ^3.0.0
   bloc: ^8.1.4
   bot_toast: ^4.1.3
+  capture_widget:
+    path: packages/capture_widget
   cupertino_icons: ^1.0.8
   dotted_border: ^2.1.0
   equatable: ^2.0.7
-  file_picker: ^8.1.5
+  file_picker: ^8.1.4
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
@@ -42,8 +45,6 @@ dev_dependencies:
     sdk: flutter
   lint: ^2.3.0
 
-dependency_overrides:
-  fading_edge_scrollview: ^4.1.1
 
 flutter:
   uses-material-design: true
@@ -67,3 +68,9 @@ flutter:
     - family: Kitab
       fonts:
         - asset: assets/fonts/kitab.ttf
+    - family: djadli_sarkha
+      fonts:
+        - asset: assets/fonts/djadli_sarkha.ttf
+    - family: alhadari-medium
+      fonts:
+        - asset: assets/fonts/alhadari-medium.ttf
