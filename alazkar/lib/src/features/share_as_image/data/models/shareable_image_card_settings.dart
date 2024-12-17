@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class ShareableImageCardSettings extends Equatable {
   ///Image size
   final Size imageSize;
-  final int charLengthPerSize;
+  final int wordsCountPerSize;
 
   ///Text style
   final String mainFontFamily;
@@ -14,7 +14,7 @@ class ShareableImageCardSettings extends Equatable {
 
   const ShareableImageCardSettings({
     required this.imageSize,
-    required this.charLengthPerSize,
+    required this.wordsCountPerSize,
     required this.mainFontFamily,
     required this.secondaryFontFamily,
   });
@@ -22,7 +22,7 @@ class ShareableImageCardSettings extends Equatable {
   const ShareableImageCardSettings.defaultSettings()
       : this(
           imageSize: const Size(1080, 1080),
-          charLengthPerSize: 1500,
+          wordsCountPerSize: 1500,
           mainFontFamily: "kitab",
           secondaryFontFamily: "kitab",
         );
@@ -30,20 +30,20 @@ class ShareableImageCardSettings extends Equatable {
   @override
   List<Object> get props => [
         imageSize,
-        charLengthPerSize,
+        wordsCountPerSize,
         mainFontFamily,
         secondaryFontFamily,
       ];
 
   ShareableImageCardSettings copyWith({
     Size? imageSize,
-    int? charLengthPerSize,
+    int? wordsCountPerSize,
     String? mainFontFamily,
     String? secondaryFontFamily,
   }) {
     return ShareableImageCardSettings(
       imageSize: imageSize ?? this.imageSize,
-      charLengthPerSize: charLengthPerSize ?? this.charLengthPerSize,
+      wordsCountPerSize: wordsCountPerSize ?? this.wordsCountPerSize,
       mainFontFamily: mainFontFamily ?? this.mainFontFamily,
       secondaryFontFamily: secondaryFontFamily ?? this.secondaryFontFamily,
     );

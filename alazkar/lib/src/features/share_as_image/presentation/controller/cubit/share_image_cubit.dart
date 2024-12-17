@@ -55,14 +55,12 @@ class ShareImageCubit extends Cubit<ShareImageState> {
   }) async {
     final settings =
         const ShareableImageCardSettings.defaultSettings().copyWith(
-      charLengthPerSize: 560,
+      wordsCountPerSize: 120,
     );
 
     appPrint(zikr.body.split(" ").length);
 
-    const int standardLength = 120;
-
-    final charsPerChunk = charPer1080(standardLength, zikr.body);
+    final charsPerChunk = charPer1080(settings.wordsCountPerSize, zikr.body);
 
     final List<TextRange> splittedMatnRanges = splitStringIntoChunksRange(
       zikr.body,
@@ -77,7 +75,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
         zika: zikr,
         zikrTitle: zikrTitle,
         showLoadingIndicator: false,
-        settings: settings.copyWith(charLengthPerSize: charsPerChunk),
+        settings: settings.copyWith(wordsCountPerSize: charsPerChunk),
         splittedMatn: splittedMatnRanges,
         activeIndex: 0,
       ),
