@@ -12,6 +12,7 @@ import 'package:alazkar/src/features/share_as_image/presentation/controller/cubi
 import 'package:alazkar/src/features/theme/domain/repository/theme_storage.dart';
 import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
 import 'package:alazkar/src/features/ui/data/repository/ui_repo.dart';
+import 'package:alazkar/src/features/zikr_content_viewer/data/repository/zikr_viewer_repo.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:alazkar/src/features/zikr_source_filter/presentation/controller/cubit/zikr_source_filter_cubit.dart';
@@ -29,6 +30,7 @@ Future<void> initSL() async {
   sl.registerLazySingleton(() => SettingsStorage(sl()));
   sl.registerLazySingleton(() => ShareAsImageRepo(sl()));
   sl.registerLazySingleton(() => ZikrTextRepo(sl()));
+  sl.registerLazySingleton(() => ZikrViewerRepo(sl()));
 
   ///MARK: Init Repo
   sl.registerLazySingleton(() => UthmaniRepository());
