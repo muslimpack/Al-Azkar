@@ -4,9 +4,11 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:alazkar/src/core/extension/extension_platform.dart';
+import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
+import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
 import 'package:alazkar/src/features/share_as_image/data/models/shareable_image_card_settings.dart';
 import 'package:bloc/bloc.dart';
 import 'package:capture_widget/core/widget_capture_controller.dart';
@@ -20,11 +22,12 @@ import 'package:share_plus/share_plus.dart';
 part 'share_image_state.dart';
 
 class ShareImageCubit extends Cubit<ShareImageState> {
+  final SettingsStorage settingsStorage;
   final PageController pageController = PageController();
 
   late final List<GlobalKey> imageKeys;
 
-  ShareImageCubit() : super(ShareImageLoadingState());
+  ShareImageCubit(this.settingsStorage) : super(ShareImageLoadingState());
 
   Future onPageChanged(int index) async {
     final state = this.state;
@@ -58,12 +61,21 @@ class ShareImageCubit extends Cubit<ShareImageState> {
       wordsCountPerSize: 120,
     );
 
-    appPrint(zikr.body.split(" ").length);
+    final String proccessedText;
 
-    final charsPerChunk = charPer1080(settings.wordsCountPerSize, zikr.body);
+    if (settingsStorage.showTextInBrackets()) {
+      proccessedText = zikr.body;
+    } else {
+      proccessedText = zikr.body.removeTextInBrackets;
+    }
+
+    appPrint(proccessedText.split(" ").length);
+
+    final charsPerChunk =
+        charPer1080(settings.wordsCountPerSize, proccessedText);
 
     final List<TextRange> splittedMatnRanges = splitStringIntoChunksRange(
-      zikr.body,
+      proccessedText,
       charsPerChunk,
     );
 
@@ -72,7 +84,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
 
     emit(
       ShareImageLoadedState(
-        zika: zikr,
+        zika: zikr.copyWith(body: proccessedText),
         zikrTitle: zikrTitle,
         showLoadingIndicator: false,
         settings: settings.copyWith(wordsCountPerSize: charsPerChunk),

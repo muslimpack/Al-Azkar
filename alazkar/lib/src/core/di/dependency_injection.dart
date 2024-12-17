@@ -52,5 +52,5 @@ Future<void> initSL() async {
   sl.registerFactory(
     () => ZikrContentViewerBloc(sl(), sl(), sl()),
   );
-  sl.registerFactory(() => ShareImageCubit());
+  sl.registerFactory(() => ShareImageCubit(sl()));
 }
