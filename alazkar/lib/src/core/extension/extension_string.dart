@@ -8,6 +8,11 @@ extension StringExtension on String {
     );
   }
 
+  String get removeTextInBrackets {
+    final RegExp regExp = RegExp(r'\(.*?\)');
+    return replaceAll(regExp, "");
+  }
+
   String truncateText(int maxChars) {
     if (length <= maxChars) {
       return this;
