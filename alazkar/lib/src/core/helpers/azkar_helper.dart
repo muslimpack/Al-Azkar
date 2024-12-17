@@ -6,8 +6,6 @@ import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:sqflite/sqflite.dart';
 
-AzkarDBHelper azkarDBHelper = AzkarDBHelper();
-
 class AzkarDBHelper {
   /* ************* Variables ************* */
 

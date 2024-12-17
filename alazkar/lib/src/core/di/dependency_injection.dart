@@ -45,14 +45,14 @@ Future<void> initSL() async {
 
   /// Singleton BLoC
   sl.registerLazySingleton(() => ThemeCubit(sl(), sl()));
-  sl.registerLazySingleton(() => HomeBloc(sl(), sl()));
-  sl.registerLazySingleton(() => SearchCubit(sl(), sl()));
+  sl.registerLazySingleton(() => HomeBloc(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton(() => SearchCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => SettingsCubit(sl()));
   sl.registerLazySingleton(() => ZikrSourceFilterCubit(sl()));
 
   /// Factory BLoC
   sl.registerFactory(
-    () => ZikrContentViewerBloc(sl(), sl(), sl()),
+    () => ZikrContentViewerBloc(sl(), sl(), sl(), sl()),
   );
   sl.registerFactory(() => ShareImageCubit(sl()));
 }

@@ -27,6 +27,7 @@ class ZikrContentViewerBloc
   final HomeBloc homeBloc;
   final SettingsStorage settingsStorage;
   final ZikrFilterStorage zikrFilterStorage;
+  final AzkarDBHelper azkarDBHelper;
 
   final PageController pageController = PageController(
     viewportFraction: 1.004,
@@ -37,6 +38,7 @@ class ZikrContentViewerBloc
     this.homeBloc,
     this.settingsStorage,
     this.zikrFilterStorage,
+    this.azkarDBHelper,
   ) : super(ZikrContentViewerLoadingState()) {
     VolumeButtonManager.setActivationStatus(
       activate: true,

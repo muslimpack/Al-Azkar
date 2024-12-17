@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alazkar/src/core/constants/const.dart';
+import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/extension/extension_rich_text.dart';
 import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
@@ -33,7 +34,7 @@ extension ZikrExt on Zikr {
 
     final List<String> verses = [];
     for (final range in ranges) {
-      final text = await uthmaniRepository.getArabicText(
+      final text = await sl<UthmaniRepository>().getArabicText(
         sura: range.startSura,
         startAyah: range.startAyah,
         endAyah: range.endingAyah,

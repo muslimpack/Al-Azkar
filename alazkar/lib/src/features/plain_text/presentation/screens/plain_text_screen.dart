@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
@@ -30,11 +31,11 @@ class _PlainTextScreenState extends State<PlainTextScreen> {
 
     final Map<ZikrTitle, List<Zikr>> db = {};
 
-    final titles = await azkarDBHelper.getAllTitles();
+    final titles = await sl<AzkarDBHelper>().getAllTitles();
     db.addAll({for (final e in titles) e: <Zikr>[]});
 
     for (final title in titles) {
-      final content = await azkarDBHelper.getContentByTitleId(title.id);
+      final content = await sl<AzkarDBHelper>().getContentByTitleId(title.id);
       db[title] = content;
     }
 

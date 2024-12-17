@@ -5,8 +5,6 @@ import 'package:alazkar/src/core/helpers/db_helper.dart';
 import 'package:alazkar/src/features/quran/data/models/verse_model.dart';
 import 'package:sqflite/sqflite.dart';
 
-UthmaniRepository uthmaniRepository = UthmaniRepository();
-
 class UthmaniRepository {
   ///|*| ************* Variables ************* *|
 

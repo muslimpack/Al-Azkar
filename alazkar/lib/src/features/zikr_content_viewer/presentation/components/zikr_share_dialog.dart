@@ -38,7 +38,7 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
   }
 
   Future _load() async {
-    zikr = await azkarDBHelper.getContentById(widget.zikrId);
+    zikr = await sl<AzkarDBHelper>().getContentById(widget.zikrId);
 
     shareFadl = sl<ZikrViewerRepo>().shareFadl;
     shareSource = sl<ZikrViewerRepo>().shareSource;
@@ -134,7 +134,7 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
             icon: const Icon(Icons.camera_alt_outlined),
             onPressed: () async {
               final ZikrTitle zikrTitle =
-                  await azkarDBHelper.getTitlesById(zikr.titleId);
+                  await sl<AzkarDBHelper>().getTitlesById(zikr.titleId);
               if (!context.mounted) return;
               context.push(
                 ShareAsImageScreen(
