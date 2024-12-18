@@ -6,7 +6,7 @@ class SettingsStorage {
 
   static const String _settingsPrefixNameKey = "SettingsStorage";
 
-  /// showTextInBrackets
+  ///MARK: showTextInBrackets
   static const String _showTextInBrackets =
       "${_settingsPrefixNameKey}showTextInBrackets";
 
@@ -19,4 +19,10 @@ class SettingsStorage {
   Future setShowTextInBrackets(bool showTextInBrackets) async {
     return _box.write(_showTextInBrackets, showTextInBrackets);
   }
+
+  ///MARK: praiseWithVolumeKeys
+  static const praiseWithVolumeKeysKey = 'praiseWithVolumeKeys';
+  bool get praiseWithVolumeKeys => _box.read(praiseWithVolumeKeysKey) ?? true;
+  Future<void> changePraiseWithVolumeKeysStatus({required bool value}) async =>
+      _box.write(praiseWithVolumeKeysKey, value);
 }
