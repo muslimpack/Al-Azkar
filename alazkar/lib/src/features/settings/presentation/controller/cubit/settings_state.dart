@@ -10,7 +10,10 @@ class SettingsState extends Equatable {
   });
 
   @override
-  List<Object> get props => [showTextInBrackets];
+  List<Object> get props => [
+        showTextInBrackets,
+        praiseWithVolumeKeys,
+      ];
 
   SettingsState copyWith({
     bool? showTextInBrackets,
