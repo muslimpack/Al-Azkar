@@ -94,7 +94,7 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
                           shareText,
                           style: const TextStyle(
                             fontFamily: "Kitab",
-                            fontSize: 15,
+                            fontSize: 18,
                           ),
                         ),
                       ),
