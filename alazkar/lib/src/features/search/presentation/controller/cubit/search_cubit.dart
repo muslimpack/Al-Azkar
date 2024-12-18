@@ -16,9 +16,12 @@ class SearchCubit extends Cubit<SearchState> {
   final ZikrFilterStorage zikrFilterStorage;
   final AzkarDBHelper azkarDBHelper;
   final BookmarksDBHelper bookmarksDBHelper;
-  SearchCubit(this.homeBloc, this.zikrFilterStorage, this.azkarDBHelper,
-      this.bookmarksDBHelper)
-      : super(
+  SearchCubit(
+    this.homeBloc,
+    this.zikrFilterStorage,
+    this.azkarDBHelper,
+    this.bookmarksDBHelper,
+  ) : super(
           const SearchState(
             searchText: "",
             result: {},
