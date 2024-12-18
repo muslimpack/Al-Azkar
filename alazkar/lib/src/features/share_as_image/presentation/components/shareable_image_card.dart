@@ -51,7 +51,7 @@ class ShareableImageCard extends StatelessWidget {
     const imageBackgroundColor = Color(0xff1a110e);
     const secondaryColor = Color(0xfffeb99c);
     //todo depened on zikr hokm
-    final secondaryElementsColor = Colors.brown.withOpacity(.15);
+    final secondaryElementsColor = Colors.brown.withValues(alpha: .15);
 
     final mainTextStyle = TextStyle(
       fontSize: 150,
@@ -75,7 +75,7 @@ class ShareableImageCard extends StatelessWidget {
           Image.asset(
             "assets/images/grid.png",
             fit: BoxFit.cover,
-            color: Colors.white.withOpacity(.07),
+            color: Colors.white.withValues(alpha: .07),
           ),
           Container(
             decoration: const BoxDecoration(
@@ -92,7 +92,7 @@ class ShareableImageCard extends StatelessWidget {
             margin: const EdgeInsets.all(40).copyWith(top: 60, bottom: 60),
             padding: const EdgeInsets.all(25),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.11),
+              color: Colors.white.withValues(alpha: .11),
               border: Border.all(
                 color: secondaryElementsColor,
                 width: 5,

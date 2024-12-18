@@ -22,7 +22,7 @@ void showToast(String text) {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         textColor: Colors.white,
-        backgroundColor: Colors.brown.withOpacity(.5),
+        backgroundColor: Colors.brown.withValues(alpha: .5),
       );
     }
   } catch (e) {
