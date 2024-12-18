@@ -1,3 +1,4 @@
+import 'package:alazkar/src/core/extension/extension_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -37,6 +38,6 @@ class ThemeStorage {
   }
 
   Future setColor(Color color) async {
-    await box.write(_colorKey, color.value);
+    await box.write(_colorKey, color.toARGB32);
   }
 }
