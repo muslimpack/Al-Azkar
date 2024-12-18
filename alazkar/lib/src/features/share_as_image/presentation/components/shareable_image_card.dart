@@ -123,8 +123,18 @@ class ShareableImageCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (zikr.fadl.isNotEmpty) ...[
+
+                ///MARK: fadl and count
+                if (!(zikr.fadl.isEmpty && zikr.count < 1)) ...[
                   const SizedBox(height: 30),
+                ],
+                if (zikr.count > 1) ...[
+                  Text(
+                    "عدد مرات الذكر: ${zikr.count}",
+                    style: secondaryTextStyle,
+                  ),
+                ],
+                if (zikr.fadl.isNotEmpty) ...[
                   Padding(
                     padding: const EdgeInsets.only(left: 65),
                     child: Text(
@@ -132,7 +142,8 @@ class ShareableImageCard extends StatelessWidget {
                       style: secondaryTextStyle,
                     ),
                   ),
-                ] else ...[
+                ],
+                if (zikr.fadl.isEmpty && zikr.count < 1) ...[
                   const SizedBox(height: 50),
                 ],
               ],
