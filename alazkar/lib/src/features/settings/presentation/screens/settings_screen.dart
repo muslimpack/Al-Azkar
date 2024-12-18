@@ -32,6 +32,8 @@ class SettingsScreen extends StatelessWidget {
               );
             },
           ),
+          const ShowTextInBracketsSwitch(),
+          const PraiseWithVolumeSwitch(),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.library_books),
@@ -59,9 +61,6 @@ class SettingsScreen extends StatelessWidget {
               );
             },
           ),
-          const Divider(),
-          const ShowTextInBracketsSwitch(),
-          const PraiseWithVolumeSwitch(),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.info),
