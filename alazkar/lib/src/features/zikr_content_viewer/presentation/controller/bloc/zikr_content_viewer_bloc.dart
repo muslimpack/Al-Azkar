@@ -41,7 +41,7 @@ class ZikrContentViewerBloc
     this.azkarDBHelper,
   ) : super(ZikrContentViewerLoadingState()) {
     VolumeButtonManager.setActivationStatus(
-      activate: true,
+      activate: settingsStorage.praiseWithVolumeKeys,
     );
     _volumeBtnChannel.setMethodCallHandler(_activateVolumeHandler);
 
