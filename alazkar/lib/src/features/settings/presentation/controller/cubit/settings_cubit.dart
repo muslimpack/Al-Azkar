@@ -10,6 +10,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       : super(
           SettingsState(
             showTextInBrackets: settingsStorage.showTextInBrackets(),
+            praiseWithVolumeKeys: settingsStorage.praiseWithVolumeKeys,
           ),
         );
 
@@ -17,5 +18,11 @@ class SettingsCubit extends Cubit<SettingsState> {
     final bool showTextInBrackets = !state.showTextInBrackets;
     await settingsStorage.setShowTextInBrackets(showTextInBrackets);
     emit(state.copyWith(showTextInBrackets: showTextInBrackets));
+  }
+
+  ///MARK: praiseWithVolumeKeys
+  Future togglePraiseWithVolumeKeys({required bool use}) async {
+    await settingsStorage.changePraiseWithVolumeKeysStatus(value: use);
+    emit(state.copyWith(praiseWithVolumeKeys: use));
   }
 }
