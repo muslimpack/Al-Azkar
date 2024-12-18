@@ -19,8 +19,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ZikrSourceFilterCubit zikrSourceFilterCubit;
   final ZikrFilterStorage zikrFilterStorage;
   late StreamSubscription zikrSourceFilterCubitStram;
-  HomeBloc(this.zikrSourceFilterCubit, this.zikrFilterStorage)
-      : super(HomeLoadingState()) {
+  final AzkarDBHelper azkarDBHelper;
+  final BookmarksDBHelper bookmarksDBHelper;
+  HomeBloc(
+    this.zikrSourceFilterCubit,
+    this.zikrFilterStorage,
+    this.azkarDBHelper,
+    this.bookmarksDBHelper,
+  ) : super(HomeLoadingState()) {
     zikrSourceFilterCubitStram =
         zikrSourceFilterCubit.stream.listen(zikrSourceFilterCubitChanged);
 

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/utils/app_print.dart';
@@ -7,8 +8,8 @@ import 'package:flutter/foundation.dart';
 
 Future<void> viewStatistics() async {
   if (!kDebugMode) return;
-  final allTitles = await azkarDBHelper.getAllTitles();
-  final allContent = await azkarDBHelper.getAllContents();
+  final allTitles = await sl<AzkarDBHelper>().getAllTitles();
+  final allContent = await sl<AzkarDBHelper>().getAllContents();
   appPrint("عدد الأذكار: ${allContent.length}");
   appPrint("عدد الأبواب: ${allTitles.length}");
   appPrint("***********");

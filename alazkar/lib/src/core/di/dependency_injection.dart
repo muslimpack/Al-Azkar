@@ -1,4 +1,5 @@
 import 'package:alazkar/src/core/constants/const.dart';
+import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/manager/volume_button_manager.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:alazkar/src/features/share_as_image/presentation/controller/cubi
 import 'package:alazkar/src/features/theme/domain/repository/theme_storage.dart';
 import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_cubit.dart';
 import 'package:alazkar/src/features/ui/data/repository/ui_repo.dart';
+import 'package:alazkar/src/features/zikr_content_viewer/data/repository/zikr_viewer_repo.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:alazkar/src/features/zikr_source_filter/presentation/controller/cubit/zikr_source_filter_cubit.dart';
@@ -29,10 +31,12 @@ Future<void> initSL() async {
   sl.registerLazySingleton(() => SettingsStorage(sl()));
   sl.registerLazySingleton(() => ShareAsImageRepo(sl()));
   sl.registerLazySingleton(() => ZikrTextRepo(sl()));
+  sl.registerLazySingleton(() => ZikrViewerRepo(sl()));
 
   ///MARK: Init Repo
   sl.registerLazySingleton(() => UthmaniRepository());
   sl.registerLazySingleton(() => BookmarksDBHelper());
+  sl.registerLazySingleton(() => AzkarDBHelper());
 
   ///MARK: Init Manager
   sl.registerFactory(() => VolumeButtonManager());
@@ -41,14 +45,14 @@ Future<void> initSL() async {
 
   /// Singleton BLoC
   sl.registerLazySingleton(() => ThemeCubit(sl(), sl()));
-  sl.registerLazySingleton(() => HomeBloc(sl(), sl()));
-  sl.registerLazySingleton(() => SearchCubit(sl(), sl()));
+  sl.registerLazySingleton(() => HomeBloc(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton(() => SearchCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => SettingsCubit(sl()));
   sl.registerLazySingleton(() => ZikrSourceFilterCubit(sl()));
 
   /// Factory BLoC
   sl.registerFactory(
-    () => ZikrContentViewerBloc(sl(), sl(), sl()),
+    () => ZikrContentViewerBloc(sl(), sl(), sl(), sl()),
   );
   sl.registerFactory(() => ShareImageCubit(sl()));
 }

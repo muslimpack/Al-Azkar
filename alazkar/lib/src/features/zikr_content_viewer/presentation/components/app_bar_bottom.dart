@@ -1,5 +1,3 @@
-import 'package:alazkar/src/core/helpers/azkar_helper.dart';
-import 'package:alazkar/src/features/share_as_image/presentation/screens/share_as_image_screen.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,23 +23,6 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
                   .add(ZikrContentViewerShareEvent());
             },
             icon: const Icon(Icons.share),
-          ),
-        if (state.activeZikr != null)
-          IconButton(
-            tooltip: "مشاركة الذكر كصورة",
-            onPressed: () async {
-              final zikr =
-                  await azkarDBHelper.getContentById(state.activeZikr!.id);
-              if (!context.mounted) return;
-              Navigator.push(
-                context,
-                ShareAsImageScreen.route(
-                  zikr: zikr,
-                  zikrTitle: state.zikrTitle,
-                ),
-              );
-            },
-            icon: const Icon(Icons.camera_alt_outlined),
           ),
         if (state.activeZikr?.fadl.isNotEmpty ?? false)
           IconButton(

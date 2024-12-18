@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alazkar/app.dart';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/manager/volume_button_manager.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
@@ -9,6 +10,7 @@ import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
+import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_share_dialog.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_list_extension.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
@@ -16,7 +18,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
 
 part 'zikr_content_viewer_event.dart';
 part 'zikr_content_viewer_state.dart';
@@ -26,6 +27,7 @@ class ZikrContentViewerBloc
   final HomeBloc homeBloc;
   final SettingsStorage settingsStorage;
   final ZikrFilterStorage zikrFilterStorage;
+  final AzkarDBHelper azkarDBHelper;
 
   final PageController pageController = PageController(
     viewportFraction: 1.004,
@@ -36,6 +38,7 @@ class ZikrContentViewerBloc
     this.homeBloc,
     this.settingsStorage,
     this.zikrFilterStorage,
+    this.azkarDBHelper,
   ) : super(ZikrContentViewerLoadingState()) {
     VolumeButtonManager.setActivationStatus(
       activate: true,
@@ -173,10 +176,19 @@ class ZikrContentViewerBloc
     ZikrContentViewerShareEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
-    final plainText = await sharedZikrText();
-    if (plainText.isEmpty) return;
+    final state = this.state;
+    if (state is! ZikrContentViewerLoadedState) return;
 
-    Share.share(plainText);
+    if (state.activeZikr == null || state.azkar.isEmpty) return;
+
+    showDialog(
+      context: MyApp.navigatorKey.currentState!.context,
+      builder: (context) {
+        return ZikrShareDialog(
+          zikrId: state.activeZikr!.id,
+        );
+      },
+    );
   }
 
   Future _activateVolumeHandler(MethodCall call) async {

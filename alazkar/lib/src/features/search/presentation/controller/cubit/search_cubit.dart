@@ -14,7 +14,10 @@ part 'search_state.dart';
 class SearchCubit extends Cubit<SearchState> {
   final HomeBloc homeBloc;
   final ZikrFilterStorage zikrFilterStorage;
-  SearchCubit(this.homeBloc, this.zikrFilterStorage)
+  final AzkarDBHelper azkarDBHelper;
+  final BookmarksDBHelper bookmarksDBHelper;
+  SearchCubit(this.homeBloc, this.zikrFilterStorage, this.azkarDBHelper,
+      this.bookmarksDBHelper)
       : super(
           const SearchState(
             searchText: "",

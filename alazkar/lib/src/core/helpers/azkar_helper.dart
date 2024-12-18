@@ -6,8 +6,6 @@ import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:sqflite/sqflite.dart';
 
-AzkarDBHelper azkarDBHelper = AzkarDBHelper();
-
 class AzkarDBHelper {
   /* ************* Variables ************* */
 
@@ -62,6 +60,19 @@ class AzkarDBHelper {
     return List.generate(maps.length, (i) {
       return ZikrTitle.fromMap(maps[i]);
     });
+  }
+
+  Future<ZikrTitle> getTitlesById(int id) async {
+    final Database db = await database;
+
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+      'SELECT * FROM titles WHERE id = ? ',
+      [id],
+    );
+
+    return List.generate(maps.length, (i) {
+      return ZikrTitle.fromMap(maps[i]);
+    }).first;
   }
 
   Future<List<Zikr>> getAllContents() async {

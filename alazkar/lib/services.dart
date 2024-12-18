@@ -70,9 +70,9 @@ Future initWindowsManager() async {
 Future initDBs() async {
   try {
     return Future.wait([
-      azkarDBHelper.init(),
-      uthmaniRepository.init(),
-      bookmarksDBHelper.init(),
+      sl<AzkarDBHelper>().init(),
+      sl<UthmaniRepository>().init(),
+      sl<BookmarksDBHelper>().init(),
     ]);
   } catch (e) {
     showToast(e.toString());
