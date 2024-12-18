@@ -78,7 +78,7 @@ class ShareAsImageScreen extends StatelessWidget {
                       child: RepaintBoundary(
                         key: context.read<ShareImageCubit>().imageKeys[index],
                         child: ShareableImageCard(
-                          zikr: state.zika,
+                          zikr: state.zikr,
                           zikrTitle: state.zikrTitle,
                           settings: state.settings,
                           matnRange: state.splittedMatn[index],

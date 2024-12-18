@@ -84,7 +84,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
 
     emit(
       ShareImageLoadedState(
-        zika: zikr.copyWith(body: proccessedText),
+        zikr: zikr.copyWith(body: proccessedText),
         zikrTitle: zikrTitle,
         showLoadingIndicator: false,
         settings: settings.copyWith(wordsCountPerSize: charsPerChunk),
@@ -158,7 +158,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
           if (byteData == null) continue;
 
           final fileName = _getHadithOutputFileName(
-            state.zika,
+            state.zikr,
             i,
             state.splittedMatn.length,
           );
@@ -175,7 +175,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
         if (byteData == null) return;
 
         final fileName = _getHadithOutputFileName(
-          state.zika,
+          state.zikr,
           state.activeIndex,
           state.splittedMatn.length,
         );

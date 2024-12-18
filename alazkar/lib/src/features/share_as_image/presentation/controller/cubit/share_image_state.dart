@@ -11,14 +11,14 @@ sealed class ShareImageState extends Equatable {
 final class ShareImageLoadingState extends ShareImageState {}
 
 class ShareImageLoadedState extends ShareImageState {
-  final Zikr zika;
+  final Zikr zikr;
   final ZikrTitle zikrTitle;
   final bool showLoadingIndicator;
   final List<TextRange> splittedMatn;
   final ShareableImageCardSettings settings;
   final int activeIndex;
   const ShareImageLoadedState({
-    required this.zika,
+    required this.zikr,
     required this.zikrTitle,
     required this.showLoadingIndicator,
     required this.splittedMatn,
@@ -29,7 +29,7 @@ class ShareImageLoadedState extends ShareImageState {
   @override
   List<Object> get props => [
         showLoadingIndicator,
-        zika,
+        zikr,
         zikrTitle,
         settings,
         splittedMatn,
@@ -37,7 +37,7 @@ class ShareImageLoadedState extends ShareImageState {
       ];
 
   ShareImageLoadedState copyWith({
-    Zikr? zika,
+    Zikr? zikr,
     ZikrTitle? zikrTitle,
     bool? showLoadingIndicator,
     List<TextRange>? splittedMatn,
@@ -45,7 +45,7 @@ class ShareImageLoadedState extends ShareImageState {
     int? activeIndex,
   }) {
     return ShareImageLoadedState(
-      zika: zika ?? this.zika,
+      zikr: zikr ?? this.zikr,
       zikrTitle: zikrTitle ?? this.zikrTitle,
       showLoadingIndicator: showLoadingIndicator ?? this.showLoadingIndicator,
       splittedMatn: splittedMatn ?? this.splittedMatn,
