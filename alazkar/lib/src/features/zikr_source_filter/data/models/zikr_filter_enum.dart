@@ -1,26 +1,26 @@
 enum ZikrFilter {
   /// Source
-  quran("سورة", "القرآن", "Quran"),
+  quran("سور", "القرآن", "Quran"),
 
-  sahihBukhari("البخاري", "صحيح البخاري", "Sahih Bukhari"),
+  sahihBukhari("بخار", "صحيح البخاري", "Sahih Bukhari"),
 
   sahihMuslim("مسلم", "صحيح مسلم", "Sahih Muslim"),
 
-  abuDawood("داود", "سنن أبي داود", "Sunan Abu Dawood"),
+  abuDawood("داو", "سنن أبي داود", "Sunan Abu Dawood"),
 
-  atTirmidhi("الترمذي", "سنن الترمذي", "Sunan AtTirmidhi"),
+  atTirmidhi("ترمذ", "سنن الترمذي", "Sunan AtTirmidhi"),
 
   anNasai("النسائي", "سنن النسائي", "Sunan AnNasai"),
 
-  ibnMajah("ابن ماج", "سنن ابن ماجه", "Sunan IbnMajah"),
+  ibnMajah("ماج", "سنن ابن ماجه", "Sunan IbnMajah"),
 
   malik("مالك", "موطأ مالك", "Malik"),
 
-  adDarami("الدارمي", "مسند الدارمي", "AdDarami"),
+  adDarami("دارم", "مسند الدارمي", "AdDarami"),
 
   ahmad("أحمد", "مسند أحمد", "Ahmad"),
 
-  ibnSunny("ابن السني", "عمل اليوم والليلة لابن السني", "IbnSunny"),
+  ibnSunny("بن السن", "عمل اليوم والليلة لابن السني", "IbnSunny"),
 
   hakim("حاكم", "المستدرك على الصحيحين للحاكم النيسابوري", "AlHakim"),
 
