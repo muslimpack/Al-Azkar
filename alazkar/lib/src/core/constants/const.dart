@@ -1,7 +1,7 @@
 import 'package:alazkar/src/core/extension/extension_platform.dart';
 
 final String appVersion = [
-  "0.10.0",
+  "1.0.0",
   "0.9.0",
   "0.8.0",
   "0.7.0",
