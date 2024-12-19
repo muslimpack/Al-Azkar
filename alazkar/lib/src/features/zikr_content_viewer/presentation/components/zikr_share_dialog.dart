@@ -60,13 +60,17 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
         ? content
         : content.removeTextInBrackets;
     sb.writeln("$proccessedText\n");
-    sb.writeln("🔢عدد المرات: ${zikr.count}\n");
+    sb.writeln("🔢عدد المرات: ${zikr.count}");
     if (shareFadl && zikr.fadl.isNotEmpty) {
-      sb.writeln("🏆الفضل: ${zikr.fadl}\n");
+      sb.writeln();
+      sb.writeln("🏆الفضل: ${zikr.fadl}");
     }
     if (shareSource && zikr.source.isNotEmpty) {
+      sb.writeln();
       sb.writeln("📚المصدر:\n${zikr.source}");
     }
+    sb.writeln();
+    sb.writeln("#الأذكار_النووية");
     return sb.toString();
   }
 
