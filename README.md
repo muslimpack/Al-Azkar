@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="250" alt="Quran" src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/alazkar/assets/icons/app.png">
+<img width="250" alt="al-azkar" src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/main/alazkar/assets/icons/app.png">
 
 # تطبيق الأذكار النووية
 
@@ -15,9 +15,9 @@
 # صور التطبيق
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/screenshots/00.png" height="400" >
-  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/screenshots/01.png" height="400" >
-  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/screenshots/02.png" height="400" >
-  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/dev/screenshots/03.png" height="400" >
+  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/main/screenshots/00.png" height="400" >
+  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/main/screenshots/01.png" height="400" >
+  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/main/screenshots/02.png" height="400" >
+  <img src="https://raw.githubusercontent.com/muslimpack/Al-Azkar/main/screenshots/03.png" height="400" >
 </p>
 
