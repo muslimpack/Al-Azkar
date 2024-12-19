@@ -116,7 +116,8 @@ class ShareableImageCard extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: AutoSizeText(
-                      mainText,
+                      //TDOD remove after database update
+                      mainText.replaceAll("، ،", "،").replaceAll("  ", " "),
                       minFontSize: 30,
                       textAlign: TextAlign.center,
                       style: mainTextStyle,

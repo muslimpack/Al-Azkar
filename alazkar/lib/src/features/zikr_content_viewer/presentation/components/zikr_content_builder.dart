@@ -51,7 +51,8 @@ class ZikrContentPlainText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StringFormatter(
-      text: zikr.body,
+      //TDOD remove after database update
+      text: zikr.body.replaceAll("، ،", "،").replaceAll("  ", " "),
       fontSize: fontSize,
       color: color,
       enableDiacritics: enableDiacritics,

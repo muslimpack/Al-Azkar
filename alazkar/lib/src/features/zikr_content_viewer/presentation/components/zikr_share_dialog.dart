@@ -59,7 +59,11 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
     final proccessedText = sl<SettingsStorage>().showTextInBrackets()
         ? content
         : content.removeTextInBrackets;
-    sb.writeln("$proccessedText\n");
+
+    //TDOD remove after database update
+    sb.writeln(
+      "${proccessedText.replaceAll("، ،", "،").replaceAll("  ", " ")}\n",
+    );
     sb.writeln("🔢عدد المرات: ${zikr.count}");
     if (shareFadl && zikr.fadl.isNotEmpty) {
       sb.writeln();
