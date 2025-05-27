@@ -1,4 +1,3 @@
-import 'package:alazkar/src/core/extension/extension_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -17,7 +16,7 @@ class ShareAsImageRepo {
   ///MARK: image text color
   final String textColorKey = 'share_image_text_color';
   Color get textColor => Color(
-        box.read<int?>(textColorKey) ?? Colors.white.toARGB32,
+        box.read<int?>(textColorKey) ?? Colors.white.toARGB32(),
       );
   Future<void> updateTextColor(Color color) async {
     await box.write(textColorKey, color.toARGB32);
@@ -26,7 +25,7 @@ class ShareAsImageRepo {
   ///MARK: image background color
   final String backgroundColorKey = 'share_image_background_color';
   Color get backgroundColor => Color(
-        box.read<int?>(backgroundColorKey) ?? Colors.brown.toARGB32,
+        box.read<int?>(backgroundColorKey) ?? Colors.brown.toARGB32(),
       );
   Future<void> updateBackgroundColor(Color color) async {
     await box.write(backgroundColorKey, color.toARGB32);
