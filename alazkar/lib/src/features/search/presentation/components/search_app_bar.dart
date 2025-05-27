@@ -53,7 +53,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         ),
         onChanged: (text) async {
           // context.read<HomeBloc>().add(HomeSearchEvent(text));
-          context.read<SearchCubit>().search(text);
+          await context.read<SearchCubit>().search(text);
         },
       ),
       actions: [

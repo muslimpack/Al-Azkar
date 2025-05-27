@@ -27,7 +27,7 @@ class ZikrFilterStorage {
   }
 
   /// Filters for zikr source
-  Future setEnableFiltersStatus(bool activateFilters) async {
+  Future setEnableFiltersStatus(bool activateFilters) {
     return box.write(_enableFiltersKey, activateFilters);
   }
 
@@ -41,7 +41,7 @@ class ZikrFilterStorage {
   }
 
   /// Filters for zikr Hokm
-  Future setEnableHokmFiltersStatus(bool activateFilters) async {
+  Future setEnableHokmFiltersStatus(bool activateFilters) {
     return box.write(_enableHokmFiltersKey, activateFilters);
   }
 
@@ -50,7 +50,7 @@ class ZikrFilterStorage {
     return data ?? true;
   }
 
-  Future setFilterStatus(Filter filter) async {
+  Future setFilterStatus(Filter filter) {
     return box.write(_getZikrFilterKey(filter.filter), filter.isActivated);
   }
 
@@ -78,7 +78,7 @@ class ZikrFilterStorage {
   }
 
   /// Filters for zikr source
-  Future setTitlesFreqFilterStatus(List<TitlesFreqEnum> freqList) async {
+  Future setTitlesFreqFilterStatus(List<TitlesFreqEnum> freqList) {
     return box.write(_titlesFreqFilter, freqList.toJson());
   }
 }

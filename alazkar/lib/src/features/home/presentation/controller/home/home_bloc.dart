@@ -41,7 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeFiltersChange>(_handleSettingsFiltersChanges);
   }
 
-  FutureOr<void> _start(
+  Future<void> _start(
     HomeStartEvent event,
     Emitter<HomeState> emit,
   ) async {
@@ -114,7 +114,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     return titlesToSet;
   }
 
-  FutureOr<void> _search(
+  Future<void> _search(
     HomeToggleSearchEvent event,
     Emitter<HomeState> emit,
   ) async {
@@ -128,7 +128,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  FutureOr<void> _bookmarkTitle(
+  Future<void> _bookmarkTitle(
     HomeBookmarkTitleEvent event,
     Emitter<HomeState> emit,
   ) async {
@@ -140,7 +140,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     add(HomeBookmarksChangedEvent());
   }
 
-  FutureOr<void> _unBookmarkTitle(
+  Future<void> _unBookmarkTitle(
     HomeUnBookmarkTitleEvent event,
     Emitter<HomeState> emit,
   ) async {
@@ -154,7 +154,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     add(HomeBookmarksChangedEvent());
   }
 
-  FutureOr<void> _bookmarksChanged(
+  Future<void> _bookmarksChanged(
     HomeBookmarksChangedEvent event,
     Emitter<HomeState> emit,
   ) async {
@@ -188,7 +188,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     );
   }
 
-  FutureOr<void> _toggleFreqFilter(
+  Future<void> _toggleFreqFilter(
     HomeToggleFilterEvent event,
     Emitter<HomeState> emit,
   ) async {
@@ -235,7 +235,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     add(HomeFiltersChange(filterState.filters));
   }
 
-  FutureOr<void> _handleSettingsFiltersChanges(
+  Future<void> _handleSettingsFiltersChanges(
     HomeFiltersChange event,
     Emitter<HomeState> emit,
   ) async {

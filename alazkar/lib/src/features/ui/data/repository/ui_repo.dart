@@ -30,7 +30,7 @@ class UIRepo {
     return defaultSize;
   }
 
-  Future<void> changeDesktopWindowSize(Size value) async {
+  Future<void> changeDesktopWindowSize(Size value) {
     final screenSize = {
       'width': value.width,
       'height': value.height,

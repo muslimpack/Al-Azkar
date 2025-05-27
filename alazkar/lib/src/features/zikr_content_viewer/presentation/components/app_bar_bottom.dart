@@ -17,7 +17,7 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
         if (state.activeZikr != null)
           IconButton(
             tooltip: "مشاركة الذكر",
-            onPressed: () async {
+            onPressed: () {
               context
                   .read<ZikrContentViewerBloc>()
                   .add(ZikrContentViewerShareEvent());
@@ -28,7 +28,7 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
           IconButton(
             tooltip: "فضل الذكر",
             onPressed: () async {
-              showDialog(
+              await showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
@@ -46,7 +46,7 @@ class ZikrContentViewerAppBarBottom extends StatelessWidget {
           IconButton(
             tooltip: "مصدر الذكر وحكمه",
             onPressed: () async {
-              showDialog(
+              await showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(

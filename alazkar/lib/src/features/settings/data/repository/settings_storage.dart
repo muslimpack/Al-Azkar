@@ -16,13 +16,13 @@ class SettingsStorage {
     return data ?? true;
   }
 
-  Future setShowTextInBrackets(bool showTextInBrackets) async {
+  Future setShowTextInBrackets(bool showTextInBrackets) {
     return _box.write(_showTextInBrackets, showTextInBrackets);
   }
 
   ///MARK: praiseWithVolumeKeys
   static const praiseWithVolumeKeysKey = 'praiseWithVolumeKeys';
   bool get praiseWithVolumeKeys => _box.read(praiseWithVolumeKeysKey) ?? true;
-  Future<void> changePraiseWithVolumeKeysStatus({required bool value}) async =>
+  Future<void> changePraiseWithVolumeKeysStatus({required bool value}) =>
       _box.write(praiseWithVolumeKeysKey, value);
 }

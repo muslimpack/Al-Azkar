@@ -52,7 +52,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
     return result + 2;
   }
 
-  FutureOr start({
+  Future start({
     required Zikr zikr,
     required ZikrTitle zikrTitle,
   }) async {
@@ -243,7 +243,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
       xFiles.add(XFile(file.path));
     }
 
-    await Share.shareXFiles(xFiles);
+    await SharePlus.instance.share(ShareParams(files: xFiles));
 
     for (final file in xFiles) {
       await File(file.path).delete();

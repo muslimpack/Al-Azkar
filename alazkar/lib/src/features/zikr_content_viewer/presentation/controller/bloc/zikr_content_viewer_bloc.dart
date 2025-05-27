@@ -63,7 +63,7 @@ class ZikrContentViewerBloc
     });
   }
 
-  FutureOr<void> _start(
+  Future<void> _start(
     ZikrContentViewerStartEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
@@ -99,7 +99,7 @@ class ZikrContentViewerBloc
     );
   }
 
-  FutureOr<void> _decrease(
+  Future<void> _decrease(
     ZikrContentViewerDecreaseEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
@@ -129,7 +129,7 @@ class ZikrContentViewerBloc
     );
   }
 
-  FutureOr<void> _pageChanged(
+  Future<void> _pageChanged(
     ZikrContentViewerPageChangeEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
@@ -160,7 +160,7 @@ class ZikrContentViewerBloc
     return plainText;
   }
 
-  FutureOr<void> _copy(
+  Future<void> _copy(
     ZikrContentViewerCopyEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
@@ -172,7 +172,7 @@ class ZikrContentViewerBloc
     showToast("تم نسخ الذكر");
   }
 
-  FutureOr<void> _share(
+  Future<void> _share(
     ZikrContentViewerShareEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
@@ -214,7 +214,7 @@ class ZikrContentViewerBloc
     return super.close();
   }
 
-  FutureOr<void> _nextTitle(
+  Future<void> _nextTitle(
     ZikrContentViewerNextTitleEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {
@@ -238,7 +238,7 @@ class ZikrContentViewerBloc
     }
   }
 
-  FutureOr<void> _perviousTitle(
+  Future<void> _perviousTitle(
     ZikrContentViewerPerviousTitleEvent event,
     Emitter<ZikrContentViewerState> emit,
   ) async {

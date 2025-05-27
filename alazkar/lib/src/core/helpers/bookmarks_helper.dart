@@ -57,7 +57,7 @@ class BookmarksDBHelper {
   }
 
   /// On create database
-  FutureOr<void> _onCreateDatabase(Database db, int version) async {
+  Future<void> _onCreateDatabase(Database db, int version) async {
     appPrint("Create Bookmarks.db");
 
     /// Create favourite_contents table
@@ -97,7 +97,7 @@ class BookmarksDBHelper {
   }
 
   /// On upgrade database version
-  FutureOr<void> _onUpgradeDatabase(
+  Future<void> _onUpgradeDatabase(
     Database db,
     int oldVersion,
     int newVersion,
@@ -108,11 +108,11 @@ class BookmarksDBHelper {
   }
 
   /// On downgrade database version
-  FutureOr<void> _onDowngradeDatabase(
+  Future<void> _onDowngradeDatabase(
     Database db,
     int oldVersion,
     int newVersion,
-  ) {}
+  ) async {}
 
   /* ************* Functions ************* */
 

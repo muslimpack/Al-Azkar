@@ -19,7 +19,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
         children: [
           IconButton(
             tooltip: "الباب السابق",
-            onPressed: () async {
+            onPressed: () {
               context
                   .read<ZikrContentViewerBloc>()
                   .add(ZikrContentViewerPerviousTitleEvent());
@@ -51,7 +51,7 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
           const Spacer(),
           IconButton(
             tooltip: "الباب التالي",
-            onPressed: () async {
+            onPressed: () {
               context
                   .read<ZikrContentViewerBloc>()
                   .add(ZikrContentViewerNextTitleEvent());
