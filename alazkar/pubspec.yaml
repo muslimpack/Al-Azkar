@@ -25,22 +25,22 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   flutter_localizations:
     sdk: flutter
-  fluttertoast: ^8.2.10
+  fluttertoast: ^8.2.12
   get_it: ^8.0.3
   get_storage: ^2.1.1
   marquee: ^2.3.0
   material_design_icons_flutter: ^7.0.7296
-  path: ^1.9.0
+  path: ^1.9.1
   path_provider: ^2.1.5
   share_plus: ^11.0.0
-  sqflite: ^2.4.1
-  sqflite_common_ffi: ^2.3.4
+  sqflite: ^2.4.2
+  sqflite_common_ffi: ^2.3.5
   url_launcher: ^6.3.1
   window_manager: ^0.4.3
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.3
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
   lint: ^2.8.0
