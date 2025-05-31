@@ -12,7 +12,6 @@ class SearchAppBar extends StatefulWidget {
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
-  final TextEditingController searchTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -26,8 +25,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         },
       ),
       title: TextFormField(
-        controller: searchTextController,
-        // initialValue: widget.state.searchedText,
+        controller: context.read<SearchCubit>().searchController,
         autofocus: true,
         style: const TextStyle(
           fontSize: 18,
@@ -51,10 +49,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
             right: 15,
           ),
         ),
-        onChanged: (text) async {
-          // context.read<HomeBloc>().add(HomeSearchEvent(text));
-          await context.read<SearchCubit>().search(text);
-        },
       ),
       actions: [
         IconButton(
@@ -62,11 +56,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
           padding: EdgeInsets.zero,
           icon: Icon(MdiIcons.eraser),
           onPressed: () {
-            searchTextController.clear();
-
-            // context.read<HomeBloc>().add(const HomeSearchEvent(""));
-
-            context.read<SearchCubit>().search("");
+            context.read<SearchCubit>().clear();
           },
         ),
       ],

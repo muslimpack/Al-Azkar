@@ -2,12 +2,14 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/search/data/models/search_for.dart';
 import 'package:alazkar/src/features/search/data/models/search_type.dart';
 import 'package:alazkar/src/features/search/domain/repository/search_repo.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -48,7 +50,9 @@ class SearchCubit extends Cubit<SearchState> {
     );
 
     titlePagingController = PagingController(
-      getNextPageKey: (pageKey) => 0,
+      getNextPageKey: (pageKey) {
+        return pageKey.hasNextPage ? (pageKey.keys?.last ?? 0) + 1 : null;
+      },
       fetchPage: (pageKey) => searchTitleByName(
         searchText: state.searchText,
         searchType: state.searchType,
@@ -65,6 +69,16 @@ class SearchCubit extends Cubit<SearchState> {
         offset: pageKey,
       ),
     );
+
+    searchController.addListener(() {
+      EasyDebounce.debounce(
+        'search',
+        const Duration(milliseconds: 500),
+        () {
+          updateSearchText(searchController.text);
+        },
+      );
+    });
 
     emit(state);
   }
@@ -122,8 +136,6 @@ class SearchCubit extends Cubit<SearchState> {
         searchText: searchText,
       ),
     );
-
-    await _startNewSearch();
   }
 
   ///MARK: SearchType
@@ -134,7 +146,6 @@ class SearchCubit extends Cubit<SearchState> {
     await searchRepo.setSearchType(searchType);
 
     emit(state.copyWith(searchType: searchType));
-    await _startNewSearch();
   }
 
   ///MARK: Search For
@@ -145,13 +156,28 @@ class SearchCubit extends Cubit<SearchState> {
     await searchRepo.setSearchFor(searchFor);
 
     emit(state.copyWith(searchFor: searchFor));
-    await _startNewSearch();
   }
 
   ///MARK: clear
   Future clear() async {
     searchController.clear();
-    await updateSearchText("");
+  }
+
+  ///MARK: State change
+  @override
+  void onChange(Change<SearchState> change) {
+    super.onChange(change);
+    final prevState = state;
+    final nextState = change.nextState;
+    if (prevState is SearchLoadedState && nextState is SearchLoadedState) {
+      final hasChanged = prevState.searchText != nextState.searchText ||
+          prevState.searchType != nextState.searchType ||
+          prevState.searchFor != nextState.searchFor;
+      if (hasChanged) {
+        appPrint("state change | start new search");
+        _startNewSearch();
+      }
+    }
   }
 
   @override
