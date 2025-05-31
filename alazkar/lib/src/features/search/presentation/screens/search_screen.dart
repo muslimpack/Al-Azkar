@@ -51,6 +51,7 @@ class SearchScreen extends StatelessWidget {
                           sl<SearchCubit>().contentPagingController,
                       itemBuilder: (context, item, index) {
                         return SearchContentCard(
+                          index: index,
                           zikr: item,
                           searchText: state.searchText,
                         );

@@ -5,10 +5,12 @@ import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:flutter/material.dart';
 
 class SearchContentCard extends StatelessWidget {
+  final int index;
   final Zikr zikr;
   final String searchText;
   const SearchContentCard({
     super.key,
+    required this.index,
     required this.zikr,
     required this.searchText,
   });
@@ -25,7 +27,7 @@ class SearchContentCard extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 25),
-            child: Text(zikr.id.toString()),
+            child: Text((index + 1).toString()),
           ),
         ),
       ),
