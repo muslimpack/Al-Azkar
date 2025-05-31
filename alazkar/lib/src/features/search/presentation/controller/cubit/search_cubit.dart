@@ -40,32 +40,19 @@ class SearchCubit extends Cubit<SearchState> {
       final state = this.state;
       if (state is! SearchLoadedState) return;
     });
-  }
-
-  Future start() async {
-    final state = SearchLoadedState(
-      searchText: "",
-      searchType: searchRepo.searchType,
-      searchFor: searchRepo.searchFor,
-    );
 
     titlePagingController = PagingController(
       getNextPageKey: (pageKey) {
         return pageKey.hasNextPage ? (pageKey.keys?.last ?? 0) + 1 : null;
       },
       fetchPage: (pageKey) => searchTitleByName(
-        searchText: state.searchText,
-        searchType: state.searchType,
         offset: pageKey,
       ),
     );
 
     contentPagingController = PagingController(
       getNextPageKey: (pageKey) => 0,
-      fetchPage: (pageKey) => azkarDBHelper.searchContent(
-        searchText: state.searchText,
-        searchType: state.searchType,
-        limit: state.pageSize,
+      fetchPage: (pageKey) => searchContent(
         offset: pageKey,
       ),
     );
@@ -79,13 +66,33 @@ class SearchCubit extends Cubit<SearchState> {
         },
       );
     });
+  }
+
+  Future start() async {
+    final state = SearchLoadedState(
+      searchText: "",
+      searchType: searchRepo.searchType,
+      searchFor: searchRepo.searchFor,
+    );
 
     emit(state);
   }
 
+  Future<List<Zikr>> searchContent({
+    required int offset,
+  }) async {
+    final state = this.state;
+    if (state is! SearchLoadedState) return [];
+
+    return azkarDBHelper.searchContent(
+      searchText: state.searchText,
+      searchType: state.searchType,
+      limit: state.pageSize,
+      offset: offset,
+    );
+  }
+
   Future<List<ZikrTitle>> searchTitleByName({
-    required String searchText,
-    required SearchType searchType,
     required int offset,
   }) async {
     final state = this.state;
@@ -185,6 +192,7 @@ class SearchCubit extends Cubit<SearchState> {
     titlePagingController.dispose();
     contentPagingController.dispose();
     searchController.dispose();
+    EasyDebounce.cancel('search');
     return super.close();
   }
 }
