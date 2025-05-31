@@ -1,6 +1,11 @@
+import 'package:alazkar/src/core/di/dependency_injection.dart';
+import 'package:alazkar/src/core/models/zikr.dart';
+import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/widgets/loading.dart';
+import 'package:alazkar/src/features/home/presentation/components/fehrs_item_card.dart';
+import 'package:alazkar/src/features/search/data/models/search_for.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_app_bar.dart';
-import 'package:alazkar/src/features/search/presentation/components/search_bottom_bar.dart';
-import 'package:alazkar/src/features/search/presentation/components/search_card.dart';
+import 'package:alazkar/src/features/search/presentation/components/search_result_viewer.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,33 +18,31 @@ class SearchScreen extends StatelessWidget {
     return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) {
         return Scaffold(
-          body: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                const SearchAppBar(),
-              ];
-            },
-            body: Scrollbar(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: state.result.entries.map(
-                  (e) {
-                    return SearchCard(
-                      title: e.key,
-                      zikr: e.value,
-                      searchText: state.searchText,
-                    );
-                  },
-                ).toList(),
-              ),
-            ),
-          ),
-          bottomNavigationBar: SearchBottomBar(
-            result: state.result,
-          ),
-        );
+            body: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              const SearchAppBar(),
+            ];
+          },
+          body: state is! SearchLoadedState
+              ? const Loading()
+              : switch (state.searchFor) {
+                  SearchFor.title => SearchResultViewer<ZikrTitle>(
+                      pagingController: sl<SearchCubit>().titlePagingController,
+                      itemBuilder: (context, item, index) {
+                        return FehrsItemCard(zikrTitle: item);
+                      },
+                    ),
+                  SearchFor.content => SearchResultViewer<Zikr>(
+                      pagingController:
+                          sl<SearchCubit>().contentPagingController,
+                      itemBuilder: (context, item, index) {
+                        return Card(child: Text(item.body));
+                      },
+                    ),
+                },
+        ));
       },
     );
   }

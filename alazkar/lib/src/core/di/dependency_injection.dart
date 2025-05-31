@@ -4,6 +4,7 @@ import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/manager/volume_button_manager.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/quran/data/repository/uthmani_repository.dart';
+import 'package:alazkar/src/features/search/domain/repository/search_repo.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
 import 'package:alazkar/src/features/settings/data/repository/zikr_text_repo.dart';
@@ -32,6 +33,7 @@ Future<void> initSL() async {
   sl.registerLazySingleton(() => ShareAsImageRepo(sl()));
   sl.registerLazySingleton(() => ZikrTextRepo(sl()));
   sl.registerLazySingleton(() => ZikrViewerRepo(sl()));
+  sl.registerLazySingleton(() => SearchRepo(sl()));
 
   ///MARK: Init Repo
   sl.registerLazySingleton(() => UthmaniRepository());
@@ -46,7 +48,7 @@ Future<void> initSL() async {
   /// Singleton BLoC
   sl.registerLazySingleton(() => ThemeCubit(sl(), sl()));
   sl.registerLazySingleton(() => HomeBloc(sl(), sl(), sl(), sl()));
-  sl.registerLazySingleton(() => SearchCubit(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton(() => SearchCubit(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => SettingsCubit(sl()));
   sl.registerLazySingleton(() => ZikrSourceFilterCubit(sl()));
 

@@ -4,6 +4,7 @@ import 'package:alazkar/src/core/helpers/db_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/search/data/models/search_type.dart';
 import 'package:alazkar/src/features/search/data/models/sql_query.dart';
 import 'package:sqflite/sqflite.dart';
@@ -189,11 +190,13 @@ class AzkarDBHelper {
   }) async {
     if (searchText.isEmpty) return [];
 
+    appPrint("object");
+
     final Database db = await database;
 
     final whereFilters = _searchTitlesSearchType(
       searchText,
-      "t1.name",
+      "name",
       searchType: searchType,
       useFilters: true,
     );
@@ -218,6 +221,8 @@ class AzkarDBHelper {
     required int offset,
   }) async {
     if (searchText.isEmpty) return [];
+
+    appPrint("object");
 
     final Database db = await database;
 

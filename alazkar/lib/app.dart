@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<HomeBloc>()..add(HomeStartEvent()),
         ),
-        BlocProvider(create: (context) => sl<SearchCubit>()),
+        BlocProvider(create: (context) => sl<SearchCubit>()..start()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {

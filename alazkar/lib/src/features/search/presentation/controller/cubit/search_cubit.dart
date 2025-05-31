@@ -3,72 +3,90 @@ import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
-import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter.dart';
-import 'package:alazkar/src/features/zikr_source_filter/data/models/zikr_filter_list_extension.dart';
+import 'package:alazkar/src/features/search/data/models/search_for.dart';
+import 'package:alazkar/src/features/search/data/models/search_type.dart';
+import 'package:alazkar/src/features/search/domain/repository/search_repo.dart';
 import 'package:alazkar/src/features/zikr_source_filter/data/repository/zikr_filter_storage.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
+  final TextEditingController searchController = TextEditingController();
+  late final PagingController<int, ZikrTitle> titlePagingController;
+  late final PagingController<int, Zikr> contentPagingController;
+
+  ///
   final HomeBloc homeBloc;
   final ZikrFilterStorage zikrFilterStorage;
   final AzkarDBHelper azkarDBHelper;
   final BookmarksDBHelper bookmarksDBHelper;
+  final SearchRepo searchRepo;
   SearchCubit(
     this.homeBloc,
     this.zikrFilterStorage,
     this.azkarDBHelper,
     this.bookmarksDBHelper,
-  ) : super(
-          const SearchState(
-            searchText: "",
-            result: {},
-          ),
-        ) {
+    this.searchRepo,
+  ) : super(const SearchLoadingState()) {
     homeBloc.stream.listen((event) {
       final homeBlocState = homeBloc.state;
       if (homeBlocState is! HomeLoadedState) return;
-      if (state.result.isEmpty) return;
-
-      final result = state.result.map((key, value) {
-        return MapEntry(
-          homeBlocState.titles.firstWhere((e) => e.id == key.id),
-          value,
-        );
-      });
-
-      emit(state.copyWith(result: result));
+      final state = this.state;
+      if (state is! SearchLoadedState) return;
     });
   }
 
-  Future search(String searchText) async {
-    if (searchText.isEmpty) {
-      final Map<ZikrTitle, List<Zikr>> result = {};
-      emit(
-        SearchState(
-          searchText: "",
-          result: result,
-        ),
-      );
+  Future start() async {
+    final state = SearchLoadedState(
+      searchText: "",
+      searchType: searchRepo.searchType,
+      searchFor: searchRepo.searchFor,
+    );
 
-      return;
-    }
+    titlePagingController = PagingController(
+      getNextPageKey: (pageKey) => 0,
+      fetchPage: (pageKey) => searchTitleByName(
+        searchText: state.searchText,
+        searchType: state.searchType,
+        offset: pageKey,
+      ),
+    );
 
-    // Get Searching result from database
-    final searchedTitles = await azkarDBHelper.getTitlesByName(searchText);
-    final searchedZikr = await azkarDBHelper.getContentsByName(searchText);
+    contentPagingController = PagingController(
+      getNextPageKey: (pageKey) => 0,
+      fetchPage: (pageKey) => azkarDBHelper.searchContent(
+        searchText: state.searchText,
+        searchType: state.searchType,
+        limit: state.pageSize,
+        offset: pageKey,
+      ),
+    );
 
-    /// Get Filtered Zikr
-    final List<Filter> filters = zikrFilterStorage.getAllFilters();
-    final filteredZikr = filters.getFilteredZikr(searchedZikr);
+    emit(state);
+  }
 
-    // Get Titles with favorites
-    final allTitles = await azkarDBHelper.getAllTitles();
+  Future<List<ZikrTitle>> searchTitleByName({
+    required String searchText,
+    required SearchType searchType,
+    required int offset,
+  }) async {
+    final state = this.state;
+    if (state is! SearchLoadedState) return [];
+
+    final titles = await azkarDBHelper.searchTitleByName(
+      searchText: state.searchText,
+      searchType: state.searchType,
+      limit: state.pageSize,
+      offset: offset,
+    );
+
     final List<int> favouriteTitlesIds =
         await bookmarksDBHelper.getAllFavoriteTitles();
-    final allTitlesWithFavorite = allTitles
+    final allTitlesWithFavorite = titles
         .map(
           (e) => e.copyWith(
             isBookmarked: favouriteTitlesIds.contains(e.id),
@@ -76,37 +94,71 @@ class SearchCubit extends Cubit<SearchState> {
         )
         .toList();
 
-    final Map<int, ZikrTitle> titleMap = {
-      for (final title in allTitlesWithFavorite) title.id: title,
-    };
+    return allTitlesWithFavorite;
+  }
 
-    // Start to handle  Result
-    final Map<ZikrTitle, List<Zikr>> result = {};
+  ///MARK: Search header
+  Future _startNewSearch() async {
+    final state = this.state;
+    if (state is! SearchLoadedState) return;
 
-    /// Titles
-    for (final title in searchedTitles) {
-      result[titleMap[title.id]!] = [];
+    switch (state.searchFor) {
+      case SearchFor.title:
+        titlePagingController.refresh();
+
+      case SearchFor.content:
+        contentPagingController.refresh();
     }
+  }
 
-    /// Zikr in each title
-    for (final zikr in filteredZikr) {
-      if (result[titleMap[zikr.titleId]!]?.isEmpty ?? true) {
-        result[titleMap[zikr.titleId]!] = [];
-      }
-      result[titleMap[zikr.titleId]!]?.add(zikr);
-    }
+  ///MARK: Search text
 
-    /// Sort result
-    final sortedEntries = result.entries.toList()
-      ..sort((a, b) => a.key.order.compareTo(b.key.order));
-
-    final sortedMap = Map.fromEntries(sortedEntries);
+  Future updateSearchText(String searchText) async {
+    final state = this.state;
+    if (state is! SearchLoadedState) return;
 
     emit(
-      SearchState(
+      state.copyWith(
         searchText: searchText,
-        result: sortedMap,
       ),
     );
+
+    await _startNewSearch();
+  }
+
+  ///MARK: SearchType
+  Future changeSearchType(SearchType searchType) async {
+    final state = this.state;
+    if (state is! SearchLoadedState) return;
+
+    await searchRepo.setSearchType(searchType);
+
+    emit(state.copyWith(searchType: searchType));
+    await _startNewSearch();
+  }
+
+  ///MARK: Search For
+  Future changeSearchFor(SearchFor searchFor) async {
+    final state = this.state;
+    if (state is! SearchLoadedState) return;
+
+    await searchRepo.setSearchFor(searchFor);
+
+    emit(state.copyWith(searchFor: searchFor));
+    await _startNewSearch();
+  }
+
+  ///MARK: clear
+  Future clear() async {
+    searchController.clear();
+    await updateSearchText("");
+  }
+
+  @override
+  Future<void> close() {
+    titlePagingController.dispose();
+    contentPagingController.dispose();
+    searchController.dispose();
+    return super.close();
   }
 }

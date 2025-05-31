@@ -2,27 +2,41 @@
 part of 'search_cubit.dart';
 
 class SearchState extends Equatable {
-  final String searchText;
+  const SearchState();
 
-  final Map<ZikrTitle, List<Zikr>> result;
-  const SearchState({
+  @override
+  List<Object> get props => [];
+}
+
+final class SearchLoadingState extends SearchState {
+  const SearchLoadingState();
+}
+
+class SearchLoadedState extends SearchState {
+  final String searchText;
+  final SearchType searchType;
+  final SearchFor searchFor;
+
+  int get pageSize => 10;
+
+  const SearchLoadedState({
     required this.searchText,
-    required this.result,
+    required this.searchType,
+    required this.searchFor,
   });
 
   @override
-  List<Object> get props => [
-        searchText,
-        result,
-      ];
+  List<Object> get props => [searchText, searchType, searchFor];
 
-  SearchState copyWith({
+  SearchLoadedState copyWith({
     String? searchText,
-    Map<ZikrTitle, List<Zikr>>? result,
+    SearchType? searchType,
+    SearchFor? searchFor,
   }) {
-    return SearchState(
+    return SearchLoadedState(
       searchText: searchText ?? this.searchText,
-      result: result ?? this.result,
+      searchType: searchType ?? this.searchType,
+      searchFor: searchFor ?? this.searchFor,
     );
   }
 }
