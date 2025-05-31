@@ -4,7 +4,6 @@ import 'package:alazkar/src/core/helpers/db_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
-import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/search/data/models/search_type.dart';
 import 'package:alazkar/src/features/search/data/models/sql_query.dart';
 import 'package:sqflite/sqflite.dart';
@@ -182,15 +181,13 @@ class AzkarDBHelper {
     return sqlQuery;
   }
 
-  Future<List<ZikrTitle>> searchTitleByName({
+  Future<(int, List<ZikrTitle>)> searchTitleByName({
     required String searchText,
     required SearchType searchType,
     required int limit,
     required int offset,
   }) async {
-    if (searchText.isEmpty) return [];
-
-    appPrint("object");
+    if (searchText.isEmpty) return (0, <ZikrTitle>[]);
 
     final Database db = await database;
 
@@ -201,6 +198,7 @@ class AzkarDBHelper {
       useFilters: true,
     );
 
+    /// Pagination
     final String qurey =
         '''SELECT * FROM titles ${whereFilters.query} LIMIT ? OFFSET ?''';
 
@@ -209,20 +207,27 @@ class AzkarDBHelper {
       [...whereFilters.args, limit, offset],
     );
 
-    return List.generate(maps.length, (i) {
+    /// Total Count
+    final String totalCountQurey =
+        '''SELECT COUNT(*) as count FROM titles ${whereFilters.query} ''';
+    final List<Map<String, dynamic>> countResult =
+        await db.rawQuery(totalCountQurey, [...whereFilters.args]);
+    final int count = countResult.first["count"] as int? ?? 0;
+
+    final itemList = List.generate(maps.length, (i) {
       return ZikrTitle.fromMap(maps[i]);
     });
+
+    return (count, itemList);
   }
 
-  Future<List<Zikr>> searchContent({
+  Future<(int, List<Zikr>)> searchContent({
     required String searchText,
     required SearchType searchType,
     required int limit,
     required int offset,
   }) async {
-    if (searchText.isEmpty) return [];
-
-    appPrint("object");
+    if (searchText.isEmpty) return (0, <Zikr>[]);
 
     final Database db = await database;
 
@@ -233,6 +238,7 @@ class AzkarDBHelper {
       useFilters: true,
     );
 
+    /// Pagination
     final String qurey =
         '''SELECT * FROM contents ${whereFilters.query} LIMIT ? OFFSET ?''';
 
@@ -241,9 +247,18 @@ class AzkarDBHelper {
       [...whereFilters.args, limit, offset],
     );
 
-    return List.generate(maps.length, (i) {
+    /// Total Count
+    final String totalCountQurey =
+        '''SELECT COUNT(*) as count FROM contents ${whereFilters.query} ''';
+    final List<Map<String, dynamic>> countResult =
+        await db.rawQuery(totalCountQurey, [...whereFilters.args]);
+    final int count = countResult.first["count"] as int? ?? 0;
+
+    final itemList = List.generate(maps.length, (i) {
       return Zikr.fromMap(maps[i]);
     });
+
+    return (count, itemList);
   }
 
   /// Close database

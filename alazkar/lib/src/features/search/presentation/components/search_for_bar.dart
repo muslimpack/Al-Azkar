@@ -18,12 +18,13 @@ class SearchForBar extends StatelessWidget {
           runSpacing: 10,
           spacing: 10,
           children: SearchFor.values.map((e) {
+            final selected = state.searchFor == e;
             return ChoiceChip(
               label: Text(
-                e.localeName(context),
+                "${e.localeName(context)}${selected ? " (${state.searchResultCount})" : ""}",
               ),
               showCheckmark: false,
-              selected: state.searchFor == e,
+              selected: selected,
               onSelected: (value) async {
                 await context.read<SearchCubit>().changeSearchFor(e);
               },

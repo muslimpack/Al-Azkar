@@ -2,7 +2,6 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/helpers/bookmarks_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
-import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
 import 'package:alazkar/src/features/search/data/models/search_for.dart';
 import 'package:alazkar/src/features/search/data/models/search_type.dart';
@@ -73,6 +72,7 @@ class SearchCubit extends Cubit<SearchState> {
       searchText: "",
       searchType: searchRepo.searchType,
       searchFor: searchRepo.searchFor,
+      searchResultCount: 0,
     );
 
     emit(state);
@@ -84,12 +84,16 @@ class SearchCubit extends Cubit<SearchState> {
     final state = this.state;
     if (state is! SearchLoadedState) return [];
 
-    return azkarDBHelper.searchContent(
+    final (count, content) = await azkarDBHelper.searchContent(
       searchText: state.searchText,
       searchType: state.searchType,
       limit: state.pageSize,
       offset: offset,
     );
+
+    emit(state.copyWith(searchResultCount: count));
+
+    return content;
   }
 
   Future<List<ZikrTitle>> searchTitleByName({
@@ -98,7 +102,7 @@ class SearchCubit extends Cubit<SearchState> {
     final state = this.state;
     if (state is! SearchLoadedState) return [];
 
-    final titles = await azkarDBHelper.searchTitleByName(
+    final (count, titles) = await azkarDBHelper.searchTitleByName(
       searchText: state.searchText,
       searchType: state.searchType,
       limit: state.pageSize,
@@ -114,6 +118,8 @@ class SearchCubit extends Cubit<SearchState> {
           ),
         )
         .toList();
+
+    emit(state.copyWith(searchResultCount: count));
 
     return allTitlesWithFavorite;
   }
@@ -181,7 +187,6 @@ class SearchCubit extends Cubit<SearchState> {
           prevState.searchType != nextState.searchType ||
           prevState.searchFor != nextState.searchFor;
       if (hasChanged) {
-        appPrint("state change | start new search");
         _startNewSearch();
       }
     }
