@@ -5,6 +5,7 @@ import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/home/presentation/components/fehrs_item_card.dart';
 import 'package:alazkar/src/features/search/data/models/search_for.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_app_bar.dart';
+import 'package:alazkar/src/features/search/presentation/components/search_content_card.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_filters_dialog.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_for_bar.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_result_viewer.dart';
@@ -49,7 +50,10 @@ class SearchScreen extends StatelessWidget {
                       pagingController:
                           sl<SearchCubit>().contentPagingController,
                       itemBuilder: (context, item, index) {
-                        return Card(child: Text(item.body));
+                        return SearchContentCard(
+                          zikr: item,
+                          searchText: state.searchText,
+                        );
                       },
                     ),
                 },
