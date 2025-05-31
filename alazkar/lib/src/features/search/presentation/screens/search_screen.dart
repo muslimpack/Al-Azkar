@@ -5,6 +5,8 @@ import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/home/presentation/components/fehrs_item_card.dart';
 import 'package:alazkar/src/features/search/data/models/search_for.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_app_bar.dart';
+import 'package:alazkar/src/features/search/presentation/components/search_filters_dialog.dart';
+import 'package:alazkar/src/features/search/presentation/components/search_for_bar.dart';
 import 'package:alazkar/src/features/search/presentation/components/search_result_viewer.dart';
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,15 @@ class SearchScreen extends StatelessWidget {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               const SearchAppBar(),
+              const SliverToBoxAdapter(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SearchForBar(),
+                    SearchFiltersButton(),
+                  ],
+                ),
+              ),
             ];
           },
           body: state is! SearchLoadedState
