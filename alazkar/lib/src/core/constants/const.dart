@@ -41,3 +41,5 @@ const double kFontChangeBy = 2;
 const double kFontDefault = 30;
 const double kFontMin = 15;
 const double kFontMax = 45;
+
+const String kDeveloperEmail = "muslimpack.org@gmail.com";
