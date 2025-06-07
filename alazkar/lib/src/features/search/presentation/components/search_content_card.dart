@@ -22,7 +22,6 @@ class SearchContentCard extends StatelessWidget {
 
     return ListTile(
       isThreeLine: true,
-      contentPadding: const EdgeInsets.all(10),
       leading: Card(
         child: Padding(
           padding: const EdgeInsets.all(10),
