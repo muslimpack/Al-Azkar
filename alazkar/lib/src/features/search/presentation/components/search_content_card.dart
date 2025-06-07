@@ -2,6 +2,7 @@
 import 'package:alazkar/src/core/extension/extension_string.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
+import 'package:alazkar/src/features/zikr_content_viewer/presentation/screens/zikr_content_viewer_screen.dart';
 import 'package:flutter/material.dart';
 
 class SearchContentCard extends StatelessWidget {
@@ -49,13 +50,14 @@ class SearchContentCard extends StatelessWidget {
           );
         },
       ),
-      // subtitle: const Text(""),
       onTap: () {
-        /// TODO: navigate to zikr viewer
-        // Navigator.push(
-        //   context,
-        //   ZikrContentViewerScreen.route(zikrTitle: zikrTitle),
-        // );
+        Navigator.push(
+          context,
+          ZikrContentViewerScreen.route(
+            zikrTitleId: zikr.titleId,
+            zikrOrder: zikr.order,
+          ),
+        );
       },
     );
   }

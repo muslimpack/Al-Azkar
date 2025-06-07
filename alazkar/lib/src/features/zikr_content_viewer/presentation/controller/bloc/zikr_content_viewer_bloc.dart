@@ -98,6 +98,18 @@ class ZikrContentViewerBloc
         activeZikrIndex: 0,
       ),
     );
+
+    await Future.delayed(const Duration(milliseconds: 250));
+    if (pageController.hasClients && event.zikrOrder != null) {
+      final index = azkarToSet.indexWhere((e) => e.order == event.zikrOrder);
+      if (index > 0) {
+        pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
   }
 
   Future<void> _decrease(

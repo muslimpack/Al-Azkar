@@ -12,16 +12,19 @@ class ZikrContentViewerScreen extends StatelessWidget {
   static const String routeName = "ZikrContentViewer";
 
   final int zikrTitleId;
+  final int? zikrOrder;
   const ZikrContentViewerScreen({
     super.key,
     required this.zikrTitleId,
+    this.zikrOrder,
   });
 
-  static Route route({required int zikrTitleId}) {
+  static Route route({required int zikrTitleId, int? zikrOrder}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => ZikrContentViewerScreen(
         zikrTitleId: zikrTitleId,
+        zikrOrder: zikrOrder,
       ),
     );
   }
@@ -45,7 +48,7 @@ class ZikrContentViewerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<ZikrContentViewerBloc>()
-        ..add(ZikrContentViewerStartEvent(zikrTitleId)),
+        ..add(ZikrContentViewerStartEvent(zikrTitleId, zikrOrder: zikrOrder)),
       child: BlocBuilder<ZikrContentViewerBloc, ZikrContentViewerState>(
         builder: (context, state) {
           if (state is! ZikrContentViewerLoadedState) {
