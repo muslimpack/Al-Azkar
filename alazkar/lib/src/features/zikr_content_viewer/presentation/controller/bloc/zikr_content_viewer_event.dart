@@ -4,15 +4,16 @@ sealed class ZikrContentViewerEvent extends Equatable {
   const ZikrContentViewerEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ZikrContentViewerStartEvent extends ZikrContentViewerEvent {
-  final ZikrTitle zikrTitle;
-  const ZikrContentViewerStartEvent(this.zikrTitle);
+  final int zikrTitleId;
+  final int? zikrOrder;
+  const ZikrContentViewerStartEvent(this.zikrTitleId, {this.zikrOrder});
 
   @override
-  List<Object> get props => [zikrTitle];
+  List<Object?> get props => [zikrTitleId, zikrOrder];
 }
 
 class ZikrContentViewerDecreaseEvent extends ZikrContentViewerEvent {

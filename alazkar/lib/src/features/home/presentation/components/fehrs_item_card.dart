@@ -53,7 +53,7 @@ class FehrsItemCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          ZikrContentViewerScreen.route(zikrTitle: zikrTitle),
+          ZikrContentViewerScreen.route(zikrTitleId: zikrTitle.id),
         );
       },
     );
