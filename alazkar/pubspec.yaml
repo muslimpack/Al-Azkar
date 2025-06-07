@@ -29,10 +29,10 @@ dependencies:
   fluttertoast: ^8.2.12
   get_it: ^8.0.3
   get_storage: ^2.1.1
-  infinite_scroll_pagination: ^5.0.0
+  infinite_scroll_pagination: ^4.1.0
   marquee: ^2.3.0
   material_design_icons_flutter: ^7.0.7296
-  path: ^1.9.1
+  path: ^1.9.1 
   path_provider: ^2.1.5
   share_plus: ^11.0.0
   sqflite: ^2.4.2

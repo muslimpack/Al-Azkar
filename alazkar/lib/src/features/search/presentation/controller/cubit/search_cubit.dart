@@ -40,21 +40,11 @@ class SearchCubit extends Cubit<SearchState> {
       if (state is! SearchLoadedState) return;
     });
 
-    titlePagingController = PagingController(
-      getNextPageKey: (pageKey) {
-        return pageKey.hasNextPage ? (pageKey.keys?.last ?? 0) + 1 : null;
-      },
-      fetchPage: (pageKey) => searchTitleByName(
-        offset: pageKey,
-      ),
-    );
+    titlePagingController = PagingController(firstPageKey: 0)
+      ..addPageRequestListener(fetchPage);
 
-    contentPagingController = PagingController(
-      getNextPageKey: (pageKey) => 0,
-      fetchPage: (pageKey) => searchContent(
-        offset: pageKey,
-      ),
-    );
+    contentPagingController = PagingController(firstPageKey: 0)
+      ..addPageRequestListener(fetchPage);
 
     searchController.addListener(() {
       EasyDebounce.debounce(
@@ -78,50 +68,71 @@ class SearchCubit extends Cubit<SearchState> {
     emit(state);
   }
 
-  Future<List<Zikr>> searchContent({
-    required int offset,
-  }) async {
+  Future fetchPage(int pageKey) async {
     final state = this.state;
-    if (state is! SearchLoadedState) return [];
+    if (state is! SearchLoadedState) return;
 
-    final (count, content) = await azkarDBHelper.searchContent(
-      searchText: state.searchText,
-      searchType: state.searchType,
-      limit: state.pageSize,
-      offset: offset,
-    );
-
-    emit(state.copyWith(searchResultCount: count));
-
-    return content;
+    switch (state.searchFor) {
+      case SearchFor.title:
+        searchTitleByName(pageKey, state);
+      case SearchFor.content:
+        searchContent(pageKey, state);
+    }
   }
 
-  Future<List<ZikrTitle>> searchTitleByName({
-    required int offset,
-  }) async {
-    final state = this.state;
-    if (state is! SearchLoadedState) return [];
+  Future searchContent(int offset, SearchLoadedState state) async {
+    try {
+      final (count, content) = await azkarDBHelper.searchContent(
+        searchText: state.searchText,
+        searchType: state.searchType,
+        limit: state.pageSize,
+        offset: offset,
+      );
 
-    final (count, titles) = await azkarDBHelper.searchTitleByName(
-      searchText: state.searchText,
-      searchType: state.searchType,
-      limit: state.pageSize,
-      offset: offset,
-    );
+      emit(state.copyWith(searchResultCount: count));
 
-    final List<int> favouriteTitlesIds =
-        await bookmarksDBHelper.getAllFavoriteTitles();
-    final allTitlesWithFavorite = titles
-        .map(
-          (e) => e.copyWith(
-            isBookmarked: favouriteTitlesIds.contains(e.id),
-          ),
-        )
-        .toList();
+      final isLastPage = content.length < state.pageSize;
+      if (isLastPage) {
+        contentPagingController.appendLastPage(content);
+      } else {
+        final nextPageKey = offset + content.length;
+        contentPagingController.appendPage(content, nextPageKey);
+      }
+    } catch (e) {
+      contentPagingController.error = e;
+    }
+  }
 
-    emit(state.copyWith(searchResultCount: count));
+  Future searchTitleByName(int offset, SearchLoadedState state) async {
+    try {
+      final (count, titles) = await azkarDBHelper.searchTitleByName(
+        searchText: state.searchText,
+        searchType: state.searchType,
+        limit: state.pageSize,
+        offset: offset,
+      );
+      final List<int> favouriteTitlesIds =
+          await bookmarksDBHelper.getAllFavoriteTitles();
+      final allTitlesWithFavorite = titles
+          .map(
+            (e) => e.copyWith(
+              isBookmarked: favouriteTitlesIds.contains(e.id),
+            ),
+          )
+          .toList();
 
-    return allTitlesWithFavorite;
+      emit(state.copyWith(searchResultCount: count));
+
+      final isLastPage = allTitlesWithFavorite.length < state.pageSize;
+      if (isLastPage) {
+        titlePagingController.appendLastPage(allTitlesWithFavorite);
+      } else {
+        final nextPageKey = offset + allTitlesWithFavorite.length;
+        titlePagingController.appendPage(allTitlesWithFavorite, nextPageKey);
+      }
+    } catch (e) {
+      titlePagingController.error = e;
+    }
   }
 
   ///MARK: Search header
@@ -149,6 +160,8 @@ class SearchCubit extends Cubit<SearchState> {
         searchText: searchText,
       ),
     );
+
+    _startNewSearch();
   }
 
   ///MARK: SearchType
@@ -159,6 +172,7 @@ class SearchCubit extends Cubit<SearchState> {
     await searchRepo.setSearchType(searchType);
 
     emit(state.copyWith(searchType: searchType));
+    _startNewSearch();
   }
 
   ///MARK: Search For
@@ -169,27 +183,15 @@ class SearchCubit extends Cubit<SearchState> {
     await searchRepo.setSearchFor(searchFor);
 
     emit(state.copyWith(searchFor: searchFor));
+    _startNewSearch();
   }
 
   ///MARK: clear
   Future clear() async {
-    searchController.clear();
-  }
+    final state = this.state;
+    if (state is! SearchLoadedState) return;
 
-  ///MARK: State change
-  @override
-  void onChange(Change<SearchState> change) {
-    super.onChange(change);
-    final prevState = state;
-    final nextState = change.nextState;
-    if (prevState is SearchLoadedState && nextState is SearchLoadedState) {
-      final hasChanged = prevState.searchText != nextState.searchText ||
-          prevState.searchType != nextState.searchType ||
-          prevState.searchFor != nextState.searchFor;
-      if (hasChanged) {
-        _startNewSearch();
-      }
-    }
+    searchController.clear();
   }
 
   @override
