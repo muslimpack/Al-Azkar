@@ -200,7 +200,7 @@ class AzkarDBHelper {
 
     /// Pagination
     final String qurey =
-        '''SELECT * FROM titles ${whereFilters.query} LIMIT ? OFFSET ?''';
+        '''SELECT * FROM titles ${whereFilters.query} ORDER BY `id` LIMIT ? OFFSET ?''';
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(
       qurey,
@@ -240,7 +240,7 @@ class AzkarDBHelper {
 
     /// Pagination
     final String qurey =
-        '''SELECT * FROM contents ${whereFilters.query} LIMIT ? OFFSET ?''';
+        '''SELECT * FROM contents ${whereFilters.query} ORDER BY `order` LIMIT ? OFFSET ?''';
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(
       qurey,
