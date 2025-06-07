@@ -19,23 +19,23 @@ class HomeToggleSearchEvent extends HomeEvent {
 }
 
 class HomeBookmarkTitleEvent extends HomeEvent {
-  final ZikrTitle zikrTitle;
+  final int zikrTitleId;
 
-  const HomeBookmarkTitleEvent(this.zikrTitle);
+  const HomeBookmarkTitleEvent(this.zikrTitleId);
 
   @override
-  List<Object> get props => [zikrTitle];
+  List<Object> get props => [zikrTitleId];
 }
 
 class HomeBookmarksChangedEvent extends HomeEvent {}
 
 class HomeUnBookmarkTitleEvent extends HomeEvent {
-  final ZikrTitle zikrTitle;
+  final int zikrTitleId;
 
-  const HomeUnBookmarkTitleEvent(this.zikrTitle);
+  const HomeUnBookmarkTitleEvent(this.zikrTitleId);
 
   @override
-  List<Object> get props => [zikrTitle];
+  List<Object> get props => [zikrTitleId];
 }
 
 class HomeToggleFilterEvent extends HomeEvent {

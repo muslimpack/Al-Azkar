@@ -111,24 +111,15 @@ class SearchCubit extends Cubit<SearchState> {
         limit: state.pageSize,
         offset: offset,
       );
-      final List<int> favouriteTitlesIds =
-          await bookmarksDBHelper.getAllFavoriteTitles();
-      final allTitlesWithFavorite = titles
-          .map(
-            (e) => e.copyWith(
-              isBookmarked: favouriteTitlesIds.contains(e.id),
-            ),
-          )
-          .toList();
 
       emit(state.copyWith(searchResultCount: count));
 
-      final isLastPage = allTitlesWithFavorite.length < state.pageSize;
+      final isLastPage = titles.length < state.pageSize;
       if (isLastPage) {
-        titlePagingController.appendLastPage(allTitlesWithFavorite);
+        titlePagingController.appendLastPage(titles);
       } else {
-        final nextPageKey = offset + allTitlesWithFavorite.length;
-        titlePagingController.appendPage(allTitlesWithFavorite, nextPageKey);
+        final nextPageKey = offset + titles.length;
+        titlePagingController.appendPage(titles, nextPageKey);
       }
     } catch (e) {
       titlePagingController.error = e;

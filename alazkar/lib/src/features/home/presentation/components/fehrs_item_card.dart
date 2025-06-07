@@ -1,8 +1,7 @@
 import 'package:alazkar/src/core/models/zikr_title.dart';
-import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc.dart';
+import 'package:alazkar/src/features/home/presentation/components/bookmark_title_button.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/screens/zikr_content_viewer_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FehrsItemCard extends StatelessWidget {
   final ZikrTitle zikrTitle;
@@ -26,27 +25,7 @@ class FehrsItemCard extends StatelessWidget {
               ),
             ),
           ),
-          if (zikrTitle.isBookmarked!)
-            IconButton(
-              onPressed: () {
-                context
-                    .read<HomeBloc>()
-                    .add(HomeUnBookmarkTitleEvent(zikrTitle));
-              },
-              icon: Icon(
-                Icons.bookmark,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )
-          else
-            IconButton(
-              onPressed: () {
-                context.read<HomeBloc>().add(HomeBookmarkTitleEvent(zikrTitle));
-              },
-              icon: const Icon(
-                Icons.bookmark_add_outlined,
-              ),
-            ),
+          BookmarkTitleButton(titleId: zikrTitle.id),
         ],
       ),
       title: Text(zikrTitle.name),
