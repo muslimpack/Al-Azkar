@@ -1,5 +1,4 @@
 import 'package:alazkar/src/core/di/dependency_injection.dart';
-import 'package:alazkar/src/core/models/zikr_title.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/app_bar_bottom.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/bottom_app_bar.dart';
@@ -12,17 +11,17 @@ import 'package:marquee/marquee.dart';
 class ZikrContentViewerScreen extends StatelessWidget {
   static const String routeName = "ZikrContentViewer";
 
-  final ZikrTitle zikrTitle;
+  final int zikrTitleId;
   const ZikrContentViewerScreen({
     super.key,
-    required this.zikrTitle,
+    required this.zikrTitleId,
   });
 
-  static Route route({required ZikrTitle zikrTitle}) {
+  static Route route({required int zikrTitleId}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => ZikrContentViewerScreen(
-        zikrTitle: zikrTitle,
+        zikrTitleId: zikrTitleId,
       ),
     );
   }
@@ -46,7 +45,7 @@ class ZikrContentViewerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<ZikrContentViewerBloc>()
-        ..add(ZikrContentViewerStartEvent(zikrTitle)),
+        ..add(ZikrContentViewerStartEvent(zikrTitleId)),
       child: BlocBuilder<ZikrContentViewerBloc, ZikrContentViewerState>(
         builder: (context, state) {
           if (state is! ZikrContentViewerLoadedState) {

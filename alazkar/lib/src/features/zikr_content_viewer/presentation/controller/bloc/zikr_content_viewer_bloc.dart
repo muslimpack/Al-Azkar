@@ -78,13 +78,14 @@ class ZikrContentViewerBloc
     /// get all zikr
     final List<Zikr> azkarToSet;
     final azkarFromDB =
-        (await azkarDBHelper.getContentByTitleId(event.zikrTitle.id))
+        (await azkarDBHelper.getContentByTitleId(event.zikrTitleId))
             .map(
               (e) => showTextInBrackets || e.body.contains("QuranText")
                   ? e
                   : e.copyWith(body: e.body.replaceAll(regExp, "")),
             )
             .toList();
+    final zikrTitle = await azkarDBHelper.getTitlesById(event.zikrTitleId);
 
     /// filter out zikr
     final List<Filter> filters = zikrFilterStorage.getAllFilters();
@@ -92,7 +93,7 @@ class ZikrContentViewerBloc
 
     emit(
       ZikrContentViewerLoadedState(
-        zikrTitle: event.zikrTitle,
+        zikrTitle: zikrTitle,
         azkar: azkarToSet,
         activeZikrIndex: 0,
       ),
@@ -232,7 +233,7 @@ class ZikrContentViewerBloc
       if (currentTitleIndex == -1 || currentTitleIndex == titles.length - 1) {
         return;
       }
-      add(ZikrContentViewerStartEvent(titles[currentTitleIndex + 1]));
+      add(ZikrContentViewerStartEvent(titles[currentTitleIndex + 1].id));
     } catch (e) {
       appPrint(e);
     }
@@ -253,7 +254,7 @@ class ZikrContentViewerBloc
       final int currentTitleIndex =
           titles.indexWhere((e) => e.id == state.zikrTitle.id);
       if (currentTitleIndex == -1 || currentTitleIndex == 0) return;
-      add(ZikrContentViewerStartEvent(titles[currentTitleIndex - 1]));
+      add(ZikrContentViewerStartEvent(titles[currentTitleIndex - 1].id));
     } catch (e) {
       appPrint(e);
     }
