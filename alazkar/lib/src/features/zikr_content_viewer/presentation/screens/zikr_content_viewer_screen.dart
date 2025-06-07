@@ -1,5 +1,6 @@
 import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/widgets/loading.dart';
+import 'package:alazkar/src/features/home/presentation/components/bookmark_title_button.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/app_bar_bottom.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/bottom_app_bar.dart';
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/components/zikr_item_card.dart';
@@ -84,6 +85,7 @@ class ZikrContentViewerScreen extends StatelessWidget {
                       style: headerStyle,
                     ),
               centerTitle: true,
+              actions: [BookmarkTitleButton(titleId: state.zikrTitle.id)],
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(50),
                 child: Column(

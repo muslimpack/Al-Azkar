@@ -59,32 +59,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final List<int> favouriteTitlesIds =
         await bookmarksDBHelper.getAllFavoriteTitles();
 
-    final titlesWithBookmarkedData = dbTitles
-        .map(
-          (e) => e.copyWith(
-            isBookmarked: favouriteTitlesIds.contains(e.id),
-          ),
-        )
-        .toList();
-
     ///
     final freq = zikrFilterStorage.getTitlesFreqFilterStatus();
 
     /// Filters
-    titlesToSet = await applyFiltersOnTitels(titlesWithBookmarkedData, freq);
+    titlesToSet = await applyFiltersOnTitels(dbTitles, freq);
 
     emit(
       HomeLoadedState(
-        titles: titlesWithBookmarkedData,
+        titles: dbTitles,
         titlesToShow: titlesToSet,
         isSearching: false,
         freqFilters: freq,
+        favouriteTitlesIds: favouriteTitlesIds,
       ),
     );
   }
 
   Future<List<ZikrTitle>> applyFiltersOnTitels(
-    List<ZikrTitle> titlesWithBookmarkedData,
+    List<ZikrTitle> titles,
     List<TitlesFreqEnum> titleFreqList, {
     List<Filter>? zikrFilters,
   }) async {
@@ -93,9 +86,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     /// Handle Freq Filter
     final List<ZikrTitle> filterdFreqTitles;
 
-    filterdFreqTitles = titlesWithBookmarkedData
-        .where((x) => titleFreqList.validate(x.freq))
-        .toList();
+    filterdFreqTitles =
+        titles.where((x) => titleFreqList.validate(x.freq)).toList();
 
     /// Handle titles with no content after applying zikr filters
     final List<ZikrTitle> reducedTitles = List.of([]);
@@ -135,7 +127,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final state = this.state;
     if (state is! HomeLoadedState) return;
 
-    await bookmarksDBHelper.addTitleToFavourite(titleId: event.zikrTitle.id);
+    await bookmarksDBHelper.addTitleToFavourite(titleId: event.zikrTitleId);
 
     add(HomeBookmarksChangedEvent());
   }
@@ -148,7 +140,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (state is! HomeLoadedState) return;
 
     await bookmarksDBHelper.deleteTitleFromFavourite(
-      titleId: event.zikrTitle.id,
+      titleId: event.zikrTitleId,
     );
 
     add(HomeBookmarksChangedEvent());
@@ -164,27 +156,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final List<int> favouriteTitlesIds =
         await bookmarksDBHelper.getAllFavoriteTitles();
 
-    final titlesToSet = state.titles
-        .map(
-          (e) => e.copyWith(
-            isBookmarked: favouriteTitlesIds.contains(e.id),
-          ),
-        )
-        .toList();
-
-    final titlesToShow = state.titlesToShow
-        .map(
-          (e) => e.copyWith(
-            isBookmarked: favouriteTitlesIds.contains(e.id),
-          ),
-        )
-        .toList();
-
     emit(
-      state.copyWith(
-        titles: titlesToSet,
-        titlesToShow: titlesToShow,
-      ),
+      state.copyWith(favouriteTitlesIds: favouriteTitlesIds),
     );
   }
 

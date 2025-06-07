@@ -8,13 +8,11 @@ class ZikrTitle extends Equatable {
   final int order;
   final String name;
   final String freq;
-  final bool? isBookmarked;
   const ZikrTitle({
     required this.id,
     required this.order,
     required this.name,
     required this.freq,
-    this.isBookmarked,
   });
 
   Map<String, dynamic> toMap() {
@@ -45,17 +43,15 @@ class ZikrTitle extends Equatable {
     int? order,
     String? name,
     String? freq,
-    bool? isBookmarked,
   }) {
     return ZikrTitle(
       id: id ?? this.id,
       order: order ?? this.order,
       name: name ?? this.name,
       freq: freq ?? this.freq,
-      isBookmarked: isBookmarked ?? this.isBookmarked,
     );
   }
 
   @override
-  List<Object?> get props => [id, order, name, freq, isBookmarked];
+  List<Object?> get props => [id, order, name, freq];
 }
