@@ -18,7 +18,7 @@ Builds:
     versionCode: 6
     commit: 686216fc8b878f094821a007f279af24db135ba6
     subdir: alazkar
-    output: build/app/outputs/flutter-apk/app-release.apk
+    output: build/app/outputs/flutter-apk/app-prod-release.apk
     srclibs:
       - flutter@3.10.0
     rm:
