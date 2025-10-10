@@ -7,11 +7,11 @@ on:
 
 jobs:
   release:
-    uses: muslimpack/.github/workflows/flutter_release.yaml@main
+    uses: muslimpack/.github/.github/workflows/flutter_release.yaml@main
     with:
       app_directory: alazkar
       package_name: com.hassaneltantawy.alazkar
-      java_version: '11'
+      java_version: '17'
     secrets:
       KEY_PROPERTIES: ${{ secrets.KEY_PROPERTIES }}
       KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
