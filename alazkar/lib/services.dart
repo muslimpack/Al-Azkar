@@ -1,6 +1,5 @@
 import 'package:alazkar/src/core/constants/const.dart';
-import 'package:alazkar/src/core/di/dependency_injection.dart'
-    as service_locator;
+import 'package:alazkar/src/core/di/dependency_injection.dart' as service_locator;
 import 'package:alazkar/src/core/di/dependency_injection.dart';
 import 'package:alazkar/src/core/extension/extension_platform.dart';
 import 'package:alazkar/src/core/helpers/azkar_helper.dart';
@@ -39,9 +38,20 @@ Future initServices() async {
 }
 
 Future phoneDeviceBars() async {
+  // Enable edge-to-edge drawing (Android 15+ compatible)
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  // Use a light overlay with transparent background
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // Transparent for edge-to-edge
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarContrastEnforced: false,
+      systemStatusBarContrastEnforced: false,
+    ),
   );
+
+  // Lock to portrait orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
