@@ -11,7 +11,7 @@ jobs:
     with:
       app_directory: alazkar
       package_name: com.hassaneltantawy.alazkar
-      java_version: '18'
+      java_version: '11'
     secrets:
       KEY_PROPERTIES: ${{ secrets.KEY_PROPERTIES }}
       KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
