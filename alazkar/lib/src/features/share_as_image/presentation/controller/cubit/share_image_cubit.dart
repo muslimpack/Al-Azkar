@@ -56,8 +56,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
     required Zikr zikr,
     required ZikrTitle zikrTitle,
   }) async {
-    final settings =
-        const ShareableImageCardSettings.defaultSettings().copyWith(
+    final settings = const ShareableImageCardSettings.defaultSettings().copyWith(
       wordsCountPerSize: 120,
     );
 
@@ -71,16 +70,14 @@ class ShareImageCubit extends Cubit<ShareImageState> {
 
     appPrint(proccessedText.split(" ").length);
 
-    final charsPerChunk =
-        charPer1080(settings.wordsCountPerSize, proccessedText);
+    final charsPerChunk = charPer1080(settings.wordsCountPerSize, proccessedText);
 
     final List<TextRange> splittedMatnRanges = splitStringIntoChunksRange(
       proccessedText,
       charsPerChunk,
     );
 
-    imageKeys =
-        List.generate(splittedMatnRanges.length, (index) => GlobalKey());
+    imageKeys = List.generate(splittedMatnRanges.length, (index) => GlobalKey());
 
     emit(
       ShareImageLoadedState(
@@ -136,7 +133,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
 
   /// MARK: share Image
 
-  Future<void> shareImage(bool shareAll) async {
+  Future<void> shareImage(BuildContext context, {required bool shareAll}) async {
     final state = this.state;
     if (state is! ShareImageLoadedState) return;
 
@@ -150,8 +147,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
 
       if (shareAll) {
         for (var i = 0; i < state.splittedMatn.length; i++) {
-          final captureWidgetController =
-              CaptureWidgetController(imageKey: imageKeys[i]);
+          final captureWidgetController = CaptureWidgetController(imageKey: imageKeys[i]);
           final image = await captureWidgetController.getImage(pixelRatio);
           final byteData = await image?.toByteData(format: ImageByteFormat.png);
 
@@ -190,7 +186,9 @@ class ShareImageCubit extends Cubit<ShareImageState> {
       if (PlatformExtension.isDesktop) {
         await _saveDesktop(filesData, fileName: filesName);
       } else {
-        await _savePhone(filesData);
+        if (context.mounted) {
+          await _savePhone(context, filesData);
+        }
       }
     } catch (e) {
       appPrint(e.toString());
@@ -232,18 +230,24 @@ class ShareImageCubit extends Cubit<ShareImageState> {
     }
   }
 
-  Future _savePhone(List<ByteData> filesData) async {
+  Future _savePhone(BuildContext context, List<ByteData> filesData) async {
     final tempDir = await getTemporaryDirectory();
 
     final List<XFile> xFiles = [];
     for (int i = 0; i < filesData.length; i++) {
-      final File file =
-          await File('${tempDir.path}/SharedImage$i.png').create();
+      final File file = await File('${tempDir.path}/SharedImage$i.png').create();
       await file.writeAsBytes(filesData[i].buffer.asUint8List());
       xFiles.add(XFile(file.path));
     }
 
-    await SharePlus.instance.share(ShareParams(files: xFiles));
+    if (!context.mounted) return;
+
+    final box = context.findRenderObject()! as RenderBox;
+
+    await SharePlus.instance.share(ShareParams(
+      files: xFiles,
+      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+    ));
 
     for (final file in xFiles) {
       await File(file.path).delete();

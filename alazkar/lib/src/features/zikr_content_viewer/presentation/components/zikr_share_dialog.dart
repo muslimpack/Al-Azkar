@@ -6,6 +6,7 @@ import 'package:alazkar/src/core/helpers/azkar_helper.dart';
 import 'package:alazkar/src/core/models/zikr.dart';
 import 'package:alazkar/src/core/models/zikr_extension.dart';
 import 'package:alazkar/src/core/models/zikr_title.dart';
+import 'package:alazkar/src/core/utils/app_print.dart';
 import 'package:alazkar/src/core/utils/show_toast.dart';
 import 'package:alazkar/src/features/settings/data/repository/settings_storage.dart';
 import 'package:alazkar/src/features/share_as_image/presentation/screens/share_as_image_screen.dart';
@@ -54,11 +55,9 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
 
   Future<String> sharedText() async {
     final StringBuffer sb = StringBuffer();
-    final content =
-        (await zikr.getTextSpan()).map((e) => e.toPlainText()).join("\n");
-    final proccessedText = sl<SettingsStorage>().showTextInBrackets()
-        ? content
-        : content.removeTextInBrackets;
+    final content = (await zikr.getTextSpan()).map((e) => e.toPlainText()).join("\n");
+    final proccessedText =
+        sl<SettingsStorage>().showTextInBrackets() ? content : content.removeTextInBrackets;
 
     //TDOD remove after database update
     sb.writeln(
@@ -141,8 +140,7 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
             tooltip: "مشاركة كصورة",
             icon: const Icon(Icons.camera_alt_outlined),
             onPressed: () async {
-              final ZikrTitle zikrTitle =
-                  await sl<AzkarDBHelper>().getTitlesById(zikr.titleId);
+              final ZikrTitle zikrTitle = await sl<AzkarDBHelper>().getTitlesById(zikr.titleId);
               if (!context.mounted) return;
               context.push(
                 ShareAsImageScreen(
@@ -162,13 +160,25 @@ class _ZikrShareDialogState extends State<ZikrShareDialog> {
               showToast("تم النسخ للحافظة");
             },
           ),
-          IconButton(
-            tooltip: "مشاركة",
-            icon: const Icon(Icons.share),
-            onPressed: () async {
-              await SharePlus.instance.share(ShareParams(text: shareText));
-            },
-          ),
+          Builder(builder: (context) {
+            return IconButton(
+              tooltip: "مشاركة",
+              icon: const Icon(Icons.share),
+              onPressed: () async {
+                try {
+                  final box = context.findRenderObject()! as RenderBox;
+                  await SharePlus.instance.share(
+                    ShareParams(
+                      text: shareText,
+                      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+                    ),
+                  );
+                } catch (e) {
+                  appPrint(e);
+                }
+              },
+            );
+          }),
         ],
       ),
     );

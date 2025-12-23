@@ -5,7 +5,7 @@
       "name": "alazkar (debug, choose flavor)",
       "request": "launch",
       "type": "dart",
-      "args": ["--flavor", "${input:flavor}"]
+      // "args": ["--flavor", "${input:flavor}"]
     },
     {
       "name": "alazkar (profile, choose flavor)",
