@@ -11,6 +11,11 @@
 [![Downloads](https://PlayBadges.pavi2410.me/badge/downloads?id=com.hassaneltantawy.alazkar)](https://play.google.com/store/apps/details?id=com.hassaneltantawy.alazkar)
 
 
+<a href="https://apps.apple.com/us/app/%D8%A7%D9%84%D8%A3%D8%B0%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D9%86%D9%88%D9%88%D9%8A%D8%A9/id6756480296" style="display: inline-block;">
+    <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us?releaseDate=1765843200" 
+          alt="Download on the App Store" style="width: 246px; height: 82px; vertical-align: middle; object-fit: contain;" />
+</a>
+
 [<img src="https://user-images.githubusercontent.com/15004217/36810046-fa306856-1cc9-11e8-808e-6eb8a81783c7.png"
       alt='Get it on Google Play' target=”_blank”
       height="80">](https://play.google.com/store/apps/details?id=com.hassaneltantawy.alazkar)
