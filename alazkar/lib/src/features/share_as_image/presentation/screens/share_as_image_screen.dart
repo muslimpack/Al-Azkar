@@ -31,8 +31,7 @@ class ShareAsImageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          sl<ShareImageCubit>()..start(zikr: zikr, zikrTitle: zikrTitle),
+      create: (context) => sl<ShareImageCubit>()..start(zikr: zikr, zikrTitle: zikrTitle),
       child: BlocBuilder<ShareImageCubit, ShareImageState>(
         builder: (context, state) {
           if (state is! ShareImageLoadedState) {
@@ -51,12 +50,17 @@ class ShareAsImageScreen extends StatelessWidget {
               ),
               centerTitle: true,
               actions: [
-                IconButton(
-                  onPressed: () async {
-                    await context.read<ShareImageCubit>().shareImage(false);
-                  },
-                  icon: const Icon(Icons.share),
-                ),
+                Builder(builder: (context) {
+                  return IconButton(
+                    onPressed: () async {
+                      await context.read<ShareImageCubit>().shareImage(
+                            context,
+                            shareAll: false,
+                          );
+                    },
+                    icon: const Icon(Icons.share),
+                  );
+                }),
               ],
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(10),
