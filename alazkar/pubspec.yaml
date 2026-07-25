@@ -19,27 +19,27 @@ dependencies:
   dotted_border: ^3.1.0
   easy_debounce: ^2.0.3
   equatable: ^2.0.7
-  file_picker: ^10.3.3
+  file_picker: ^12.0.0-beta.7
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
   flutter_colorpicker: ^1.1.0
-  flutter_email_sender: ^8.0.0
+  flutter_email_sender: ^10.0.1
   flutter_localizations:
     sdk: flutter
-  fluttertoast: ^9.0.0
-  get_it: ^8.2.0
+  fluttertoast: ^9.1.0
+  get_it: ^9.2.1
   get_storage: ^2.1.1
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.4
   infinite_scroll_pagination: ^4.1.0
   marquee: ^2.3.0
-  material_design_icons_flutter: ^7.0.7296
-  package_info_plus: ^9.0.1
+  material_symbols_icons: ^4.2960.0
+  package_info_plus: ^10.2.1
   path: ^1.9.1
   path_provider: ^2.1.5
   shake: ^3.0.0
-  share_plus: ^12.0.1
+  share_plus: ^13.3.0
   sqflite: ^2.4.2
   sqflite_common_ffi: ^2.3.6
   url_launcher: ^6.3.2

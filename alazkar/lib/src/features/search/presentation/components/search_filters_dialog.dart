@@ -3,7 +3,7 @@ import 'package:alazkar/src/features/search/presentation/components/search_type_
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class SearchFiltersButton extends StatelessWidget {
   const SearchFiltersButton({super.key});
@@ -17,7 +17,7 @@ class SearchFiltersButton extends StatelessWidget {
           onPressed: () async {
             await showSearchFilterDialog(context);
           },
-          icon: Icon(MdiIcons.filter),
+          icon: const Icon(Symbols.filter_alt),
         );
       },
     );

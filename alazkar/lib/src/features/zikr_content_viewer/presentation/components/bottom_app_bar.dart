@@ -2,7 +2,7 @@ import 'package:alazkar/src/features/theme/presentation/controller/cubit/theme_c
 import 'package:alazkar/src/features/zikr_content_viewer/presentation/controller/bloc/zikr_content_viewer_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class ZikrContentViewerBottomAppBar extends StatelessWidget {
   final ZikrContentViewerLoadedState state;
@@ -29,21 +29,21 @@ class ZikrContentViewerBottomAppBar extends StatelessWidget {
           const Spacer(),
           IconButton(
             tooltip: "إعادة ضبط الخط",
-            icon: Icon(MdiIcons.reload),
+            icon: const Icon(Symbols.refresh),
             onPressed: () async {
               await context.read<ThemeCubit>().restoreFontSize();
             },
           ),
           IconButton(
             tooltip: "تكبير حجم الخط",
-            icon: Icon(MdiIcons.formatFontSizeIncrease),
+            icon: const Icon(Symbols.text_increase),
             onPressed: () async {
               await context.read<ThemeCubit>().increaseFontSize();
             },
           ),
           IconButton(
             tooltip: "تصغير حجم الخط",
-            icon: Icon(MdiIcons.formatFontSizeDecrease),
+            icon: const Icon(Symbols.text_decrease),
             onPressed: () async {
               await context.read<ThemeCubit>().decreaseFontSize();
             },

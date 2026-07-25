@@ -215,7 +215,7 @@ class ShareImageCubit extends Cubit<ShareImageState> {
     List<ByteData> filesData, {
     required List<String> fileName,
   }) async {
-    final String? dir = await FilePicker.platform.getDirectoryPath(
+    final String? dir = await FilePicker.getDirectoryPath(
       dialogTitle: 'Please select an output file:',
     );
 

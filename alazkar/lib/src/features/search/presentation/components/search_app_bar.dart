@@ -2,7 +2,7 @@ import 'package:alazkar/src/features/home/presentation/controller/home/home_bloc
 import 'package:alazkar/src/features/search/presentation/controller/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class SearchAppBar extends StatefulWidget {
   const SearchAppBar({super.key});
@@ -54,7 +54,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
         IconButton(
           splashRadius: 20,
           padding: EdgeInsets.zero,
-          icon: Icon(MdiIcons.eraser),
+          icon: const Icon(Symbols.ink_eraser),
           onPressed: () {
             context.read<SearchCubit>().clear();
           },
